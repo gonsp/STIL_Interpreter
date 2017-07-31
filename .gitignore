@@ -36,3 +36,6 @@ cmake-build-debug
 
 # IDE
 .idea
+
+# MACOS
+.DS_Store
