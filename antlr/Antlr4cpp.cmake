@@ -70,7 +70,7 @@ ExternalProject_ADD(
         TIMEOUT            10
         LOG_DOWNLOAD       ON
         #--Update step----------
-#        UPDATE_COMMAND     ${GIT_EXECUTABLE} pull
+        UPDATE_COMMAND     ${GIT_EXECUTABLE} pull
         #--Patch step----------
         # PATCH_COMMAND sh -c "cp <SOURCE_DIR>/scripts/CMakeLists.txt <SOURCE_DIR>"
         #--Configure step-------------

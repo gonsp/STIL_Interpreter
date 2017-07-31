@@ -8,20 +8,20 @@ using namespace parser;
 using namespace antlr4;
 using namespace std;
 
-int main(int , const char **) {
-    ANTLRInputStream input(u8"hello");
+int main(int num_args, char* args[]) {
+
+    if(num_args > 1) {
+        freopen(args[1], "r", stdin);
+    }
+
+    ANTLRInputStream input(cin);
     STILLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
 
-    tokens.fill();
-    for (auto token : tokens.getTokens()) {
-        std::cout << token->toString() << std::endl;
-    }
-
     STILParser parser(&tokens);
-    tree::ParseTree *tree = parser.hello();
+    tree::ParseTree *tree = parser.expr();
 
-    std::cout << tree->toStringTree(&parser) << std::endl;
+    cout << tree->toStringTree(&parser) << endl;
 
     return 0;
 }
