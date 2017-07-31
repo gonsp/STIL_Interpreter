@@ -96,7 +96,7 @@ endforeach(src_path)
 set(ANTLR4CPP_LIBS "${INSTALL_DIR}/lib")
 
 # antlr4_shared ${INSTALL_DIR}/lib/libantlr4-runtime.so
-# antlr4_static ${INSTALL_DIR}/lib/libantlr4-runtime.a
+set(antlr4_static ${ANTLR4CPP_LIBS}/libantlr4-runtime.a)
 
 ############ Generate runtime #################
 # macro to add dependencies to target

@@ -33,6 +33,13 @@
 
 # Build
 cmake-build-debug
+CMakeFiles
+CMakeCache.txt
+antlr4cpp
+cmake_install.cmake
+Makefile
+src/parser/*
+stil_inter
 
 # IDE
 .idea

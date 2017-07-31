@@ -9,7 +9,7 @@ include(Antlr4Cpp)
 
 # Generate parser source code for STIL grammar
 set(PARSER_NAMESPACE parser)
-antlr4cpp_process_grammar(stil_parser ${PARSER_NAMESPACE} ${CMAKE_CURRENT_SOURCE_DIR}/grammar/STIL.g)
+antlr4cpp_process_grammar(stil_parser ${PARSER_NAMESPACE} ${PROJECT_SOURCE_DIR}/grammar/STIL.g)
 
 # Compiler settings
 set(CMAKE_CXX_STANDARD 11)
@@ -17,7 +17,8 @@ SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
 
 # Source files
 set(SOURCE_FILES
-        src/main.cpp)
+        src/main.cpp
+        ${antlr4cpp_src_files_${PARSER_NAMESPACE}})
 include_directories(
         ${ANTLR4CPP_INCLUDE_DIRS}
         ${antlr4cpp_include_dirs_${PARSER_NAMESPACE}})
@@ -25,6 +26,11 @@ link_directories(
         ${ANTLR4CPP_LIBS})
 
 # Target
-add_executable(stil_inter ${SOURCE_FILES} ${antlr4cpp_src_files_${PARSER_NAMESPACE}})
+add_executable(stil_inter ${SOURCE_FILES})
 add_dependencies(stil_inter stil_parser antlr4cpp)
-target_link_libraries(stil_inter antlr4-runtime)
+target_link_libraries(stil_inter ${antlr4_static})
+
+# Install stil_inter
+install(TARGETS stil_inter
+        RUNTIME DESTINATION bin)
+message("To install stil_inter under /usr/local/bin, type: make install")
