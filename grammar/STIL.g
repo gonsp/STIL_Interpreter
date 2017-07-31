@@ -1,0 +1,3 @@
+grammar STIL;
+
+hello: 'hello';
