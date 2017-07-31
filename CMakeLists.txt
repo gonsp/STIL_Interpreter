@@ -1,8 +1,30 @@
 cmake_minimum_required(VERSION 3.7)
 project(STIL_Interpreter)
 
+# Add Antlr runtime
+set(ANTLR4CPP_JAR_LOCATION ${PROJECT_SOURCE_DIR}/antlr/antlr-4.7-complete.jar)
+set(ANTLR4CPP_GENERATED_SRC_DIR ${PROJECT_SOURCE_DIR}/src/parser)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/antlr)
+include(Antlr4Cpp)
+
+# Generate parser source code for STIL grammar
+set(PARSER_NAMESPACE parser)
+antlr4cpp_process_grammar(stil_parser ${PARSER_NAMESPACE} ${CMAKE_CURRENT_SOURCE_DIR}/grammar/STIL.g)
+
+# Compiler settings
 set(CMAKE_CXX_STANDARD 11)
+SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
 
-set(SOURCE_FILES src/main.cpp)
+# Source files
+set(SOURCE_FILES
+        src/main.cpp)
+include_directories(
+        ${ANTLR4CPP_INCLUDE_DIRS}
+        ${antlr4cpp_include_dirs_${PARSER_NAMESPACE}})
+link_directories(
+        ${ANTLR4CPP_LIBS})
 
-add_executable(STIL_Interpreter ${SOURCE_FILES})
+# Target
+add_executable(stil_inter ${SOURCE_FILES} ${antlr4cpp_src_files_${PARSER_NAMESPACE}})
+add_dependencies(stil_inter stil_parser antlr4cpp)
+target_link_libraries(stil_inter antlr4-runtime)
