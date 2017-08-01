@@ -14,3 +14,6 @@ PatternBurst "Internal_scan_occ_bypass" {
    PatList { "_pattern_" {}
    }
 }
+PatternExec "Internal_scan_occ_bypass" {
+   PatternBurst "Internal_scan_occ_bypass";
+}
