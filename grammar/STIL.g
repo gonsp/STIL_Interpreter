@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test: format? header? signals signal_groups timing; // scanstructures patternbursts patternexecs procedures;
+test: format? header? signals signal_groups timing scanstructures patternbursts; // patternexecs procedures;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -14,11 +14,10 @@ design      : 'Design' INT;
 ///////////////////////////////////////////////////////////////////////
 
 header      : 'Header' L_BRACKET title? date? source? history? R_BRACKET;
-title       : 'Title' STRING;
-date        : 'Date' STRING;
-source      : 'Source' STRING;
-history     : 'History' L_BRACKET annotation* R_BRACKET;
-annotation  : 'Ann' L_BRACKET ANN R_BRACKET;
+title       : 'Title' string;
+date        : 'Date' string;
+source      : 'Source' string;
+history     : 'History' L_BRACKET R_BRACKET;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -26,14 +25,14 @@ signals             : 'Signals' ID? L_BRACKET signal* R_BRACKET;
 signal              : ID signal_dir signal_attributes?;
 signal_dir          : 'In' | 'Out' | 'InOut';
 signal_attributes   : L_BRACKET signal_scan? char_map? R_BRACKET;
-signal_scan         : 'Scan' ('In' | 'Out');
+signal_scan         : 'ScanIn' | 'ScanOut';
 char_map            : 'WFCMap' L_BRACKET map_rule* R_BRACKET;
-map_rule            : WFC WFC? '->' WFC;
+map_rule            : wfc wfc? '->' wfc;
 
 ///////////////////////////////////////////////////////////////////////
 
 signal_groups   : 'SignalGroups' ID? L_BRACKET signal_group* R_BRACKET;
-signal_group    : ID EQ QUOTATION signal_list QUOTATION signal_attributes?;
+signal_group    : ID EQ QUOTE signal_list QUOTE signal_attributes?;
 signal_list     : ID (SUM ID)*;
 
 ///////////////////////////////////////////////////////////////////////
@@ -42,28 +41,48 @@ timing          : 'Timing' ID? L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' ID L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
 waveforms       : 'Waveforms' L_BRACKET waveform* R_BRACKET;
-waveform        : ID L_BRACKET WFC L_BRACKET event+ R_BRACKET R_BRACKET;
-event           : time_expr EVENT_CODE;
-time_expr       : QUOTATION (INT | FLOAT) TIME_UNIT QUOTATION;
+waveform        : ID L_BRACKET wfc L_BRACKET event+ R_BRACKET R_BRACKET;
+event           : time_expr event_code;
+time_expr       : QUOTE num TIME_UNIT QUOTE;
 
-//scanstructures  :;
-//patternbursts   : patternburst*;
-//patternburst    :;
+///////////////////////////////////////////////////////////////////////
+
+scanstructures  : ;
+
+///////////////////////////////////////////////////////////////////////
+
+patternbursts   : patternburst*;
+patternburst    : 'PatternBurst' ID? L_BRACKET context pattern_list? R_BRACKET;
+context         : signals_context? macro_context? proced_context?;
+signals_context : 'SignalGroups' ID;
+macro_context   : 'MacroDefs' ID;
+proced_context  : 'Procedures' ID;
+pattern_list    : 'PatList' L_BRACKET (pattern_call)* R_BRACKET;
+pattern_call    : ID (L_BRACKET context R_BRACKET)?;
+
+///////////////////////////////////////////////////////////////////////
+
 //patternexecs    : patternexec*;
 //patternexec     :;
 //procedures      : procedure*;
 //procedure       :;
 
+///////////////////////////////////////////////////////////////////////
+// This is ugly but necessary, since the lexer doesn't know how to differentiate
+// different tokens with with some intersection.
 
-
+num         : int_t | float_t;
+int_t       : INT;
+float_t     : FLOAT;
+wfc         : ID | INT;
+event_code  : ID;
+string      : ID;
 
 ///////////////////////////////////////////////////////////////////////
 // TOKENS
 ///////////////////////////////////////////////////////////////////////
 
 TIME_UNIT   : 'ns' | 'ms' | 's';
-fragment WFC: LETTER | INT;
-
 SUM         : '+';
 EQ          : '=';
 SEMICOLON   : ';';
@@ -71,20 +90,19 @@ L_BRACKET   : '{';
 R_BRACKET   : '}';
 L_PAR       : '(';
 R_PAR       : ')';
-QUOTATION   : '\'';
+QUOTE       : '\'';
 
 FLOAT   : INT'.'INT;
 INT     : DIG+;
 
 ID  : STRING | (LETTER (LETTER | DIG)*);
-ANN : '*' (ALL | '"')* '*';
 
-fragment STRING : '"' ALL* '"';
-fragment ALL    : [SPACE\p{S}\p{P}\p{M}\p{L}\p{N}];
-fragment LETTER : [a-zA-Z];
 fragment DIG    : [0-9];
 fragment NUM    : INT | FLOAT;
+fragment LETTER : [a-zA-Z];
+fragment STRING : '"' ~('\r' | '\n' | '"')* '"';
 
-// White spaces ignored
+// Ignored tokens (Order is important)
 WHITE_SPACES    : [ \t\r\n;]+ -> channel(99);
 COMMENT         : '//' ~('\r' | '\n')* -> channel(99);
+ANNOTATION      : 'Ann ' L_BRACKET '*' ([ \p{S}\p{P}\p{M}\p{L}\p{N}])* '*' R_BRACKET -> channel(99);

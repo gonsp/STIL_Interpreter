@@ -1,128 +1,16 @@
 STIL 1.0 { Design 2005; }
-
+Header {
+}
 Signals {
 }
 SignalGroups {
 }
 Timing {
-   WaveformTable "_allclock_launch_capture_WFT_" {
-      Period '40ns';
-      Waveforms {
-         "all_inputs" { 0 { '0ns' D; } }
-         "all_inputs" { 1 { '0ns' U; } }
-         "all_inputs" { Z { '0ns' Z; } }
-         "all_inputs" { N { '0ns' N; } }
-         "all_bidirectionals" { 0 { '0ns' D; } }
-         "all_bidirectionals" { 1 { '0ns' U; } }
-         "all_bidirectionals" { T { '0ns' Z; '12ns' T; } }
-         "all_bidirectionals" { X { '0ns' Z; '12ns' X; } }
-         "all_bidirectionals" { H { '0ns' Z; '12ns' H; } }
-         "all_bidirectionals" { Z { '0ns' Z; } }
-         "all_bidirectionals" { L { '0ns' Z; '12ns' L; } }
-         "all_bidirectionals" { N { '0ns' N; } }
-         "all_outputs" { X { '0ns' X; '12ns' X; } }
-         "all_outputs" { H { '0ns' X; '12ns' H; } }
-         "all_outputs" { L { '0ns' X; '12ns' L; } }
-         "all_outputs" { T { '0ns' X; '12ns' T; } }
-         "XTALI" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "GPIO[2]" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "SYNCECLK" { P { '0ns' U; '15ns' D; '35ns' U; } }
-      }
-   }
-   WaveformTable "_multiclock_capture_WFT_" {
-      Period '40ns';
-      Waveforms {
-         "all_inputs" { 0 { '0ns' D; } }
-         "all_inputs" { 1 { '0ns' U; } }
-         "all_inputs" { Z { '0ns' Z; } }
-         "all_inputs" { N { '0ns' N; } }
-         "all_bidirectionals" { 0 { '0ns' D; } }
-         "all_bidirectionals" { 1 { '0ns' U; } }
-         "all_bidirectionals" { T { '0ns' Z; '12ns' T; } }
-         "all_bidirectionals" { X { '0ns' Z; '12ns' X; } }
-         "all_bidirectionals" { H { '0ns' Z; '12ns' H; } }
-         "all_bidirectionals" { Z { '0ns' Z; } }
-         "all_bidirectionals" { L { '0ns' Z; '12ns' L; } }
-         "all_bidirectionals" { N { '0ns' N; } }
-         "all_outputs" { X { '0ns' X; '12ns' X; } }
-         "all_outputs" { H { '0ns' X; '12ns' H; } }
-         "all_outputs" { L { '0ns' X; '12ns' L; } }
-         "all_outputs" { T { '0ns' X; '12ns' T; } }
-         "XTALI" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "GPIO[2]" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "SYNCECLK" { P { '0ns' U; '15ns' D; '35ns' U; } }
-      }
-   }
-   WaveformTable "_allclock_launch_WFT_" {
-      Period '40ns';
-      Waveforms {
-         "all_inputs" { 0 { '0ns' D; } }
-         "all_inputs" { 1 { '0ns' U; } }
-         "all_inputs" { Z { '0ns' Z; } }
-         "all_inputs" { N { '0ns' N; } }
-         "all_bidirectionals" { 0 { '0ns' D; } }
-         "all_bidirectionals" { 1 { '0ns' U; } }
-         "all_bidirectionals" { T { '0ns' Z; '12ns' T; } }
-         "all_bidirectionals" { X { '0ns' Z; '12ns' X; } }
-         "all_bidirectionals" { H { '0ns' Z; '12ns' H; } }
-         "all_bidirectionals" { Z { '0ns' Z; } }
-         "all_bidirectionals" { L { '0ns' Z; '12ns' L; } }
-         "all_bidirectionals" { N { '0ns' N; } }
-         "all_outputs" { X { '0ns' X; '12ns' X; } }
-         "all_outputs" { H { '0ns' X; '12ns' H; } }
-         "all_outputs" { L { '0ns' X; '12ns' L; } }
-         "all_outputs" { T { '0ns' X; '12ns' T; } }
-         "XTALI" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "GPIO[2]" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "SYNCECLK" { P { '0ns' U; '15ns' D; '35ns' U; } }
-      }
-   }
-   WaveformTable "_allclock_capture_WFT_" {
-      Period '40ns';
-      Waveforms {
-         "all_inputs" { 0 { '0ns' D; } }
-         "all_inputs" { 1 { '0ns' U; } }
-         "all_inputs" { Z { '0ns' Z; } }
-         "all_inputs" { N { '0ns' N; } }
-         "all_bidirectionals" { 0 { '0ns' D; } }
-         "all_bidirectionals" { 1 { '0ns' U; } }
-         "all_bidirectionals" { T { '0ns' Z; '12ns' T; } }
-         "all_bidirectionals" { X { '0ns' Z; '12ns' X; } }
-         "all_bidirectionals" { H { '0ns' Z; '12ns' H; } }
-         "all_bidirectionals" { Z { '0ns' Z; } }
-         "all_bidirectionals" { L { '0ns' Z; '12ns' L; } }
-         "all_bidirectionals" { N { '0ns' N; } }
-         "all_outputs" { X { '0ns' X; '12ns' X; } }
-         "all_outputs" { H { '0ns' X; '12ns' H; } }
-         "all_outputs" { L { '0ns' X; '12ns' L; } }
-         "all_outputs" { T { '0ns' X; '12ns' T; } }
-         "XTALI" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "GPIO[2]" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "SYNCECLK" { P { '0ns' U; '15ns' D; '35ns' U; } }
-      }
-   }
-   WaveformTable "_default_WFT_" {
-      Period '40ns';
-      Waveforms {
-         "all_inputs" { 0 { '0ns' D; } }
-         "all_inputs" { 1 { '0ns' U; } }
-         "all_inputs" { Z { '0ns' Z; } }
-         "all_inputs" { N { '0ns' N; } }
-         "all_outputs" { X { '0ns' X; '12ns' X; } }
-         "all_outputs" { H { '0ns' X; '12ns' H; } }
-         "all_outputs" { L { '0ns' X; '12ns' L; } }
-         "all_outputs" { T { '0ns' X; '12ns' T; } }
-         "GPIO[2]" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "SYNCECLK" { P { '0ns' U; '15ns' D; '35ns' U; } }
-         "XTALI" { P { '0ns' D; '15ns' U; '35ns' D; } }
-         "all_bidirectionals" { 0 { '0ns' D; } }
-         "all_bidirectionals" { 1 { '0ns' U; } }
-         "all_bidirectionals" { T { '0ns' Z; '12ns' T; } }
-         "all_bidirectionals" { X { '0ns' Z; '12ns' X; } }
-         "all_bidirectionals" { H { '0ns' Z; '12ns' H; } }
-         "all_bidirectionals" { Z { '0ns' Z; } }
-         "all_bidirectionals" { L { '0ns' Z; '12ns' L; } }
-         "all_bidirectionals" { N { '0ns' N; } }
-      }
+}
+PatternBurst "Internal_scan_occ_bypass" {
+   MacroDefs "Internal_scan_occ_bypass";
+   Ann {* hello *};
+   Procedures "Internal_scan_occ_bypass";
+   PatList { "_pattern_" {}
    }
 }
