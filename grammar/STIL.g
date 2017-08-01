@@ -75,13 +75,23 @@ procedures_l    : procedures*;
 procedures      : 'Procedures' ID? L_BRACKET procedure* R_BRACKET;
 procedure       : ID L_BRACKET inst_list R_BRACKET;
 inst_list       : (inst | loop)*;
-inst            : ('IddqTestPoint');
+inst            : (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
 loop            : 'Loop' INT L_BRACKET inst_list R_BRACKET;
+w_inst          : 'W' ID;
+c_inst          : 'C' L_BRACKET assignations R_BRACKET;
+f_call          : 'F' L_BRACKET assignations R_BRACKET;
+v_call          : 'V' L_BRACKET assignations R_BRACKET;
+assignations    : assignation*;
+assignation     : ID EQ assig_expr;
+assig_expr      : JOINING?
 
 
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
-// different tokens with with some intersection.
+// different tokens with with some intersection. For example, the lexical definition
+// of an ID intersects with the definition of WFC, or events... Depending on the
+// context there isn't ambiguity, but in the lexical analysis there isn't any context.
+// To simplify and avoid some cases, we're going to consider that ALL ids are strings
 
 num         : int_t | float_t;
 int_t       : INT;
