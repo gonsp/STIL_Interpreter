@@ -19,7 +19,7 @@ int main(int num_args, char* args[]) {
     CommonTokenStream tokens(&lexer);
 
     STILParser parser(&tokens);
-    tree::ParseTree *tree = parser.expr();
+    tree::ParseTree *tree = parser.test();
 
     cout << tree->toStringTree(&parser) << endl;
 

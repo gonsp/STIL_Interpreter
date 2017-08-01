@@ -1,1 +1,55 @@
-1 + 0
+STIL 1.0 { Design 2005; }
+
+Signals {
+   "XTALI" In; "RESET_N" In; "TEST_MODE" In; "GCFG[6]" InOut; "GCFG[5]" InOut; "GCFG[4]" InOut;
+   "GCFG[3]" InOut; "GCFG[2]" InOut; "GCFG[1]" InOut; "GCFG[0]" InOut; "GPIO[19]" InOut
+   { ScanIn; } "GPIO[18]" InOut; "GPIO[17]" InOut; "GPIO[16]" InOut { ScanOut; } "GPIO[15]" InOut
+   { ScanOut; } "GPIO[14]" InOut { ScanOut; } "GPIO[13]" InOut { ScanOut; } "GPIO[12]" InOut
+   { ScanOut; } "GPIO[11]" InOut { ScanOut; } "GPIO[10]" InOut { ScanOut; } "GPIO[9]" InOut
+   { ScanIn; } "GPIO[8]" InOut { ScanIn; } "GPIO[7]" InOut { ScanIn; } "GPIO[6]" InOut
+   { ScanIn; } "GPIO[5]" InOut; "GPIO[4]" InOut; "GPIO[3]" InOut; "GPIO[2]" InOut;
+   "GPIO[1]" InOut; "GPIO[0]" InOut; "IRQ" InOut { ScanOut; } "SYNCECLK" InOut; "TXENABLE" InOut
+   { ScanIn; } "RXENABLE" InOut { ScanIn; } "LNKSTAT" InOut { ScanIn; } "XTALO" Out;
+}
+SignalGroups {
+   "_pi" = '"RESET_N" + "TEST_MODE" + "XTALI" + "GCFG[0]" + "GCFG[1]" +
+   "GCFG[2]" + "GCFG[3]" + "GCFG[4]" + "GCFG[5]" + "GCFG[6]" + "GPIO[0]" +
+   "GPIO[10]" + "GPIO[11]" + "GPIO[12]" + "GPIO[13]" + "GPIO[14]" + "GPIO[15]" +
+   "GPIO[16]" + "GPIO[17]" + "GPIO[18]" + "GPIO[19]" + "GPIO[1]" + "GPIO[2]" +
+   "GPIO[3]" + "GPIO[4]" + "GPIO[5]" + "GPIO[6]" + "GPIO[7]" + "GPIO[8]" +
+   "GPIO[9]" + "IRQ" + "LNKSTAT" + "RXENABLE" + "SYNCECLK" + "TXENABLE"' { WFCMap
+   { 0X->0; 1X->1; ZX->Z; NX->N; ZH->H; ZL->L; ZT->T; 1Z->1; 0Z->0; PX->P; P0->P;
+   P1->P; } } // #signals=35
+   "_in" = '"XTALI" + "RESET_N" + "TEST_MODE"'; // #signals=3
+   "_io" = '"GCFG[6]" + "GCFG[5]" + "GCFG[4]" + "GCFG[3]" + "GCFG[2]" +
+   "GCFG[1]" + "GCFG[0]" + "GPIO[19]" + "GPIO[18]" + "GPIO[17]" + "GPIO[16]" +
+   "GPIO[15]" + "GPIO[14]" + "GPIO[13]" + "GPIO[12]" + "GPIO[11]" + "GPIO[10]" +
+   "GPIO[9]" + "GPIO[8]" + "GPIO[7]" + "GPIO[6]" + "GPIO[5]" + "GPIO[4]" +
+   "GPIO[3]" + "GPIO[2]" + "GPIO[1]" + "GPIO[0]" + "IRQ" + "SYNCECLK" +
+   "TXENABLE" + "RXENABLE" + "LNKSTAT"' { WFCMap { 0X->0; 1X->1; ZX->Z; NX->N;
+   ZH->H; ZL->L; ZT->T; 1Z->1; 0Z->0; PX->P; P0->P; P1->P; } } // #signals=32
+   "all_inputs" = '"RESET_N" + "TEST_MODE" + "XTALI"'; // #signals=3
+   "_po" = '"XTALO" + "GCFG[0]" + "GCFG[1]" + "GCFG[2]" + "GCFG[3]" + "GCFG[4]" +
+   "GCFG[5]" + "GCFG[6]" + "GPIO[0]" + "GPIO[10]" + "GPIO[11]" + "GPIO[12]" +
+   "GPIO[13]" + "GPIO[14]" + "GPIO[15]" + "GPIO[16]" + "GPIO[17]" + "GPIO[18]" +
+   "GPIO[19]" + "GPIO[1]" + "GPIO[2]" + "GPIO[3]" + "GPIO[4]" + "GPIO[5]" +
+   "GPIO[6]" + "GPIO[7]" + "GPIO[8]" + "GPIO[9]" + "IRQ" + "LNKSTAT" +
+   "RXENABLE" + "SYNCECLK" + "TXENABLE"' { WFCMap { 0X->0; 1X->1; ZX->Z; NX->N;
+   ZH->H; ZL->L; ZT->T; 1Z->1; 0Z->0; PX->P; P0->P; P1->P; } } // #signals=33
+   "_si" = '"GPIO[19]" + "GPIO[6]" + "GPIO[7]" + "GPIO[8]" + "GPIO[9]" +
+   "LNKSTAT" + "RXENABLE" + "TXENABLE"' { ScanIn; } // #signals=8
+   "all_outputs" = '"XTALO"'; // #signals=1
+   "all_bidirectionals" = '"GCFG[0]" + "GCFG[1]" + "GCFG[2]" + "GCFG[3]" +
+   "GCFG[4]" + "GCFG[5]" + "GCFG[6]" + "GPIO[0]" + "GPIO[10]" + "GPIO[11]" +
+   "GPIO[12]" + "GPIO[13]" + "GPIO[14]" + "GPIO[15]" + "GPIO[16]" + "GPIO[17]" +
+   "GPIO[18]" + "GPIO[19]" + "GPIO[1]" + "GPIO[2]" + "GPIO[3]" + "GPIO[4]" +
+   "GPIO[5]" + "GPIO[6]" + "GPIO[7]" + "GPIO[8]" + "GPIO[9]" + "IRQ" + "LNKSTAT" +
+   "RXENABLE" + "SYNCECLK" + "TXENABLE"' { WFCMap { 0X->0; 1X->1; ZX->Z; NX->N;
+   ZH->H; ZL->L; ZT->T; 1Z->1; 0Z->0; PX->P; P0->P; P1->P; } } // #signals=32
+   "all_ports" = '"all_inputs" + "all_outputs" + "all_bidirectionals"'; // #signals=36
+   "_clk" = '"XTALI" + "GPIO[2]" + "SYNCECLK"' { WFCMap { 0X->0; 1X->1; ZX->Z;
+   NX->N; ZH->H; ZL->L; ZT->T; 1Z->1; 0Z->0; PX->P; P0->P; P1->P; } } // #signals=3
+   "_so" = '"GPIO[10]" + "GPIO[11]" + "GPIO[12]" + "GPIO[13]" + "GPIO[14]" +
+   "GPIO[15]" + "GPIO[16]" + "IRQ"' { ScanOut; } // #signals=8
+   "_out" = '"XTALO"'; // #signals=1
+}
