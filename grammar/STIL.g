@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test: format? header? signals signal_groups_l timing scan_structures pattern_bursts; // patternexecs procedures;
+test: format? header? signals signal_groups_l timings scan_structures pattern_bursts pattern_execs; // procedures;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -38,6 +38,7 @@ signal_list     : ID (SUM ID)*;
 
 ///////////////////////////////////////////////////////////////////////
 
+timings         : timing*;
 timing          : 'Timing' ID? L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' ID L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
@@ -63,8 +64,9 @@ pattern_call    : ID (L_BRACKET context R_BRACKET)?;
 
 ///////////////////////////////////////////////////////////////////////
 
-pattern_execs    : pattern_exec*;
-pattern_exec     : 'PatternExec' ID? L_BRACKET ID* R_BRACKET;
+pattern_execs       : pattern_exec*;
+pattern_exec        : 'PatternExec' ID? L_BRACKET pattern_burst_call* R_BRACKET;
+pattern_burst_call  : 'PatternBurst' ID;
 
 ///////////////////////////////////////////////////////////////////////
 
