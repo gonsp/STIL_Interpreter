@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test: format? header? signals signal_groups_l timings scan_structures pattern_bursts pattern_execs; // procedures;
+test: format? header? signals signal_groups_l timings scan_structures pattern_bursts pattern_execs procedures_l;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ signal_list     : ID (SUM ID)*;
 
 ///////////////////////////////////////////////////////////////////////
 
-timings         : timing*;
+timings         : timing+;
 timing          : 'Timing' ID? L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' ID L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
@@ -49,11 +49,12 @@ time_expr       : QUOTE num TIME_UNIT QUOTE;
 
 ///////////////////////////////////////////////////////////////////////
 
-scan_structures : ;
+scan_structures : scan_structure*;
+scan_structure  : 'void';
 
 ///////////////////////////////////////////////////////////////////////
 
-pattern_bursts  : pattern_burst*;
+pattern_bursts  : pattern_burst+;
 pattern_burst   : 'PatternBurst' ID? L_BRACKET context pattern_list? R_BRACKET;
 context         : signals_context? macro_context? proced_context?;
 signals_context : 'SignalGroups' ID;
@@ -64,14 +65,19 @@ pattern_call    : ID (L_BRACKET context R_BRACKET)?;
 
 ///////////////////////////////////////////////////////////////////////
 
-pattern_execs       : pattern_exec*;
+pattern_execs       : pattern_exec+;
 pattern_exec        : 'PatternExec' ID? L_BRACKET pattern_burst_call* R_BRACKET;
 pattern_burst_call  : 'PatternBurst' ID;
 
 ///////////////////////////////////////////////////////////////////////
 
-//procedures      : procedure*;
-//procedure       :;
+procedures_l    : procedures*;
+procedures      : 'Procedures' ID? L_BRACKET procedure* R_BRACKET;
+procedure       : ID L_BRACKET inst_list R_BRACKET;
+inst_list       : (inst | loop)*;
+inst            : ('IddqTestPoint');
+loop            : 'Loop' INT L_BRACKET inst_list R_BRACKET;
+
 
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
