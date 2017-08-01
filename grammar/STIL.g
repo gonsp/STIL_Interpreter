@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test: format? header? signals signal_groups; //timing scanstructures patternbursts patternexecs procedures;
+test: format? header? signals signal_groups timing; // scanstructures patternbursts patternexecs procedures;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@ title       : 'Title' STRING;
 date        : 'Date' STRING;
 source      : 'Source' STRING;
 history     : 'History' L_BRACKET annotation* R_BRACKET;
-annotation  : 'Ann' L_BRACKET STRING R_BRACKET;
+annotation  : 'Ann' L_BRACKET ANN R_BRACKET;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -32,14 +32,20 @@ map_rule            : WFC WFC? '->' WFC;
 
 ///////////////////////////////////////////////////////////////////////
 
-signal_groups       : 'SignalGroups' ID? L_BRACKET signal_group* R_BRACKET;
-signal_group        : ID EQ QUOTATION signal_list QUOTATION signal_attributes?;
-signal_list         : ID (SUM ID)*;
+signal_groups   : 'SignalGroups' ID? L_BRACKET signal_group* R_BRACKET;
+signal_group    : ID EQ QUOTATION signal_list QUOTATION signal_attributes?;
+signal_list     : ID (SUM ID)*;
 
+///////////////////////////////////////////////////////////////////////
 
+timing          : 'Timing' ID? L_BRACKET waveform_table* R_BRACKET;
+waveform_table  : 'WaveformTable' ID L_BRACKET period waveforms R_BRACKET;
+period          : 'Period' time_expr;
+waveforms       : 'Waveforms' L_BRACKET waveform* R_BRACKET;
+waveform        : ID L_BRACKET WFC L_BRACKET event+ R_BRACKET R_BRACKET;
+event           : time_expr EVENT_CODE;
+time_expr       : QUOTATION (INT | FLOAT) TIME_UNIT QUOTATION;
 
-
-//timing          :;
 //scanstructures  :;
 //patternbursts   : patternburst*;
 //patternburst    :;
@@ -55,7 +61,9 @@ signal_list         : ID (SUM ID)*;
 // TOKENS
 ///////////////////////////////////////////////////////////////////////
 
-WFC         : LETTER | NUM;
+TIME_UNIT   : 'ns' | 'ms' | 's';
+fragment WFC: LETTER | INT;
+
 SUM         : '+';
 EQ          : '=';
 SEMICOLON   : ';';
@@ -65,16 +73,17 @@ L_PAR       : '(';
 R_PAR       : ')';
 QUOTATION   : '\'';
 
-INT     : NUM+;
 FLOAT   : INT'.'INT;
-NUM     : [0-9];
+INT     : DIG+;
 
-//\p{S}\p{P}\p{M}
+ID  : STRING | (LETTER (LETTER | DIG)*);
+ANN : '*' (ALL | '"')* '*';
 
-//ID      : STRING | (LETTER (LETTER | '0'..'9')*);
-ID      : STRING;
-STRING  : '"' ([SPACE\p{S}\p{P}\p{M}\p{L}\p{N}])+ '"';
-LETTER  : [a-zA-Z];
+fragment STRING : '"' ALL* '"';
+fragment ALL    : [SPACE\p{S}\p{P}\p{M}\p{L}\p{N}];
+fragment LETTER : [a-zA-Z];
+fragment DIG    : [0-9];
+fragment NUM    : INT | FLOAT;
 
 // White spaces ignored
 WHITE_SPACES    : [ \t\r\n;]+ -> channel(99);
