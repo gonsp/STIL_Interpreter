@@ -348,3 +348,18 @@ Procedures "Internal_scan_occ_bypass" {
       "measurePO measureIDDQ": V { "_po"=\j \r33 # ; }
    }
 }
+
+MacroDefs "Internal_scan_occ_bypass" {
+   "test_setup" {
+      W "_default_WFT_";
+      C { "all_inputs"=NNN; "all_outputs"=X; "all_bidirectionals"=\r32 Z ; }
+      V { "RESET_N"=1; "TEST_MODE"=1; "XTALI"=P; "GPIO[0]"=1; "GPIO[18]"=0; "GPIO[1]"=0; "GPIO[2]"=P;
+         "GPIO[3]"=0; "GPIO[4]"=0; "GPIO[5]"=1; "SYNCECLK"=P; }
+      V { "GPIO[0]"=0; "GPIO[18]"=1; "SYNCECLK"=1; }
+      V { "GPIO[4]"=1; }
+      Loop 100 {
+         V { }
+      }
+      V { "GCFG[6]"=0; "GCFG[4]"=0; "GPIO[0]"=1; }
+   }
+}
