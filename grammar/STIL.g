@@ -4,7 +4,8 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test: format? header? signals signal_groups_l timings scan_structures pattern_bursts pattern_execs procedures_l;
+test    :format? header? signals signal_groups_l timings scan_structures
+         pattern_bursts pattern_execs procedures_l macros_l EOF;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -74,19 +75,26 @@ pattern_burst_call  : 'PatternBurst' id;
 procedures_l    : procedures*;
 procedures      : 'Procedures' id? L_BRACKET procedure* R_BRACKET;
 procedure       : id L_BRACKET inst_list R_BRACKET;
-inst_list       : (inst | loop | shift)*;
-inst            : label? (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
-label           : id? ':';
-loop            : 'Loop' INT L_BRACKET inst_list R_BRACKET;
-shift           : 'Shift' L_BRACKET inst_list;
-w_inst          : 'W' id;
-c_inst          : 'C' L_BRACKET assignations R_BRACKET;
-f_call          : 'F' L_BRACKET assignations R_BRACKET;
-v_call          : 'V' L_BRACKET assignations R_BRACKET;
-assignations    : assignation*;
-assignation     : id EQ assig_expr;
-assig_expr      : JOIN? (repeat | wfc_extended)*;
-repeat          : REPEAT wfc_extended;
+
+macros_l    : macros*;
+macros      : 'MacroDefs' id? L_BRACKET macro* R_BRACKET;
+macro       : id L_BRACKET inst_list R_BRACKET;
+
+///////////////////////////////////////////////////////////////////////
+
+inst_list   : (inst | loop | shift)*;
+inst        : label? (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
+label       : id? ':';
+loop        : 'Loop' INT L_BRACKET inst_list R_BRACKET;
+shift       : 'Shift' L_BRACKET inst_list;
+w_inst      : 'W' id;
+c_inst      : 'C' L_BRACKET assigs R_BRACKET;
+f_call      : 'F' L_BRACKET assigs R_BRACKET;
+v_call      : 'V' L_BRACKET assigs R_BRACKET;
+assigs      : assig*;
+assig       : id EQ assig_expr;
+assig_expr  : JOIN? (repeat | wfc_extended)*;
+repeat      : REPEAT wfc_extended;
 
 
 ///////////////////////////////////////////////////////////////////////
