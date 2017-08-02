@@ -118,7 +118,6 @@ assig       : id EQ assig_expr;
 assig_expr  : JOIN? (repeat | wfc_extended)*;
 repeat      : REPEAT INT wfc_extended;
 
-
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
 // different tokens with with some intersection. For example, the lexical definition

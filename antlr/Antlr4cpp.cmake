@@ -39,8 +39,7 @@
 # message(STATUS "Found antlr4cpp libs: ${ANTLR4CPP_LIBS} and includes: ${ANTLR4CPP_INCLUDE_DIRS} ")
 
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.12.2)
-PROJECT(antlr4cpp_fetcher CXX)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.7)
 INCLUDE(ExternalProject)
 FIND_PACKAGE(Git REQUIRED)
 
@@ -94,25 +93,12 @@ foreach(src_path misc atn dfa tree support)
 endforeach(src_path)
 
 set(ANTLR4CPP_LIBS "${INSTALL_DIR}/lib")
-
-# antlr4_shared ${INSTALL_DIR}/lib/libantlr4-runtime.so
 set(antlr4_static ${ANTLR4CPP_LIBS}/libantlr4-runtime.a)
 
-############ Generate runtime #################
-# macro to add dependencies to target
-#
-# Param 1 project name
-# Param 2 namespace (postfix for dependencies)
-# Param 3 Grammar (full path)
-#
-# output
-#
-# antlr4cpp_src_files_{namespace} - src files for add_executable
-# antlr4cpp_include_dirs_{namespace} - include dir for generated headers
-
 macro(antlr4cpp_process_grammar
-        antlr4cpp_project
+        antlr4cpp_target_name
         antlr4cpp_project_namespace
+        antlr4cpp_grammar_name
         antlr4cpp_grammar)
 
     if(EXISTS "${ANTLR4CPP_JAR_LOCATION}")
@@ -121,14 +107,22 @@ macro(antlr4cpp_process_grammar
         message(FATAL_ERROR "Unable to find antlr tool. ANTLR4CPP_JAR_LOCATION:${ANTLR4CPP_JAR_LOCATION}")
     endif()
 
-    add_custom_target("${antlr4cpp_project}"
+
+    add_custom_command(
+            OUTPUT
+            ${ANTLR4CPP_GENERATED_SRC_DIR}/${antlr4cpp_grammar_name}Parser.h
             COMMAND
             ${CMAKE_COMMAND} -E make_directory ${ANTLR4CPP_GENERATED_SRC_DIR}
             COMMAND
             "${Java_JAVA_EXECUTABLE}" -jar "${ANTLR4CPP_JAR_LOCATION}" -Werror -Dlanguage=Cpp -listener -visitor -o "${ANTLR4CPP_GENERATED_SRC_DIR}" -package ${antlr4cpp_project_namespace} "${antlr4cpp_grammar}"
             WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-            DEPENDS "${antlr4cpp_grammar}"
-            )
+            DEPENDS ${antlr4cpp_grammar}
+    )
+
+    add_custom_target(
+            "${antlr4cpp_target_name}"
+            DEPENDS ${ANTLR4CPP_GENERATED_SRC_DIR}/${antlr4cpp_grammar_name}Parser.h
+    )
 
     # Find all the input files
     FILE(GLOB generated_files ${ANTLR4CPP_GENERATED_SRC_DIR}/*.cpp)
@@ -139,6 +133,7 @@ macro(antlr4cpp_process_grammar
         set_source_files_properties(
                 ${generated_file}
                 PROPERTIES
+                GENERATED TRUE
                 COMPILE_FLAGS -Wno-overloaded-virtual
         )
     endforeach(generated_file)
