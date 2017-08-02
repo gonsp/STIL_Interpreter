@@ -75,7 +75,8 @@ procedures_l    : procedures*;
 procedures      : 'Procedures' id? L_BRACKET procedure* R_BRACKET;
 procedure       : id L_BRACKET inst_list R_BRACKET;
 inst_list       : (inst | loop)*;
-inst            : (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
+inst            : label? (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
+label           : ID? ':';
 loop            : 'Loop' INT L_BRACKET inst_list R_BRACKET;
 w_inst          : 'W' id;
 c_inst          : 'C' L_BRACKET assignations R_BRACKET;
@@ -125,6 +126,6 @@ fragment NUM    : INT | FLOAT;
 fragment LETTER : [a-zA-Z];
 
 // Ignored tokens (Order is important)
-WHITE_SPACES    : [ \t\r\n;]+ -> channel(99);
-COMMENT         : '//' ~('\r' | '\n')* -> channel(99);
-ANNOTATION      : 'Ann ' L_BRACKET '*' ([ \p{S}\p{P}\p{M}\p{L}\p{N}])* '*' R_BRACKET -> channel(99);
+WHITE_SPACES    : [ \t\r\n;]+ -> skip;
+COMMENT         : '//' ~('\r' | '\n')* -> skip;
+ANNOTATION      : 'Ann ' L_BRACKET '*' ([ \p{S}\p{P}\p{M}\p{L}\p{N}])* '*' R_BRACKET -> skip;
