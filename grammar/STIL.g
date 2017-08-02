@@ -74,17 +74,19 @@ pattern_burst_call  : 'PatternBurst' id;
 procedures_l    : procedures*;
 procedures      : 'Procedures' id? L_BRACKET procedure* R_BRACKET;
 procedure       : id L_BRACKET inst_list R_BRACKET;
-inst_list       : (inst | loop)*;
+inst_list       : (inst | loop | shift)*;
 inst            : label? (w_inst | c_inst | f_call | v_call | 'IddqTestPoint');
-label           : ID? ':';
+label           : id? ':';
 loop            : 'Loop' INT L_BRACKET inst_list R_BRACKET;
+shift           : 'Shift' L_BRACKET inst_list;
 w_inst          : 'W' id;
 c_inst          : 'C' L_BRACKET assignations R_BRACKET;
 f_call          : 'F' L_BRACKET assignations R_BRACKET;
 v_call          : 'V' L_BRACKET assignations R_BRACKET;
 assignations    : assignation*;
 assignation     : id EQ assig_expr;
-assig_expr      : JOIN?;
+assig_expr      : JOIN? (repeat | wfc_extended)*;
+repeat          : REPEAT wfc_extended;
 
 
 ///////////////////////////////////////////////////////////////////////
@@ -99,6 +101,7 @@ num         : int_t | float_t;
 int_t       : INT;
 float_t     : FLOAT;
 wfc         : CHARS | INT;
+wfc_extended: CHARS | INT | '#' | '%';
 event_code  : CHARS;
 
 ///////////////////////////////////////////////////////////////////////
@@ -115,6 +118,7 @@ L_PAR       : '(';
 R_PAR       : ')';
 QUOTE       : '\'';
 JOIN        : '\\j';
+REPEAT      : '\\r';
 
 FLOAT   : INT'.'INT;
 INT     : DIG+;
