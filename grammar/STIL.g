@@ -4,8 +4,8 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test    :format? header? signals signal_groups_l timings scan_structures_l
-         pattern_bursts pattern_execs procedures_l macros_l pattern_l EOF;
+test    : format? header? signals signal_groups_l timing_l scan_structures_l
+          pattern_burst_l pattern_exec_l procedures_l macros_l pattern_l EOF;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -39,7 +39,7 @@ signal_list     : id (SUM id)*;
 
 ///////////////////////////////////////////////////////////////////////
 
-timings         : timing+;
+timing_l         : timing+;
 timing          : 'Timing' id? L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' id L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
@@ -63,7 +63,7 @@ scan_clock          : 'ScanMasterClock' id?;
 
 ///////////////////////////////////////////////////////////////////////
 
-pattern_bursts  : pattern_burst+;
+pattern_burst_l : pattern_burst+;
 pattern_burst   : 'PatternBurst' id? L_BRACKET context pattern_list? R_BRACKET;
 context         : signals_context? macro_context? proced_context?;
 signals_context : 'SignalGroups' id;
@@ -74,7 +74,7 @@ pattern_call    : id (L_BRACKET context R_BRACKET)?;
 
 ///////////////////////////////////////////////////////////////////////
 
-pattern_execs       : pattern_exec+;
+pattern_exec_l      : pattern_exec+;
 pattern_exec        : 'PatternExec' id? L_BRACKET pattern_burst_call* R_BRACKET;
 pattern_burst_call  : 'PatternBurst' id;
 
