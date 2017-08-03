@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-test    : format? header? signals signal_groups_l timing_l scan_structures_l
+program : format? header? signals signal_groups_l timing_l scan_structures_l
           pattern_burst_l pattern_exec_l procedures_l macros_l pattern_l EOF;
 
 ///////////////////////////////////////////////////////////////////////
