@@ -18,7 +18,7 @@ SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
 # Source files
 set(SOURCE_FILES
         src/main.cpp
-        ${antlr4cpp_src_files_${PARSER_NAMESPACE}})
+        ${antlr4cpp_src_files_${PARSER_NAMESPACE}} src/interpreter/program/STILProgramVisitor.cpp src/interpreter/program/STILProgramVisitor.h src/interpreter/program/STILProgram.cpp src/interpreter/program/STILProgram.h src/interpreter/program/Signal.cpp src/interpreter/program/Signal.h src/interpreter/STILInterpreter.cpp src/interpreter/STILInterpreter.h)
 include_directories(
         ${ANTLR4CPP_INCLUDE_DIRS}
         ${antlr4cpp_include_dirs_${PARSER_NAMESPACE}})

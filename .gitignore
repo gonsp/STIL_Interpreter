@@ -46,3 +46,7 @@ stil_inter
 
 # MACOS
 .DS_Store
+
+# Output
+*.pat
+*.atp
