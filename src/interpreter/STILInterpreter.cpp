@@ -8,9 +8,6 @@
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
 
-using namespace std;
-using namespace antlr4;
-using namespace parser;
 
 STILInterpreter::STILInterpreter(istream& stream) {
     ANTLRInputStream input(stream);
@@ -19,9 +16,9 @@ STILInterpreter::STILInterpreter(istream& stream) {
     tokens.fill();
 
     cout << "Starting file parsing" << endl;
-    STILParser parser(&tokens);
-    ast = parser.program();
-    cout << "File parsed succesfully" << endl;
+    parser = new STILParser(&tokens);
+    ParseTree* ast = parser->program();
+    cout << "File parsed successfully" << endl;
 
     cout << "Generating internal representation of the program" << endl;
     STILProgramVisitor programVisitor(&program);
@@ -29,8 +26,16 @@ STILInterpreter::STILInterpreter(istream& stream) {
     cout << "Generation successful" << endl;
 }
 
-void STILInterpreter::run(ostream &vector_stream, ostream &timing_stream) {
-    cout << "Executing" << endl;
+STILInterpreter::~STILInterpreter() {
+    delete parser;
+}
 
-    visit(ast);
+void STILInterpreter::run(ostream &vector_stream, ostream &timing_stream) {
+    cout << "Starting interpretation" << endl;
+    visit(program.get_main());
+    cout << "Done" << endl;
+}
+
+antlrcpp::Any STILInterpreter::visitProgram(STILParser::ProgramContext* ctx) {
+    return 0;
 }

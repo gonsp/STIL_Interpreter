@@ -7,9 +7,12 @@
 
 #include <string>
 #include <map>
+#include <tree/ParseTree.h>
 #include "Signal.h"
 
 using namespace std;
+using namespace antlr4;
+using namespace tree;
 
 class STILProgram {
 
@@ -20,6 +23,7 @@ public:
 
     STILProgram();
 
+    ParseTree* get_main();
 };
 
 

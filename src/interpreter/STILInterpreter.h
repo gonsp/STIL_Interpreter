@@ -15,13 +15,16 @@ using namespace parser;
 class STILInterpreter : public STILBaseVisitor {
 
 private:
-    tree::ParseTree* ast;
+    STILParser* parser; //This is needed because ast will be deleted when parser is pulled out of the stack
     STILProgram program;
 
 public:
     STILInterpreter(istream& stream);
+    ~STILInterpreter();
 
     void run(ostream &vector_stream, ostream &timing_stream);
+
+    virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
 };
 
 

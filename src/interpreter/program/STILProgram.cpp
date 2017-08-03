@@ -7,3 +7,7 @@
 STILProgram::STILProgram() {
 
 }
+
+ParseTree* STILProgram::get_main() {
+    return nullptr;
+}

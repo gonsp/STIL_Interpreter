@@ -19,18 +19,11 @@ private:
 
 public:
 
-    STILProgramVisitor(STILProgram* program) {
-        this->program = program;
-    }
+    STILProgramVisitor(STILProgram* program);
 
-    virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override {
-        visitChildren(ctx);
-        return program;
-    }
+    virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
 
-    virtual antlrcpp::Any visitTerminal(tree::TerminalNode* node) override {
-        return "token";
-    }
+    virtual antlrcpp::Any visitTerminal(tree::TerminalNode* node) override;
 };
 
 
