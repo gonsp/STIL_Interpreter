@@ -3,3 +3,7 @@
 //
 
 #include "Timing.h"
+
+Timing::Timing(string id) : Identifiable(id) {
+
+}

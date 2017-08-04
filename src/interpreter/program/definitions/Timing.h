@@ -5,9 +5,21 @@
 #ifndef STIL_INTERPRETER_TIMING_H
 #define STIL_INTERPRETER_TIMING_H
 
+#include <unordered_map>
+#include "Identifiable.h"
+#include "WaveFormTable.h"
 
-class Timing {
+class Timing : public Identifiable {
 
+    typedef unordered_map<string, WaveFormTable> WaveFormTables;
+
+public:
+
+    WaveFormTables waveFormTables;
+
+    Timing() : Identifiable() {}
+
+    Timing(string id);
 };
 
 

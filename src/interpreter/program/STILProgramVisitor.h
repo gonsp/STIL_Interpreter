@@ -36,6 +36,10 @@ public:
 
     virtual antlrcpp::Any visitSignal_list(STILParser::Signal_listContext* ctx) override;
 
+    virtual antlrcpp::Any visitTiming(STILParser::TimingContext* ctx) override;
+
+    virtual antlrcpp::Any visitWaveform_table(STILParser::Waveform_tableContext* ctx) override;
+
     virtual antlrcpp::Any visitTerminal(tree::TerminalNode* node) override {
         return node->getText();
     }
