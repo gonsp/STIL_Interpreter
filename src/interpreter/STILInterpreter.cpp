@@ -21,7 +21,7 @@ STILInterpreter::STILInterpreter(istream& stream) {
     cout << "File parsed successfully" << endl;
 
     cout << "Generating internal representation of the program" << endl;
-    STILProgramVisitor programVisitor(&program);
+    STILProgramVisitor programVisitor(program);
     programVisitor.visit(ast);
     cout << "Generation successful" << endl;
 }

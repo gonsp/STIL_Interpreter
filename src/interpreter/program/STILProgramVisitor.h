@@ -15,11 +15,11 @@ using namespace antlr4;
 class STILProgramVisitor : public STILBaseVisitor {
 
 private:
-    STILProgram* program;
+    STILProgram& program;
 
 public:
 
-    STILProgramVisitor(STILProgram* program);
+    STILProgramVisitor(STILProgram& program);
 
     virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
 
