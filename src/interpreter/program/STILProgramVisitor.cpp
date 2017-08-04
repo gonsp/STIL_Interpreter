@@ -74,7 +74,9 @@ antlrcpp::Any STILProgramVisitor::visitTiming(STILParser::TimingContext* ctx) {
 }
 
 antlrcpp::Any STILProgramVisitor::visitWaveform_table(STILParser::Waveform_tableContext* ctx) {
-    WaveFormTable table(visit(ctx->id()), visit(ctx->period()));
+    string id = visit(ctx->id());
+    float period = visit(ctx->period());
+    WaveFormTable table(id, period);
     return table;
 }
 

@@ -20,7 +20,7 @@ int main(int num_args, char* args[]) {
     if(num_args != 2 && num_args != 3) {
         cerr << "Incorrect number of parameters." << endl;
         cout << "Usage: stil_converter input_file.stil [pattern_exec_name]" << endl;
-        cout << "Output: $input_file.pat $input_file.atp" << endl;
+        cout << "Output: $input_file.atp $input_file.txt" << endl;
         exit(1);
     }
 
@@ -32,8 +32,8 @@ int main(int num_args, char* args[]) {
     ofstream timing_output;
 
     stil_input.open(args[1]);
-    vector_output.open(path + ".pat");
-    timing_output.open(path + ".atp");
+    vector_output.open(path + ".atp");
+    timing_output.open(path + ".txt");
 
 
     STILInterpreter interpreter(stil_input);
