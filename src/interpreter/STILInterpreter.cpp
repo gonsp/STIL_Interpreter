@@ -7,7 +7,7 @@
 #include <STILParser.h>
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
-
+#include "program/STILProgram.h"
 
 STILInterpreter::STILInterpreter(istream& stream) {
     ANTLRInputStream input(stream);
@@ -30,9 +30,15 @@ STILInterpreter::~STILInterpreter() {
     delete parser;
 }
 
-void STILInterpreter::run(ostream &vector_stream, ostream &timing_stream) {
+void STILInterpreter::run(ofstream& vector_stream, ofstream& timing_stream) {
+    cout << "Running default pattern_exec block" << endl;
+    visit(program.patternExecs[GLOBAL_DEF].ast);
+    cout << "Done" << endl;
+}
+
+void STILInterpreter::run(ofstream& vector_stream, ofstream& timing_stream, const string& pattern_exec) {
     cout << "Starting interpretation" << endl;
-    visit(program.get_main());
+    visit(program.patternExecs[pattern_exec].ast);
     cout << "Done" << endl;
 }
 

@@ -17,9 +17,9 @@ string get_file_name(string file) {
 
 int main(int num_args, char* args[]) {
 
-    if(num_args != 2) {
+    if(num_args != 2 && num_args != 3) {
         cerr << "Incorrect number of parameters." << endl;
-        cout << "Usage: stil_converter input_file.stil" << endl;
+        cout << "Usage: stil_converter input_file.stil [pattern_exec_name]" << endl;
         cout << "Output: $input_file.pat $input_file.atp" << endl;
         exit(1);
     }
@@ -35,8 +35,16 @@ int main(int num_args, char* args[]) {
     vector_output.open(path + ".pat");
     timing_output.open(path + ".atp");
 
+
     STILInterpreter interpreter(stil_input);
+
     interpreter.run(vector_output, timing_output);
+
+    if(num_args == 2) {
+    } else {
+        string pattern_exec(args[2]);
+        interpreter.run(vector_output, timing_output, pattern_exec);
+    }
 
     return 0;
 }

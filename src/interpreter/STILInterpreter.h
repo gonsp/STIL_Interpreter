@@ -22,9 +22,11 @@ public:
     STILInterpreter(istream& stream);
     ~STILInterpreter();
 
-    void run(ostream &vector_stream, ostream &timing_stream);
+    void run(ofstream& vector_stream, ofstream& timing_stream);
+    void run(ofstream& vector_stream, ofstream& timing_stream, const string& pattern_exec);
 
     virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
+
 };
 
 
