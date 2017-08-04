@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-program : format? header? signals signal_groups_l timing_l scan_structures_l
+program : format? header? signals signal_groups timing_l scan_structures_l
           pattern_burst_l pattern_exec_l procedures_l macros_l pattern_l EOF;
 
 ///////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ history : 'History' L_BRACKET R_BRACKET;
 
 ///////////////////////////////////////////////////////////////////////
 
-signals             : 'Signals' id? L_BRACKET signal* R_BRACKET;
+signals             : 'Signals' L_BRACKET signal* R_BRACKET;
 signal              : id signal_dir signal_attributes?;
 signal_dir          : 'In' | 'Out' | 'InOut';
 signal_attributes   : L_BRACKET signal_scan? char_map? R_BRACKET;
@@ -32,8 +32,7 @@ map_rule            : wfc wfc? '->' wfc;
 
 ///////////////////////////////////////////////////////////////////////
 
-signal_groups_l : signal_groups*;
-signal_groups   : 'SignalGroups' id? L_BRACKET signal_group* R_BRACKET;
+signal_groups   : 'SignalGroups' L_BRACKET signal_group* R_BRACKET;
 signal_group    : id EQ QUOTE signal_list QUOTE signal_attributes?;
 signal_list     : id (SUM id)*;
 
@@ -65,8 +64,7 @@ scan_clock          : 'ScanMasterClock' id?;
 
 pattern_burst_l : pattern_burst+;
 pattern_burst   : 'PatternBurst' id? L_BRACKET context pattern_list? R_BRACKET;
-context         : signals_context? macro_context? proced_context?;
-signals_context : 'SignalGroups' id;
+context         : macro_context? proced_context?;
 macro_context   : 'MacroDefs' id;
 proced_context  : 'Procedures' id;
 pattern_list    : 'PatList' L_BRACKET (pattern_call)* R_BRACKET;

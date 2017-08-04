@@ -6,16 +6,21 @@
 #define STIL_INTERPRETER_SIGNAL_H
 
 #include <string>
+#include "Identifiable.h"
+
 using namespace std;
 
-class Signal {
-public:
-    enum signal_dir {
-        IN, OUT, INOUT
-    };
+enum signal_dir {
+    IN, OUT, INOUT
+};
 
-    string id;
+class Signal : public Identifiable {
+public:
     signal_dir dir;
+
+    Signal() : Identifiable() {}
+
+    Signal(string id, signal_dir dir);
 };
 
 

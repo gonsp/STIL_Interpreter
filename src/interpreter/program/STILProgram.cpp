@@ -4,6 +4,3 @@
 
 #include "STILProgram.h"
 
-STILProgram::STILProgram() {
-
-}

@@ -3,3 +3,7 @@
 //
 
 #include "Signal.h"
+
+Signal::Signal(string id, signal_dir dir) : Identifiable(id) {
+    this->dir = dir;
+}
