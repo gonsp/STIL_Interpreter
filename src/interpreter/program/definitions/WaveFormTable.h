@@ -5,17 +5,22 @@
 #ifndef STIL_INTERPRETER_WAVEFORMTABLE_H
 #define STIL_INTERPRETER_WAVEFORMTABLE_H
 
+#include <unordered_map>
 #include "Identifiable.h"
+#include "WaveForm.h"
+
+typedef unordered_map<string, WaveForm> WaveForms;
 
 class WaveFormTable : public Identifiable {
 
 public:
 
     float period;
+    WaveForms waveforms;
 
     WaveFormTable() : Identifiable() {}
 
-    WaveFormTable(string id, float period);
+    WaveFormTable(string id, float period, WaveForms& waveforms);
 
 };
 

@@ -39,6 +39,12 @@ public:
     virtual antlrcpp::Any visitTiming(STILParser::TimingContext* ctx) override;
 
     virtual antlrcpp::Any visitWaveform_table(STILParser::Waveform_tableContext* ctx) override;
+
+    virtual antlrcpp::Any visitWaveforms(STILParser::WaveformsContext* ctx) override;
+
+    virtual antlrcpp::Any visitWaveform(STILParser::WaveformContext* ctx) override;
+
+    virtual antlrcpp::Any visitEvent(STILParser::EventContext* ctx) override;
 };
 
 

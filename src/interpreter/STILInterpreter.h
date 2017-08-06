@@ -15,7 +15,7 @@ using namespace parser;
 class STILInterpreter : public STILCustomVisitor {
 
 private:
-    STILParser* parser; //This is needed because ast will be deleted when parser is pulled out of the stack
+    STILParser* parser; //This is needed because ast will be deleted whenever parser is pulled out of the stack
     STILProgram program;
 
 public:

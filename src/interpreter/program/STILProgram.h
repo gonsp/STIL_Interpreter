@@ -23,15 +23,16 @@ using namespace tree;
 
 #define GLOBAL_DEF "global"
 
+typedef unordered_map<string, PatternExec> PatternExecs;
+typedef unordered_map<string, PatternBurst> PatternBursts;
+typedef unordered_map<string, Pattern> Patterns;
+typedef unordered_map<string, Procedure> Procedures;
+typedef unordered_map<string, Macro> Macros;
+typedef unordered_map<string, Signal> Signals;
+typedef unordered_map<string, SignalGroup> SignalGroups;
+typedef unordered_map<string, Timing> Timings;
+
 class STILProgram {
-    typedef unordered_map<string, PatternExec> PatternExecs;
-    typedef unordered_map<string, PatternBurst> PatternBursts;
-    typedef unordered_map<string, Pattern> Patterns;
-    typedef unordered_map<string, Procedure> Procedures;
-    typedef unordered_map<string, Macro> Macros;
-    typedef unordered_map<string, Signal> Signals;
-    typedef unordered_map<string, SignalGroup> SignalGroups;
-    typedef unordered_map<string, Timing> Timings;
 
 public:
     PatternExecs patternExecs;

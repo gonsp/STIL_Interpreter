@@ -4,6 +4,7 @@
 
 #include "WaveFormTable.h"
 
-WaveFormTable::WaveFormTable(string id, float period) : Identifiable(id) {
+WaveFormTable::WaveFormTable(string id, float period, WaveForms& waveforms) : Identifiable(id) {
     this->period = period;
+    this->waveforms = waveforms;
 }

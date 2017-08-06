@@ -35,3 +35,7 @@ antlrcpp::Any STILCustomVisitor::visitTime_expr(STILParser::Time_exprContext* ct
         return time * 1000000;
     }
 }
+
+antlrcpp::Any STILCustomVisitor::visitWfc(STILParser::WfcContext* ctx) {
+    return STILBaseVisitor::visitWfc(ctx); // TODO
+}
