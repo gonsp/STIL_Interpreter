@@ -41,5 +41,5 @@ antlrcpp::Any STILCustomVisitor::visitWfc(STILParser::WfcContext* ctx) {
 }
 
 antlrcpp::Any STILCustomVisitor::visitWfc_extended(STILParser::Wfc_extendedContext* ctx) {
-    return STILBaseVisitor::visitWfc_extended(ctx);
+    return ctx->getText();
 }

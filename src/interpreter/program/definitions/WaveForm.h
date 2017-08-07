@@ -17,7 +17,8 @@ public:
     struct WaveFormEvent {
 
         enum Event {
-            A, B, C, D, E
+            ForceDown, ForceUp, ForceOff, CompareLow, CompareHigh,
+            CompareUnknown, CompareOff, ForceUnknown
         };
 
         float time;

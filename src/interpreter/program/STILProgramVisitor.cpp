@@ -129,12 +129,16 @@ antlrcpp::Any STILProgramVisitor::visitEvent(STILParser::EventContext* ctx) {
 }
 
 antlrcpp::Any STILProgramVisitor::visitEvent_code(STILParser::Event_codeContext* ctx) {
-    return WaveForm::WaveFormEvent::A;
+    string event_code = visit(ctx->CHARS());
+    switch(event_code[0]) {
+        case 'D': return WaveForm::WaveFormEvent::ForceDown;
+        case 'U': return WaveForm::WaveFormEvent::ForceUp;
+        case 'Z': return WaveForm::WaveFormEvent::ForceOff;
+        case 'L': return WaveForm::WaveFormEvent::CompareLow;
+        case 'H': return WaveForm::WaveFormEvent::CompareHigh;
+        case 'X': return WaveForm::WaveFormEvent::CompareUnknown;
+        case 'T': return WaveForm::WaveFormEvent::CompareOff;
+        case 'N': return WaveForm::WaveFormEvent::ForceUnknown;
+        default: cerr << "Unrecognized event: " << event_code[0] << endl; exit(1);
+    }
 }
-
-
-
-
-
-
-
