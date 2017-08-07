@@ -23,7 +23,7 @@ antlrcpp::Any STILProgramVisitor::visitSignal(STILParser::SignalContext* ctx) {
     string id = visit(ctx->id());
     signal_dir dir = visit(ctx->signal_dir());
     program.signals[id] = Signal(id, dir);
-    program.signalGroups[id] = SignalGroup(id, vector<string>(1, id)); // Adding a default signalgroup
+    program.signalGroups[id] = SignalGroup(program.signals[id]); // Adding a default signalgroup
     return NULL;
 }
 
@@ -47,7 +47,12 @@ antlrcpp::Any STILProgramVisitor::visitSignal_groups(STILParser::Signal_groupsCo
 antlrcpp::Any STILProgramVisitor::visitSignal_group(STILParser::Signal_groupContext* ctx) {
     string id = visit(ctx->id());
     vector<string> signals = visit(ctx->signal_list());
-    program.signalGroups[id] = SignalGroup(id, signals);
+    SignalGroup::WFCMaps wfcmaps;
+    if(ctx->signal_attributes() != NULL && ctx->signal_attributes()->wfc_map() != NULL) {
+        SignalGroup::WFCMaps aux = visit(ctx->signal_attributes()->wfc_map());
+        wfcmaps = aux;
+    }
+    program.signalGroups[id] = SignalGroup(id, signals, wfcmaps);
     return NULL;
 }
 
@@ -58,6 +63,21 @@ antlrcpp::Any STILProgramVisitor::visitSignal_list(STILParser::Signal_listContex
         signal_list.push_back(id);
     }
     return signal_list;
+}
+
+antlrcpp::Any STILProgramVisitor::visitWfc_map(STILParser::Wfc_mapContext* ctx) {
+    SignalGroup::WFCMaps wfcmaps;
+    for(int i = 0; i < ctx->map_rule().size(); ++i) {
+        MapRule map_rule = visit(ctx->map_rule(i));
+        wfcmaps[map_rule.first] = map_rule.second;
+    }
+    return wfcmaps;
+}
+
+antlrcpp::Any STILProgramVisitor::visitMap_rule(STILParser::Map_ruleContext* ctx) {
+    string from = visit(ctx->wfc(0));
+    string to = visit(ctx->wfc(1));
+    return MapRule(from, to[0]);
 }
 
 antlrcpp::Any STILProgramVisitor::visitTiming(STILParser::TimingContext* ctx) {
@@ -93,18 +113,23 @@ antlrcpp::Any STILProgramVisitor::visitWaveforms(STILParser::WaveformsContext* c
 
 antlrcpp::Any STILProgramVisitor::visitWaveform(STILParser::WaveformContext* ctx) {
     string id = visit(ctx->id());
-//    char wfc = visit(ctx->wfc());
-    char wfc = 'a';
+    string wfc = visit(ctx->wfc());
     vector<WaveForm::WaveFormEvent> events;
     for(int i = 0; i < ctx->event().size(); ++i) {
         WaveForm::WaveFormEvent event = visit(ctx->event(i));
         events.push_back(event);
     }
-    return WaveForm(id, wfc, events);
+    return WaveForm(id, wfc[0], events);
 }
 
 antlrcpp::Any STILProgramVisitor::visitEvent(STILParser::EventContext* ctx) {
-    return WaveForm::WaveFormEvent();
+    float time = visit(ctx->time_expr());
+    WaveForm::WaveFormEvent::Event event = visit(ctx->event_code());
+    return WaveForm::WaveFormEvent(time, event);
+}
+
+antlrcpp::Any STILProgramVisitor::visitEvent_code(STILParser::Event_codeContext* ctx) {
+    return WaveForm::WaveFormEvent::A;
 }
 
 

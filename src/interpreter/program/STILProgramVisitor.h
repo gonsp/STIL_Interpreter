@@ -16,6 +16,9 @@ using namespace parser;
 class STILProgramVisitor : public STILCustomVisitor {
 
 private:
+
+    typedef pair<string, char> MapRule;
+
     STILProgram& program;
 
 public:
@@ -36,6 +39,10 @@ public:
 
     virtual antlrcpp::Any visitSignal_list(STILParser::Signal_listContext* ctx) override;
 
+    virtual antlrcpp::Any visitWfc_map(STILParser::Wfc_mapContext* ctx);
+
+    virtual antlrcpp::Any visitMap_rule(STILParser::Map_ruleContext* ctx);
+
     virtual antlrcpp::Any visitTiming(STILParser::TimingContext* ctx) override;
 
     virtual antlrcpp::Any visitWaveform_table(STILParser::Waveform_tableContext* ctx) override;
@@ -45,6 +52,8 @@ public:
     virtual antlrcpp::Any visitWaveform(STILParser::WaveformContext* ctx) override;
 
     virtual antlrcpp::Any visitEvent(STILParser::EventContext* ctx) override;
+
+    virtual antlrcpp::Any visitEvent_code(STILParser::Event_codeContext* ctx) override;
 };
 
 

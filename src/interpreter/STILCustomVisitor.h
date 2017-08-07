@@ -27,6 +27,8 @@ public:
 
     virtual antlrcpp::Any visitWfc(STILParser::WfcContext* ctx);
 
+    virtual antlrcpp::Any visitWfc_extended(STILParser::Wfc_extendedContext* ctx) override;
+
 };
 
 

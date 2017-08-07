@@ -7,7 +7,9 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "Identifiable.h"
+#include "Signal.h"
 
 using namespace std;
 
@@ -15,11 +17,16 @@ class SignalGroup : public Identifiable {
 
 public:
 
+    typedef unordered_map<string, char> WFCMaps;
+
     vector<string> signals;
+    WFCMaps wfcmaps;
 
     SignalGroup() : Identifiable() {}
 
-    SignalGroup(string id, vector<string> signals);
+    SignalGroup(string id, vector<string>& signals, WFCMaps& wfcMaps);
+
+    SignalGroup(const Signal& signal);
 
 };
 

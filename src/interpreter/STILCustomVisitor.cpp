@@ -37,5 +37,9 @@ antlrcpp::Any STILCustomVisitor::visitTime_expr(STILParser::Time_exprContext* ct
 }
 
 antlrcpp::Any STILCustomVisitor::visitWfc(STILParser::WfcContext* ctx) {
-    return STILBaseVisitor::visitWfc(ctx); // TODO
+    return ctx->getText();
+}
+
+antlrcpp::Any STILCustomVisitor::visitWfc_extended(STILParser::Wfc_extendedContext* ctx) {
+    return STILBaseVisitor::visitWfc_extended(ctx);
 }
