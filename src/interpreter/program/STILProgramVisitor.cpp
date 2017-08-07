@@ -153,6 +153,10 @@ antlrcpp::Any STILProgramVisitor::visitPattern_exec(STILParser::Pattern_execCont
     if(ctx->id() != NULL) {
         string aux = visit(ctx->id());
         id = aux;
+        // If there's only one pattern_exec, we create a global alias
+        if(((STILParser::Pattern_exec_lContext*) ctx->parent)->pattern_exec().size() == 1) {
+            program.patternExecs[GLOBAL_DEF] = ctx;
+        }
     }
     program.patternExecs[id] = ctx;
     return NULL;
