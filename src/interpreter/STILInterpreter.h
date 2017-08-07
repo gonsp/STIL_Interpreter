@@ -5,6 +5,8 @@
 #ifndef STIL_INTERPRETER_STILINTERPRETER_H
 #define STIL_INTERPRETER_STILINTERPRETER_H
 
+#include <STILLexer.h>
+#include <STILParser.h>
 #include "program/STILProgram.h"
 #include "STILCustomVisitor.h"
 
@@ -15,17 +17,20 @@ using namespace parser;
 class STILInterpreter : public STILCustomVisitor {
 
 private:
-    STILParser* parser; //This is needed because ast will be deleted whenever parser is pulled out of the stack
     STILProgram program;
 
+    ifstream stil_input;
+    ofstream pattern_stream;
+    ofstream timing_stream;
+
 public:
-    STILInterpreter(istream& stream);
-    ~STILInterpreter();
+    STILInterpreter(string stil_file, string pattern_file, string timing_file);
 
-    void run(ofstream& vector_stream, ofstream& timing_stream);
-    void run(ofstream& vector_stream, ofstream& timing_stream, const string& pattern_exec);
+    void run();
 
-    virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
+    void run(string pattern_exec);
+
+    virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* context) override;
 
 };
 

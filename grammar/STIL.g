@@ -63,7 +63,7 @@ scan_clock          : 'ScanMasterClock' id?;
 ///////////////////////////////////////////////////////////////////////
 
 pattern_burst_l : pattern_burst+;
-pattern_burst   : 'PatternBurst' id? L_BRACKET context pattern_list? R_BRACKET;
+pattern_burst   : 'PatternBurst' id L_BRACKET context pattern_list R_BRACKET;
 context         : macro_context? proced_context?;
 macro_context   : 'MacroDefs' id;
 proced_context  : 'Procedures' id;

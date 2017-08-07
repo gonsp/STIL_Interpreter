@@ -27,23 +27,13 @@ int main(int num_args, char* args[]) {
     string path = string(args[1]);
     path = get_file_name(path);
 
-    ifstream stil_input;
-    ofstream vector_output;
-    ofstream timing_output;
-
-    stil_input.open(args[1]);
-    vector_output.open(path + ".atp");
-    timing_output.open(path + ".txt");
-
-
-    STILInterpreter interpreter(stil_input);
-
-    interpreter.run(vector_output, timing_output);
+    STILInterpreter interpreter(args[1], path + ".atp", path + ".txt");
 
     if(num_args == 2) {
+        interpreter.run();
     } else {
         string pattern_exec(args[2]);
-        interpreter.run(vector_output, timing_output, pattern_exec);
+        interpreter.run("\"" + pattern_exec + "\"");
     }
 
     return 0;

@@ -8,26 +8,26 @@
 #include <string>
 #include <unordered_map>
 #include <tree/ParseTree.h>
+#include <STILParser.h>
 #include "definitions/Signal.h"
 #include "definitions/Timing.h"
 #include "definitions/PatternBurst.h"
-#include "definitions/PatternExec.h"
-#include "definitions/Pattern.h"
-#include "definitions/Procedure.h"
-#include "definitions/Macro.h"
 #include "definitions/SignalGroup.h"
 
 using namespace std;
 using namespace antlr4;
 using namespace tree;
+using namespace parser;
 
 #define GLOBAL_DEF "global"
 
-typedef unordered_map<string, PatternExec> PatternExecs;
+typedef unordered_map<string, STILParser::Pattern_execContext*> PatternExecs;
 typedef unordered_map<string, PatternBurst> PatternBursts;
-typedef unordered_map<string, Pattern> Patterns;
-typedef unordered_map<string, Procedure> Procedures;
-typedef unordered_map<string, Macro> Macros;
+typedef unordered_map<string, STILParser::Inst_listContext*> Patterns;
+typedef unordered_map<string, STILParser::Inst_listContext*> Procedures;
+typedef unordered_map<string, STILParser::Inst_listContext*> Macros;
+typedef unordered_map<string, Procedures> ProceduresContexts;
+typedef unordered_map<string, Macros> MacrosContexts;
 typedef unordered_map<string, Signal> Signals;
 typedef unordered_map<string, SignalGroup> SignalGroups;
 typedef unordered_map<string, Timing> Timings;
@@ -38,8 +38,8 @@ public:
     PatternExecs patternExecs;
     PatternBursts patternBursts;
     Patterns patterns;
-    Procedures procedures;
-    Macros macros;
+    ProceduresContexts procedures;
+    MacrosContexts macros;
     Signals signals;
     SignalGroups signalGroups;
     Timings timings;

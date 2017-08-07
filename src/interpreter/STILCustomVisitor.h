@@ -25,7 +25,7 @@ public:
 
     virtual antlrcpp::Any visitTime_expr(STILParser::Time_exprContext* ctx) override;
 
-    virtual antlrcpp::Any visitWfc(STILParser::WfcContext* ctx);
+    virtual antlrcpp::Any visitWfc(STILParser::WfcContext* ctx) override;
 
     virtual antlrcpp::Any visitWfc_extended(STILParser::Wfc_extendedContext* ctx) override;
 

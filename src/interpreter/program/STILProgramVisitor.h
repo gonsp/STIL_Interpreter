@@ -39,9 +39,9 @@ public:
 
     virtual antlrcpp::Any visitSignal_list(STILParser::Signal_listContext* ctx) override;
 
-    virtual antlrcpp::Any visitWfc_map(STILParser::Wfc_mapContext* ctx);
+    virtual antlrcpp::Any visitWfc_map(STILParser::Wfc_mapContext* ctx) override;
 
-    virtual antlrcpp::Any visitMap_rule(STILParser::Map_ruleContext* ctx);
+    virtual antlrcpp::Any visitMap_rule(STILParser::Map_ruleContext* ctx) override;
 
     virtual antlrcpp::Any visitTiming(STILParser::TimingContext* ctx) override;
 
@@ -54,6 +54,19 @@ public:
     virtual antlrcpp::Any visitEvent(STILParser::EventContext* ctx) override;
 
     virtual antlrcpp::Any visitEvent_code(STILParser::Event_codeContext* ctx) override;
+
+    virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
+
+    virtual antlrcpp::Any visitPattern_burst(STILParser::Pattern_burstContext* ctx) override;
+
+    virtual antlrcpp::Any visitContext(STILParser::ContextContext* ctx) override;
+
+    virtual antlrcpp::Any visitPattern(STILParser::PatternContext* ctx) override;
+
+    virtual antlrcpp::Any visitProcedures(STILParser::ProceduresContext* ctx) override;
+
+    virtual antlrcpp::Any visitMacros(STILParser::MacrosContext* ctx) override;
+
 };
 
 
