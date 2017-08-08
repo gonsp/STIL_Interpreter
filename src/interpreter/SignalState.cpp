@@ -9,13 +9,13 @@ using namespace std;
 
 SignalState::SignalState(STILProgram* program) {
     this->program = program;
-    next_vector = vector<char>(program->signals.size(), ' ');
+    next_vector = program->signals;
 }
 
 void SignalState::clock_cicle(ostream& output) {
     output << " > " << waveform_table << " ";
-    for(int i = 0; i < next_vector.size(); ++i) {
-        output << next_vector[i] << " ";
+    for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
+        output << it->second.value << " ";
     }
     output << ";" << endl;
 }

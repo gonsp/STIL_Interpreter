@@ -18,7 +18,7 @@ private:
     STILProgram* program;
 
 public:
-    vector<char> next_vector;
+    Signals next_vector;
     string waveform_table;
 
     SignalState() {}

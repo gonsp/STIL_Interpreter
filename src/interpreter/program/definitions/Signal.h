@@ -17,6 +17,7 @@ enum signal_dir {
 class Signal : public Identifiable {
 public:
     signal_dir dir;
+    char value;
 
     Signal() : Identifiable() {}
 
