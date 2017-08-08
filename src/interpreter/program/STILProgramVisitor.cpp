@@ -12,6 +12,7 @@ antlrcpp::Any STILProgramVisitor::visitProgram(STILParser::ProgramContext* ctx) 
     visit(ctx->pattern_burst_l());
     visit(ctx->pattern_exec_l());
     visit(ctx->pattern_burst_l());
+    visit(ctx->pattern_l());
     visit(ctx->procedures_l());
     visit(ctx->macros_l());
     return NULL;
@@ -169,21 +170,10 @@ antlrcpp::Any STILProgramVisitor::visitPattern_burst(STILParser::Pattern_burstCo
     return NULL;
 }
 
-antlrcpp::Any STILProgramVisitor::visitContext(STILParser::ContextContext* ctx) {
-    string proceds_id = GLOBAL_DEF;
-    string macros_id = GLOBAL_DEF;
-    if(ctx->proced_context() != NULL) {
-        string aux = visit(ctx->proced_context()->id());
-    }
-    if(ctx->macro_context() != NULL) {
-        string aux = visit(ctx->macro_context()->id());
-    }
-    return PatternContext(proceds_id, macros_id);
-}
-
 antlrcpp::Any STILProgramVisitor::visitPattern(STILParser::PatternContext* ctx) {
     string id = visit(ctx->id());
     program.patterns[id] = ctx->inst_list();
+    return NULL;
 }
 
 antlrcpp::Any STILProgramVisitor::visitProcedures(STILParser::ProceduresContext* ctx) {
@@ -196,6 +186,7 @@ antlrcpp::Any STILProgramVisitor::visitProcedures(STILParser::ProceduresContext*
         string proced_id = visit(ctx->procedure(i)->id());
         program.procedures[id][proced_id] = ctx->procedure(i)->inst_list();
     }
+    return NULL;
 }
 
 antlrcpp::Any STILProgramVisitor::visitMacros(STILParser::MacrosContext* ctx) {
@@ -208,4 +199,5 @@ antlrcpp::Any STILProgramVisitor::visitMacros(STILParser::MacrosContext* ctx) {
         string macro_id = visit(ctx->macro(i)->id());
         program.macros[id][macro_id] = ctx->macro(i)->inst_list();
     }
+    return NULL;
 }

@@ -49,9 +49,9 @@ antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext
 
 antlrcpp::Any STILInterpreter::visitPattern_burst_call(STILParser::Pattern_burst_callContext* ctx) {
     string id = visit(ctx->id());
+    cout << "Executing pattern_burst: " << id << endl;
     cout << "Merging new context" << endl;
     contextStack.push(program.patternBursts[id].context);
-    cout << "Executing pattern_burst: " << id << endl;
     visit(program.patternBursts[id].ast);
     cout << "Executed pattern_burst: " << id << endl;
     contextStack.pop();
@@ -59,6 +59,24 @@ antlrcpp::Any STILInterpreter::visitPattern_burst_call(STILParser::Pattern_burst
 }
 
 antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext* ctx) {
-
+    for(int i = 0; i < ctx->pattern_call().size(); ++i) {
+        string id = visit(ctx->pattern_call(i)->id());
+        bool explicit_context = ctx->pattern_call(i)->context() != NULL;
+        if(explicit_context) {
+            cout << "With explicit context" << endl;
+            PatternContext context = visit(ctx->pattern_call(i)->context());
+            contextStack.push(context);
+        }
+        if(program.patternBursts.find(id) != program.patternBursts.end()) {
+            cout << "Calling pattern_burst: " << id << endl;
+            visit(program.patternBursts[id].ast);
+        } else {
+            cout << "Calling pattern: " << id << endl;
+            visit(program.patterns[id]);
+        }
+        if(explicit_context) {
+            contextStack.pop();
+        }
+    }
     return STILBaseVisitor::visitPattern_list(ctx);
 }

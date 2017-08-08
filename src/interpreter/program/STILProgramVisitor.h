@@ -59,8 +59,6 @@ public:
 
     virtual antlrcpp::Any visitPattern_burst(STILParser::Pattern_burstContext* ctx) override;
 
-    virtual antlrcpp::Any visitContext(STILParser::ContextContext* ctx) override;
-
     virtual antlrcpp::Any visitPattern(STILParser::PatternContext* ctx) override;
 
     virtual antlrcpp::Any visitProcedures(STILParser::ProceduresContext* ctx) override;
