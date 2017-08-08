@@ -10,6 +10,7 @@
 #include <STILParser.h>
 #include "program/STILProgram.h"
 #include "STILCustomVisitor.h"
+#include "SignalState.h"
 
 using namespace std;
 using namespace antlr4;
@@ -24,10 +25,8 @@ private:
     ofstream pattern_stream;
     ofstream timing_stream;
 
-    vector<char> next_vector;
-    string waveform_table;
-
     ContextStack contextStack;
+    SignalState signalState;
 
 public:
     STILInterpreter(string stil_file, string pattern_file, string timing_file);

@@ -118,8 +118,8 @@ repeat      : REPEAT int_t wfc_extended;
 
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
-// different tokens with with some intersection. For example, the lexical definition
-// of an id intersects with the definition of WFC, or events... Depending on the
+// different tokens with some intersection. For example, the lexical definition
+// of ID intersects with the definition of WFC, or events... Depending on the
 // context there isn't ambiguity, but in the lexical analysis there isn't any context.
 // To simplify and avoid some cases, we're going to consider that ALL ids are strings
 

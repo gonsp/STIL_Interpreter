@@ -5,6 +5,7 @@
 #include <ANTLRInputStream.h>
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
+#include "SignalState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file) {
     stil_input.open(stil_file);
@@ -41,7 +42,7 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
-    next_vector = vector<char>(program.signals.size(), ' ');
+    signalState = SignalState(program.signals.size());
     visit(program.patternExecs[pattern_exec]);
     cout << "Done" << endl;
 }
@@ -99,18 +100,21 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
+    cout << "Executing shift" << endl;
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
+    string id = visit(ctx->id());
+    cout << "Changing active waveform_table to: " << id << endl;
+    signalState.waveform_table = id;
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
 
     cout << "Saving previous state" << endl;
-    string prev_waform_table = waveform_table;
-    vector<char> prev_vector = next_vector;
+    SignalState prev_signalState = signalState;
 
     string id = visit(ctx->id());
     cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
@@ -118,8 +122,7 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
     visit(program.procedures[contextStack.top().proceds_id][id]);
 
     cout << "Procedure executed. Restoring previous state" << endl;
-    waveform_table = prev_waform_table;
-    next_vector = prev_vector;
+    signalState = prev_signalState;
     return NULL;
 }
 
