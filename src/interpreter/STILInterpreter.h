@@ -24,6 +24,9 @@ private:
     ofstream pattern_stream;
     ofstream timing_stream;
 
+    vector<char> next_vector;
+    string waveform_table;
+
     ContextStack contextStack;
 
 public:
@@ -39,7 +42,15 @@ public:
 
     virtual antlrcpp::Any visitPattern_list(STILParser::Pattern_listContext* ctx) override;
 
+    virtual antlrcpp::Any visitLoop(STILParser::LoopContext* ctx) override;
+
+    virtual antlrcpp::Any visitShift(STILParser::ShiftContext* ctx) override;
+
+    virtual antlrcpp::Any visitW_inst(STILParser::W_instContext* ctx) override;
+
     virtual antlrcpp::Any visitCall_inst(STILParser::Call_instContext* ctx) override;
+
+    virtual antlrcpp::Any visitMacro_inst(STILParser::Macro_instContext* ctx) override;
 
     virtual antlrcpp::Any visitStop_inst(STILParser::Stop_instContext* ctx) override;
 

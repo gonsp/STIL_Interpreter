@@ -41,6 +41,7 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
+    next_vector = vector<char>(program.signals.size(), ' ');
     visit(program.patternExecs[pattern_exec]);
     cout << "Done" << endl;
 }
@@ -58,7 +59,6 @@ antlrcpp::Any STILInterpreter::visitPattern_burst_call(STILParser::Pattern_burst
     string id = visit(ctx->id());
     cout << "Executing pattern_burst: " << id << endl;
     cout << "Merging new context" << endl;
-    cout << "HELLOUUUUUU: " << program.patternBursts[id].context.proceds_id << endl;
     contextStack.push(program.patternBursts[id].context);
     visit(program.patternBursts[id].ast);
     cout << "Executed pattern_burst: " << id << endl;
@@ -88,11 +88,46 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
     return NULL;
 }
 
+antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
+    cout << "Executing loop" << endl;
+    float times = visit(ctx->int_t());
+    while(times > 0) {
+        visit(ctx->inst_list());
+        --times;
+    }
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
+    return NULL;
+}
+
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
+
+    cout << "Saving previous state" << endl;
+    string prev_waform_table = waveform_table;
+    vector<char> prev_vector = next_vector;
+
     string id = visit(ctx->id());
     cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
+
     visit(program.procedures[contextStack.top().proceds_id][id]);
-    return STILBaseVisitor::visitCall_inst(ctx);
+
+    cout << "Procedure executed. Restoring previous state" << endl;
+    waveform_table = prev_waform_table;
+    next_vector = prev_vector;
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
+    string id = visit(ctx->id());
+    cout << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
+    visit(program.macros[contextStack.top().macros_id][id]);
+    return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx) {
