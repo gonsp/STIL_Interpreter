@@ -3,10 +3,11 @@
 //
 
 #include "PatternContext.h"
+#include "../STILProgram.h"
 
 PatternContext::PatternContext() {
-    proceds_id = "";
-    macros_id = "";
+    proceds_id = GLOBAL_DEF;
+    macros_id = GLOBAL_DEF;
 }
 
 PatternContext::PatternContext(string proceds_id, string macros_id) {
@@ -16,10 +17,10 @@ PatternContext::PatternContext(string proceds_id, string macros_id) {
 
 PatternContext PatternContext::merge(PatternContext context) {
     PatternContext result = *this;
-    if(context.proceds_id != "") {
+    if(context.proceds_id != GLOBAL_DEF) {
         result.proceds_id = context.proceds_id;
     }
-    if(context.macros_id != "") {
+    if(context.macros_id != GLOBAL_DEF) {
         result.macros_id = context.macros_id;
     }
     return result;

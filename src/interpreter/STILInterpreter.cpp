@@ -14,6 +14,7 @@ STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string t
 
 void STILInterpreter::run() {
     cout << "Running default pattern_exec block" << endl;
+    cout << "(You can specify the pattern_exec block with an additional argument)" << endl;
     run(GLOBAL_DEF);
 }
 
@@ -23,15 +24,21 @@ void STILInterpreter::run(string pattern_exec) {
     CommonTokenStream tokens(&lexer);
     tokens.fill();
 
+    cout << "--------------------------------------" << endl;
+
     cout << "Starting file parsing" << endl;
     STILParser parser(&tokens);
     ParseTree* ast = parser.program();
     cout << "File parsed successfully" << endl;
 
+    cout << "--------------------------------------" << endl;
+
     cout << "Generating internal representation of the program" << endl;
     STILProgramVisitor programVisitor(program);
     programVisitor.visit(ast);
     cout << "Generation successful" << endl;
+
+    cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
     visit(program.patternExecs[pattern_exec]);
@@ -51,6 +58,7 @@ antlrcpp::Any STILInterpreter::visitPattern_burst_call(STILParser::Pattern_burst
     string id = visit(ctx->id());
     cout << "Executing pattern_burst: " << id << endl;
     cout << "Merging new context" << endl;
+    cout << "HELLOUUUUUU: " << program.patternBursts[id].context.proceds_id << endl;
     contextStack.push(program.patternBursts[id].context);
     visit(program.patternBursts[id].ast);
     cout << "Executed pattern_burst: " << id << endl;
@@ -63,7 +71,6 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
         string id = visit(ctx->pattern_call(i)->id());
         bool explicit_context = ctx->pattern_call(i)->context() != NULL;
         if(explicit_context) {
-            cout << "With explicit context" << endl;
             PatternContext context = visit(ctx->pattern_call(i)->context());
             contextStack.push(context);
         }
@@ -78,5 +85,18 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
             contextStack.pop();
         }
     }
-    return STILBaseVisitor::visitPattern_list(ctx);
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
+    string id = visit(ctx->id());
+    cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
+    visit(program.procedures[contextStack.top().proceds_id][id]);
+    return STILBaseVisitor::visitCall_inst(ctx);
+}
+
+antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx) {
+    cout << "Stopping test" << endl;
+    exit(1);
+    return NULL;
 }

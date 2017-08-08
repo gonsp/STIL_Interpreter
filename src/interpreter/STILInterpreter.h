@@ -39,6 +39,10 @@ public:
 
     virtual antlrcpp::Any visitPattern_list(STILParser::Pattern_listContext* ctx) override;
 
+    virtual antlrcpp::Any visitCall_inst(STILParser::Call_instContext* ctx) override;
+
+    virtual antlrcpp::Any visitStop_inst(STILParser::Stop_instContext* ctx) override;
+
 };
 
 

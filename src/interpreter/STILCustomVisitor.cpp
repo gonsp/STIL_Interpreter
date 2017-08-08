@@ -51,9 +51,11 @@ antlrcpp::Any STILCustomVisitor::visitContext(STILParser::ContextContext* ctx) {
     string macros_id = GLOBAL_DEF;
     if(ctx->proced_context() != NULL) {
         string aux = visit(ctx->proced_context()->id());
+        proceds_id = aux;
     }
     if(ctx->macro_context() != NULL) {
         string aux = visit(ctx->macro_context()->id());
+        macros_id = aux;
     }
     return PatternContext(proceds_id, macros_id);
 }
