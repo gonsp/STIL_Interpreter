@@ -10,7 +10,7 @@ program : format? header? signals signal_groups timing_l scan_structures_l
 ///////////////////////////////////////////////////////////////////////
 
 format  : 'STIL' FLOAT (L_BRACKET design R_BRACKET)?;
-design  : 'Design' INT;
+design  : 'Design' int_t;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -53,10 +53,10 @@ scan_structures_l   : scan_structures*;
 scan_structures     : 'ScanStructures' id? L_BRACKET scan_chain* R_BRACKET;
 scan_chain          : 'ScanChain' id L_BRACKET scan_length scan_in scan_out
                       scan_inversion scan_cells scan_clock R_BRACKET;
-scan_length         : 'ScanLength' INT;
+scan_length         : 'ScanLength' int_t;
 scan_in             : 'ScanIn' id;
 scan_out            : 'ScanOut' id;
-scan_inversion      : 'ScanInversion' INT;
+scan_inversion      : 'ScanInversion' int_t;
 scan_cells          : 'ScanCells' (id EXCLAMATION?)+;
 scan_clock          : 'ScanMasterClock' id?;
 
@@ -98,9 +98,9 @@ pattern     : 'Pattern' id L_BRACKET inst_list R_BRACKET;
 
 inst_list   : inst*;
 inst        : label? (loop | shift | w_inst | c_inst | f_inst | v_inst | call_inst
-            | macro_inst | goto_inst | stop_inst | scan_inst | 'IddqTestPoint');
+            | macro_inst | stop_inst | scan_inst | 'IddqTestPoint');
 label       : id ':';
-loop        : 'Loop' INT L_BRACKET inst_list R_BRACKET;
+loop        : 'Loop' int_t L_BRACKET inst_list R_BRACKET;
 shift       : 'Shift' L_BRACKET inst_list R_BRACKET;
 w_inst      : 'W' id;
 c_inst      : 'C' L_BRACKET assigs R_BRACKET;
@@ -108,14 +108,13 @@ f_inst      : 'F' L_BRACKET assigs R_BRACKET;
 v_inst      : 'V' L_BRACKET assigs R_BRACKET;
 call_inst   : 'Call' id (L_BRACKET assigs R_BRACKET)?;
 macro_inst  : 'Macro' id (L_BRACKET assigs R_BRACKET)?;
-goto_inst   : 'GoTo' id;
 stop_inst   : 'Stop';
 scan_inst   : 'ScanChain' id;
 
 assigs      : assig*;
 assig       : id EQ assig_expr;
 assig_expr  : JOIN? (repeat | wfc_extended)*;
-repeat      : REPEAT INT wfc_extended;
+repeat      : REPEAT int_t wfc_extended;
 
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
