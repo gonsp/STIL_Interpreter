@@ -50,3 +50,6 @@ stil_inter
 # Output
 *.pat
 *.atp
+
+# Examples
+grammar/examples

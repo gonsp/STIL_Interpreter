@@ -11,8 +11,8 @@
 #include <STILParser.h>
 #include "definitions/Signal.h"
 #include "definitions/Timing.h"
-#include "definitions/PatternBurst.h"
 #include "definitions/SignalGroup.h"
+#include "definitions/PatternBurst.h"
 
 using namespace std;
 using namespace antlr4;

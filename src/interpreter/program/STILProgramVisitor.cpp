@@ -164,7 +164,7 @@ antlrcpp::Any STILProgramVisitor::visitPattern_exec(STILParser::Pattern_execCont
 
 antlrcpp::Any STILProgramVisitor::visitPattern_burst(STILParser::Pattern_burstContext* ctx) {
     string id = visit(ctx->id());
-    PatternBurst::PatternBurstContext context = visit(ctx->context());
+    PatternContext context = visit(ctx->context());
     program.patternBursts[id] = PatternBurst(id, ctx->pattern_list(), context);
     return NULL;
 }
@@ -178,7 +178,7 @@ antlrcpp::Any STILProgramVisitor::visitContext(STILParser::ContextContext* ctx) 
     if(ctx->macro_context() != NULL) {
         string aux = visit(ctx->macro_context()->id());
     }
-    return PatternBurst::PatternBurstContext(proceds_id, macros_id);
+    return PatternContext(proceds_id, macros_id);
 }
 
 antlrcpp::Any STILProgramVisitor::visitPattern(STILParser::PatternContext* ctx) {

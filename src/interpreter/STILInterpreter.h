@@ -5,6 +5,7 @@
 #ifndef STIL_INTERPRETER_STILINTERPRETER_H
 #define STIL_INTERPRETER_STILINTERPRETER_H
 
+#include <stack>
 #include <STILLexer.h>
 #include <STILParser.h>
 #include "program/STILProgram.h"
@@ -23,6 +24,8 @@ private:
     ofstream pattern_stream;
     ofstream timing_stream;
 
+    ContextStack contextStack;
+
 public:
     STILInterpreter(string stil_file, string pattern_file, string timing_file);
 
@@ -30,7 +33,11 @@ public:
 
     void run(string pattern_exec);
 
-    virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* context) override;
+    virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
+
+    virtual antlrcpp::Any visitPattern_burst_call(STILParser::Pattern_burst_callContext* ctx) override;
+
+    virtual antlrcpp::Any visitPattern_list(STILParser::Pattern_listContext* ctx) override;
 
 };
 

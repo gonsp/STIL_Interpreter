@@ -39,5 +39,26 @@ void STILInterpreter::run(string pattern_exec) {
 }
 
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
-    return visitChildren(ctx);
+    contextStack.push(PatternContext()); // Base context
+    for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
+        visit(ctx->pattern_burst_call(i));
+        assert(contextStack.size() == 1); // Needs to remain just the base context
+    }
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitPattern_burst_call(STILParser::Pattern_burst_callContext* ctx) {
+    string id = visit(ctx->id());
+    cout << "Merging new context" << endl;
+    contextStack.push(program.patternBursts[id].context);
+    cout << "Executing pattern_burst: " << id << endl;
+    visit(program.patternBursts[id].ast);
+    cout << "Executed pattern_burst: " << id << endl;
+    contextStack.pop();
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext* ctx) {
+
+    return STILBaseVisitor::visitPattern_list(ctx);
 }

@@ -4,7 +4,7 @@
 
 #include "PatternBurst.h"
 
-PatternBurst::PatternBurst(string id, STILParser::Pattern_listContext* ast, PatternBurst::PatternBurstContext& context) : Identifiable(id) {
+PatternBurst::PatternBurst(string id, STILParser::Pattern_listContext* ast, PatternContext& context) : Identifiable(id) {
     this->ast = ast;
     this->context = context;
 }

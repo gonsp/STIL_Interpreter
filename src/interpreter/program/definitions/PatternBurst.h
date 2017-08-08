@@ -8,6 +8,7 @@
 #include <string>
 #include <STILParser.h>
 #include "Identifiable.h"
+#include "PatternContext.h"
 
 using namespace std;
 using namespace parser;
@@ -16,24 +17,12 @@ class PatternBurst : public Identifiable {
 
 public:
 
-    struct PatternBurstContext {
-        string proceds_id;
-        string macros_id;
-
-        PatternBurstContext() {}
-
-        PatternBurstContext(string proceds_id, string macros_id) {
-            this->proceds_id = proceds_id;
-            this->macros_id = macros_id;
-        }
-    };
-
     STILParser::Pattern_listContext* ast;
-    PatternBurstContext context;
+    PatternContext context;
 
     PatternBurst() : Identifiable() {}
 
-    PatternBurst(string id, STILParser::Pattern_listContext* ast, PatternBurstContext& context);
+    PatternBurst(string id, STILParser::Pattern_listContext* ast, PatternContext& context);
 
 };
 
