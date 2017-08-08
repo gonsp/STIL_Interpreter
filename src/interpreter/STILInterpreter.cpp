@@ -47,12 +47,31 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "Done" << endl;
 }
 
+void STILInterpreter::generate_headers() {
+    pattern_stream << "opcode_mode=extended;" << endl;
+    pattern_stream << "import tset t_default_WFT_,t_multiclock_capture_WFT_;" << endl;
+    pattern_stream << "vector(";
+    for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
+        pattern_stream << it->second.id << " ";
+    }
+    pattern_stream << ")" << endl;
+};
+
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
+    generate_headers();
+    pattern_stream << "{" << endl;
     contextStack.push(PatternContext()); // Base context
     for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
         visit(ctx->pattern_burst_call(i));
         assert(contextStack.size() == 1); // Needs to remain just the base context
     }
+    pattern_stream << "subr iddq: set_cpu(cpuA)\n"
+            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
+            "wait_iddq: if (cpuA) jump wait_iddq\n"
+            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
+            "return\n"
+            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;" << endl;
+    pattern_stream << "}" << endl;
     return NULL;
 }
 
@@ -108,6 +127,11 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
     string id = visit(ctx->id());
     cout << "Changing active waveform_table to: " << id << endl;
     signalState.waveform_table = id;
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
+    signalState.clock_cicle(pattern_stream);
     return NULL;
 }
 

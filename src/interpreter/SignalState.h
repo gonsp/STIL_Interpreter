@@ -20,6 +20,7 @@ public:
 
     SignalState(int size);
 
+    void clock_cicle(ostream& output);
 };
 
 

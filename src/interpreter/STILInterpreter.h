@@ -28,12 +28,7 @@ private:
     ContextStack contextStack;
     SignalState signalState;
 
-public:
-    STILInterpreter(string stil_file, string pattern_file, string timing_file);
-
-    void run();
-
-    void run(string pattern_exec);
+    void generate_headers();
 
     virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
 
@@ -47,12 +42,20 @@ public:
 
     virtual antlrcpp::Any visitW_inst(STILParser::W_instContext* ctx) override;
 
+    virtual antlrcpp::Any visitV_inst(STILParser::V_instContext* ctx) override;
+
     virtual antlrcpp::Any visitCall_inst(STILParser::Call_instContext* ctx) override;
 
     virtual antlrcpp::Any visitMacro_inst(STILParser::Macro_instContext* ctx) override;
 
     virtual antlrcpp::Any visitStop_inst(STILParser::Stop_instContext* ctx) override;
 
+public:
+    STILInterpreter(string stil_file, string pattern_file, string timing_file);
+
+    void run();
+
+    void run(string pattern_exec);
 };
 
 

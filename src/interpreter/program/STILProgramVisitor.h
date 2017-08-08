@@ -21,10 +21,6 @@ private:
 
     STILProgram& program;
 
-public:
-
-    STILProgramVisitor(STILProgram& program) : program(program) {}
-
     virtual antlrcpp::Any visitProgram(STILParser::ProgramContext* ctx) override;
 
     virtual antlrcpp::Any visitSignals(STILParser::SignalsContext* ctx) override;
@@ -65,6 +61,9 @@ public:
 
     virtual antlrcpp::Any visitMacros(STILParser::MacrosContext* ctx) override;
 
+public:
+
+    STILProgramVisitor(STILProgram& program) : program(program) {}
 };
 
 

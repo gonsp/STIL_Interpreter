@@ -13,7 +13,7 @@ using namespace parser;
 
 class STILCustomVisitor : public STILBaseVisitor {
 
-public:
+private:
 
     virtual antlrcpp::Any visitTerminal(tree::TerminalNode* node) override;
 
