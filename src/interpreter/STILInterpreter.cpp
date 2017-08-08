@@ -42,7 +42,7 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
-    signalState = SignalState(program.signals.size());
+    signalState = SignalState(&program);
     visit(program.patternExecs[pattern_exec]);
     cout << "Done" << endl;
 }
@@ -110,7 +110,7 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
 
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
     cout << "Executing loop" << endl;
-    float times = visit(ctx->int_t());
+    int times = visit(ctx->int_t());
     while(times > 0) {
         visit(ctx->inst_list());
         --times;
@@ -132,6 +132,18 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
     signalState.clock_cicle(pattern_stream);
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitC_inst(STILParser::C_instContext* ctx) {
+    // TODO
+    return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
+    // We suposse that the STIL program is correct and we just need to
+    // treat this instruction as a Condition
+    //TODO the same as C_inst
     return NULL;
 }
 

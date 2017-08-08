@@ -7,10 +7,15 @@
 
 #include <string>
 #include <vector>
+#include "program/STILProgram.h"
 
 using namespace std;
 
 class SignalState {
+
+private:
+
+    STILProgram* program;
 
 public:
     vector<char> next_vector;
@@ -18,7 +23,7 @@ public:
 
     SignalState() {}
 
-    SignalState(int size);
+    SignalState(STILProgram* program);
 
     void clock_cicle(ostream& output);
 };

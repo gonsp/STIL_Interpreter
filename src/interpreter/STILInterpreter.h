@@ -44,11 +44,17 @@ private:
 
     virtual antlrcpp::Any visitV_inst(STILParser::V_instContext* ctx) override;
 
+    virtual antlrcpp::Any visitC_inst(STILParser::C_instContext* ctx) override;
+
+    virtual antlrcpp::Any visitF_inst(STILParser::F_instContext* ctx) override;
+
     virtual antlrcpp::Any visitCall_inst(STILParser::Call_instContext* ctx) override;
 
     virtual antlrcpp::Any visitMacro_inst(STILParser::Macro_instContext* ctx) override;
 
     virtual antlrcpp::Any visitStop_inst(STILParser::Stop_instContext* ctx) override;
+
+//    virtual antlrcpp::Any visitAssig(STILParser::AssigContext* ctx) override;
 
 public:
     STILInterpreter(string stil_file, string pattern_file, string timing_file);

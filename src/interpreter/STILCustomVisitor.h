@@ -21,6 +21,8 @@ private:
 
     virtual antlrcpp::Any visitInt_t(STILParser::Int_tContext* ctx) override;
 
+    virtual antlrcpp::Any visitNum(STILParser::NumContext* ctx) override;
+
     virtual antlrcpp::Any visitPeriod(STILParser::PeriodContext* ctx) override;
 
     virtual antlrcpp::Any visitTime_expr(STILParser::Time_exprContext* ctx) override;
@@ -30,6 +32,10 @@ private:
     virtual antlrcpp::Any visitWfc_extended(STILParser::Wfc_extendedContext* ctx) override;
 
     virtual antlrcpp::Any visitContext(STILParser::ContextContext* ctx) override;
+
+    virtual antlrcpp::Any visitAssig_expr(STILParser::Assig_exprContext* ctx) override;
+
+    virtual antlrcpp::Any visitRepeat(STILParser::RepeatContext* ctx) override;
 
 };
 

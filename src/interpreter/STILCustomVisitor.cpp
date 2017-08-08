@@ -18,8 +18,18 @@ antlrcpp::Any STILCustomVisitor::visitFloat_t(STILParser::Float_tContext* ctx) {
 
 antlrcpp::Any STILCustomVisitor::visitInt_t(STILParser::Int_tContext* ctx) {
     string num = visit(ctx->INT());
-    float value = stoi(num);
+    int value = stoi(num);
     return value;
+}
+
+antlrcpp::Any STILCustomVisitor::visitNum(STILParser::NumContext* ctx) {
+    if(ctx->int_t() != NULL) {
+        int num = visit(ctx->int_t());
+        return (float) num;
+    } else {
+        float num = visit(ctx->float_t());
+        return num;
+    }
 }
 
 antlrcpp::Any STILCustomVisitor::visitPeriod(STILParser::PeriodContext* ctx) {
@@ -58,4 +68,19 @@ antlrcpp::Any STILCustomVisitor::visitContext(STILParser::ContextContext* ctx) {
         macros_id = aux;
     }
     return PatternContext(proceds_id, macros_id);
+}
+
+antlrcpp::Any STILCustomVisitor::visitAssig_expr(STILParser::Assig_exprContext* ctx) {
+    string result;
+    return result;
+}
+
+antlrcpp::Any STILCustomVisitor::visitRepeat(STILParser::RepeatContext* ctx) {
+    int times = visit(ctx->int_t());
+    string wfc = visit(ctx->wfc_extended());
+    string result;
+    while(times-- > 0) {
+        result += wfc;
+    }
+    return result;
 }

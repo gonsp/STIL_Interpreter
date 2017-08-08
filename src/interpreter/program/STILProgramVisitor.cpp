@@ -76,6 +76,13 @@ antlrcpp::Any STILProgramVisitor::visitWfc_map(STILParser::Wfc_mapContext* ctx) 
     for(int i = 0; i < ctx->map_rule().size(); ++i) {
         MapRule map_rule = visit(ctx->map_rule(i));
         wfcmaps[map_rule.first] = map_rule.second;
+        if(map_rule.first.size() == 2) {
+            // If the WFC are assigned in the inverted order
+            char aux = map_rule.first[0];
+            map_rule.first[0] = map_rule.first[1];
+            map_rule.first[1] = aux;
+            wfcmaps[map_rule.first] = map_rule.second;
+        }
     }
     return wfcmaps;
 }
