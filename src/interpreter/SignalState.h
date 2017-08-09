@@ -28,9 +28,9 @@ public:
 
     SignalState(STILProgram* program);
 
-    void clock_cycle(ostream& output);
-
     void execute_assigs(list<Assig> assigs);
+
+    void clock_cycle(ostream& output);
 };
 
 
