@@ -33,6 +33,8 @@ private:
 
     virtual antlrcpp::Any visitContext(STILParser::ContextContext* ctx) override;
 
+    virtual antlrcpp::Any visitAssigs(STILParser::AssigsContext* ctx) override;
+
     virtual antlrcpp::Any visitAssig_expr(STILParser::Assig_exprContext* ctx) override;
 
     virtual antlrcpp::Any visitRepeat(STILParser::RepeatContext* ctx) override;

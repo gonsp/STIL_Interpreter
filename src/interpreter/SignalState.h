@@ -18,6 +18,9 @@ private:
     STILProgram* program;
 
 public:
+
+    typedef pair<string, string> Assig;
+
     Signals next_vector;
     string waveform_table;
 
@@ -25,7 +28,9 @@ public:
 
     SignalState(STILProgram* program);
 
-    void clock_cicle(ostream& output);
+    void clock_cycle(ostream& output);
+
+    void execute_assigs(list<Assig> assigs);
 };
 
 

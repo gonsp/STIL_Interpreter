@@ -5,6 +5,7 @@
 #include "STILCustomVisitor.h"
 #include "program/definitions/PatternContext.h"
 #include "program/STILProgram.h"
+#include "SignalState.h"
 
 antlrcpp::Any STILCustomVisitor::visitTerminal(tree::TerminalNode* node) {
     return node->getText();
@@ -70,9 +71,25 @@ antlrcpp::Any STILCustomVisitor::visitContext(STILParser::ContextContext* ctx) {
     return PatternContext(proceds_id, macros_id);
 }
 
+antlrcpp::Any STILCustomVisitor::visitAssigs(STILParser::AssigsContext* ctx) {
+    list<SignalState::Assig> assigs;
+    for(int i = 0; i < ctx->assig().size(); ++i) {
+        string signal_group_id = visit(ctx->assig(i)->id());
+        string value = visit(ctx->assig(i)->assig_expr());
+        assigs.push_back(SignalState::Assig(signal_group_id, value));
+    }
+    return assigs;
+}
+
 antlrcpp::Any STILCustomVisitor::visitAssig_expr(STILParser::Assig_exprContext* ctx) {
-    string result;
-    return result;
+    string value;
+    for(int i = 0; i < ctx->children.size(); ++i) {
+        if(i != 0 || ctx->JOIN() == NULL) { // Ignoring the \j token
+            string seq = visit(ctx->children[i]);
+            value += seq;
+        }
+    }
+    return value;
 }
 
 antlrcpp::Any STILCustomVisitor::visitRepeat(STILParser::RepeatContext* ctx) {

@@ -131,19 +131,23 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
-    signalState.clock_cicle(pattern_stream);
+    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    signalState.execute_assigs(assigs);
+    signalState.clock_cycle(pattern_stream);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitC_inst(STILParser::C_instContext* ctx) {
-    // TODO
+    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    signalState.execute_assigs(assigs);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
     // We suposse that the STIL program is correct and we just need to
     // treat this instruction as a Condition
-    //TODO the same as C_inst
+    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    signalState.execute_assigs(assigs);
     return NULL;
 }
 

@@ -128,7 +128,7 @@ num         : int_t | float_t;
 int_t       : INT;
 float_t     : FLOAT;
 wfc         : (CHARS | INT)+;
-wfc_extended: (CHARS | INT | '#' | '%')+;
+wfc_extended: (CHARS | INT | '#' | '%');
 event_code  : CHARS;
 
 ///////////////////////////////////////////////////////////////////////
