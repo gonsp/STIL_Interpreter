@@ -4,7 +4,7 @@ grammar STIL;
 // RULES
 ///////////////////////////////////////////////////////////////////////
 
-program : format? header? signals signal_groups timing_l scan_structures_l
+program : format? header? signals signal_groups timing scan_structures_l
           pattern_burst_l pattern_exec_l procedures_l macros_l pattern_l EOF;
 
 ///////////////////////////////////////////////////////////////////////
@@ -38,8 +38,7 @@ signal_list     : id (SUM id)*;
 
 ///////////////////////////////////////////////////////////////////////
 
-timing_l         : timing+;
-timing          : 'Timing' id? L_BRACKET waveform_table* R_BRACKET;
+timing          : 'Timing' L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' id L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
 waveforms       : 'Waveforms' L_BRACKET waveform* R_BRACKET;

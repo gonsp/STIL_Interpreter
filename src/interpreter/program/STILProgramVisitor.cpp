@@ -8,7 +8,7 @@
 antlrcpp::Any STILProgramVisitor::visitProgram(STILParser::ProgramContext* ctx) {
     visit(ctx->signals());
     visit(ctx->signal_groups());
-    visit(ctx->timing_l());
+    visit(ctx->timing());
     visit(ctx->pattern_burst_l());
     visit(ctx->pattern_exec_l());
     visit(ctx->pattern_burst_l());
@@ -94,15 +94,8 @@ antlrcpp::Any STILProgramVisitor::visitMap_rule(STILParser::Map_ruleContext* ctx
 }
 
 antlrcpp::Any STILProgramVisitor::visitTiming(STILParser::TimingContext* ctx) {
-    string id = GLOBAL_DEF;
-    if(ctx->id() != NULL) {
-        string aux = visit(ctx->id()); // This needs declaration & definition at the same time
-        id = aux;
-    }
-    program.timings[id] = Timing(id);
     for(int i = 0; i < ctx->waveform_table().size(); ++i) {
-        WaveFormTable table = visit(ctx->waveform_table(i));
-        program.timings[id].waveFormTables[table.id] = table;
+        visit(ctx->waveform_table(i));
     }
     return NULL;
 }
@@ -111,8 +104,8 @@ antlrcpp::Any STILProgramVisitor::visitWaveform_table(STILParser::Waveform_table
     string id = visit(ctx->id());
     float period = visit(ctx->period());
     WaveForms waveforms = visit(ctx->waveforms());
-    WaveFormTable table(id, period, waveforms);
-    return table;
+    program.waveFormTables[id] = WaveFormTable(id, period, waveforms);
+    return NULL;
 }
 
 antlrcpp::Any STILProgramVisitor::visitWaveforms(STILParser::WaveformsContext* ctx) {

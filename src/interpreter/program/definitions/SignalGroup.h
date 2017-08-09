@@ -28,6 +28,8 @@ public:
 
     SignalGroup(const Signal& signal);
 
+    bool contains(string signal_id);
+
 };
 
 
