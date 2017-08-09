@@ -22,7 +22,7 @@ public:
     typedef pair<string, string> Assig;
 
     Signals next_vector;
-    string waveform_table;
+    Identifiable waveform_table;
 
     SignalState() {}
 

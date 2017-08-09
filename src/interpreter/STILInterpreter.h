@@ -28,6 +28,8 @@ private:
     ContextStack contextStack;
     SignalState signalState;
 
+    bool is_iddq = false;
+
     void generate_headers();
 
     virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
@@ -53,6 +55,8 @@ private:
     virtual antlrcpp::Any visitMacro_inst(STILParser::Macro_instContext* ctx) override;
 
     virtual antlrcpp::Any visitStop_inst(STILParser::Stop_instContext* ctx) override;
+
+    virtual antlrcpp::Any visitIddq_inst(STILParser::Iddq_instContext* ctx) override;
 
 //    virtual antlrcpp::Any visitAssig(STILParser::AssigContext* ctx) override;
 

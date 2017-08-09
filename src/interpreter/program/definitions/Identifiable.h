@@ -22,6 +22,11 @@ public:
         id = string("_unitialized_");
     }
 
+    string id_no_quotes() {
+        string id = this->id;
+        return id.erase(0, 1).erase(id.size()-1, 1);
+    }
+
 };
 
 

@@ -34,13 +34,13 @@ void SignalState::execute_assigs(list<Assig> assigs) {
 }
 
 void SignalState::clock_cycle(ostream& output) {
-    output << " > " << waveform_table << " ";
+    output << " > " << "t" << waveform_table.id_no_quotes() << " ";
     for(auto it_signal = next_vector.begin(); it_signal != next_vector.end(); ++it_signal) {
 
         char wfc = it_signal->second.value;
         assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
 
-        WaveForms& waveForms = program->waveFormTables[waveform_table].waveforms;
+        WaveForms& waveForms = program->waveFormTables[waveform_table.id].waveforms;
 
         bool found = false;
         WaveForm::WaveFormEvent event;

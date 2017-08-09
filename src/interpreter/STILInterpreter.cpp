@@ -49,10 +49,17 @@ void STILInterpreter::run(string pattern_exec) {
 
 void STILInterpreter::generate_headers() {
     pattern_stream << "opcode_mode=extended;" << endl;
-    pattern_stream << "import tset t_default_WFT_,t_multiclock_capture_WFT_;" << endl;
-    pattern_stream << "vector(";
+    pattern_stream << "import tset ";
+    for(auto it = program.waveFormTables.begin(); it != program.waveFormTables.end(); ++it) {
+        if(it != program.waveFormTables.begin()) {
+            pattern_stream << ",";
+        }
+        pattern_stream << "t" << it->second.id_no_quotes();
+    }
+    pattern_stream << ";" << endl;
+    pattern_stream << "vector($tset";
     for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
-        pattern_stream << it->second.id << " ";
+        pattern_stream << "," << it->second.id_no_quotes();
     }
     pattern_stream << ")" << endl;
 };
@@ -65,12 +72,14 @@ antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext
         visit(ctx->pattern_burst_call(i));
         assert(contextStack.size() == 1); // Needs to remain just the base context
     }
-    pattern_stream << "subr iddq: set_cpu(cpuA)\n"
-            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
-            "wait_iddq: if (cpuA) jump wait_iddq\n"
-            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
-            "return\n"
-            "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;" << endl;
+    if(is_iddq) {
+        pattern_stream << "subr iddq: set_cpu(cpuA)\n"
+                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
+                "wait_iddq: if (cpuA) jump wait_iddq\n"
+                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
+                "return\n"
+                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;" << endl;
+    }
     pattern_stream << "}" << endl;
     return NULL;
 }
@@ -177,4 +186,8 @@ antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx)
     cout << "Stopping test" << endl;
     exit(1);
     return NULL;
+}
+
+antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
+    is_iddq = true;
 }
