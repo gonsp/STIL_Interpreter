@@ -9,7 +9,7 @@
 #include "Identifiable.h"
 #include "WaveForm.h"
 
-typedef unordered_map<string, WaveForm> WaveForms;
+typedef vector<WaveForm> WaveForms;
 
 class WaveFormTable : public Identifiable {
 

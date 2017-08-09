@@ -36,20 +36,24 @@ void SignalState::execute_assigs(list<Assig> assigs) {
 void SignalState::clock_cycle(ostream& output) {
     output << " > " << waveform_table << " ";
     for(auto it_signal = next_vector.begin(); it_signal != next_vector.end(); ++it_signal) {
+
         char wfc = it_signal->second.value;
+        assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
 
         WaveForms& waveForms = program->waveFormTables[waveform_table].waveforms;
 
+        bool found = false;
         WaveForm::WaveFormEvent event;
-
-        for(auto it_waveform = waveForms.begin(); it_waveform != waveForms.end(); ++it_waveform) {
-            if(program->signalGroups[it_waveform->second.id].contains(it_signal->second.id)) {
-                if(wfc == it_waveform->second.wfc) {
-                    event = it_waveform->second.events[0];
+        for(int i = 0; i < waveForms.size(); ++i) {
+            if(program->signalGroups[waveForms[i].id].contains(it_signal->second.id)) {
+                if(wfc == waveForms[i].wfc) {
+                    found = true;
+                    event = waveForms[i].events[0];
                     break;
                 }
             }
         }
+        assert(found);
         output << event.event << " ";
     }
     output << ";" << endl;

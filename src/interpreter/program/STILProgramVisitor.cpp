@@ -112,7 +112,7 @@ antlrcpp::Any STILProgramVisitor::visitWaveforms(STILParser::WaveformsContext* c
     WaveForms waveforms;
     for(int i = 0; i < ctx->waveform().size(); ++i) {
         WaveForm waveform = visit(ctx->waveform(i));
-        waveforms[waveform.id] = waveform;
+        waveforms.push_back(waveform);
     }
     return waveforms;
 }
