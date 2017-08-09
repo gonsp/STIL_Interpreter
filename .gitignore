@@ -39,6 +39,7 @@ antlr4cpp
 cmake_install.cmake
 Makefile
 src/parser/*
+src/interpreter/program/definitions/DefaultConfig.h
 stil_inter
 
 # IDE
