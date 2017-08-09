@@ -7,7 +7,7 @@
 #include "program/STILProgramVisitor.h"
 #include "SignalState.h"
 
-STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file) {
+STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig config) : program(config) {
     stil_input.open(stil_file);
     pattern_stream.open(pattern_file);
     timing_stream.open(timing_file);

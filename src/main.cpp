@@ -2,6 +2,7 @@
 #include <STILBaseVisitor.h>
 
 #include "interpreter/STILInterpreter.h"
+#include "interpreter/program/definitions/STILConfig.h"
 
 using namespace parser;
 using namespace antlr4;
@@ -17,9 +18,9 @@ string get_file_name(string file) {
 
 int main(int num_args, char* args[]) {
 
-    if(num_args != 2 && num_args != 3) {
+    if(num_args < 2 || num_args > 6 || num_args % 2 == 1) {
         cerr << "Incorrect number of parameters." << endl;
-        cout << "Usage: stil_converter input_file.stil [pattern_exec_name]" << endl;
+        cout << "Usage: stil_converter input_file.stil [-c config_file.config] [-p pattern_exec_name]" << endl;
         cout << "Output: $input_file.atp $input_file.txt" << endl;
         exit(1);
     }
@@ -27,12 +28,25 @@ int main(int num_args, char* args[]) {
     string path = string(args[1]);
     path = get_file_name(path);
 
-    STILInterpreter interpreter(args[1], path + ".atp", path + ".txt");
+    STILConfig config;
+    string pattern_exec;
 
-    if(num_args == 2) {
+    for(int i = 2; i < num_args; ++i) {
+        string arg(args[i]);
+        if(arg == "-c") {
+            config = STILConfig(args[i+1]);
+            ++i;
+        } else if(arg == "-p") {
+            pattern_exec = args[i+1];
+            ++i;
+        }
+    }
+
+    STILInterpreter interpreter(args[1], path + ".atp", path + ".txt", config);
+
+    if(pattern_exec == "") {
         interpreter.run();
     } else {
-        string pattern_exec(args[2]);
         interpreter.run("\"" + pattern_exec + "\"");
     }
 

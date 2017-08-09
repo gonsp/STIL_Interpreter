@@ -11,6 +11,8 @@
 #include "program/STILProgram.h"
 #include "STILCustomVisitor.h"
 #include "SignalState.h"
+#include "program/definitions/STILConfig.h"
+#include <fstream>
 
 using namespace std;
 using namespace antlr4;
@@ -61,7 +63,7 @@ private:
 //    virtual antlrcpp::Any visitAssig(STILParser::AssigContext* ctx) override;
 
 public:
-    STILInterpreter(string stil_file, string pattern_file, string timing_file);
+    STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig config);
 
     void run();
 

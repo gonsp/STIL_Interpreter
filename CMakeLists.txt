@@ -11,6 +11,21 @@ include(Antlr4Cpp)
 set(PARSER_NAMESPACE parser)
 antlr4cpp_process_grammar(generate_parser ${PARSER_NAMESPACE} STIL ${PROJECT_SOURCE_DIR}/grammar/STIL.g)
 
+# Default config
+add_custom_command(
+        OUTPUT
+        ${PROJECT_SOURCE_DIR}/src/interpreter/program/definitions/DefaultConfig.h
+        COMMAND
+        xxd -i grammar/stil.config src/interpreter/program/definitions/DefaultConfig.h
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        DEPENDS ${PROJECT_SOURCE_DIR}/grammar/stil.config
+)
+
+add_custom_target(
+        generate_default_config
+        DEPENDS ${PROJECT_SOURCE_DIR}/src/interpreter/program/definitions/DefaultConfig.h
+)
+
 # Compiler settings
 set(CMAKE_CXX_STANDARD 11)
 SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
@@ -18,7 +33,7 @@ SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
 # Source files
 set(SOURCE_FILES
         src/main.cpp
-        ${antlr4cpp_src_files_${PARSER_NAMESPACE}} src/interpreter/program/STILProgramVisitor.cpp src/interpreter/program/STILProgramVisitor.h src/interpreter/program/STILProgram.h src/interpreter/program/definitions/Signal.cpp src/interpreter/program/definitions/Signal.h src/interpreter/STILInterpreter.cpp src/interpreter/STILInterpreter.h src/interpreter/program/definitions/PatternBurst.cpp src/interpreter/program/definitions/PatternBurst.h src/interpreter/program/definitions/PatternContext.cpp src/interpreter/program/definitions/PatternContext.h src/interpreter/program/definitions/SignalGroup.cpp src/interpreter/program/definitions/SignalGroup.h src/interpreter/program/definitions/Identifiable.h src/interpreter/program/definitions/WaveFormTable.cpp src/interpreter/program/definitions/WaveFormTable.h src/interpreter/STILCustomVisitor.cpp src/interpreter/STILCustomVisitor.h src/interpreter/program/definitions/WaveForm.cpp src/interpreter/program/definitions/WaveForm.h src/interpreter/SignalState.cpp src/interpreter/SignalState.h)
+        ${antlr4cpp_src_files_${PARSER_NAMESPACE}} src/interpreter/program/STILProgramVisitor.cpp src/interpreter/program/STILProgramVisitor.h src/interpreter/program/STILProgram.h src/interpreter/program/definitions/Signal.cpp src/interpreter/program/definitions/Signal.h src/interpreter/STILInterpreter.cpp src/interpreter/STILInterpreter.h src/interpreter/program/definitions/PatternBurst.cpp src/interpreter/program/definitions/PatternBurst.h src/interpreter/program/definitions/PatternContext.cpp src/interpreter/program/definitions/PatternContext.h src/interpreter/program/definitions/SignalGroup.cpp src/interpreter/program/definitions/SignalGroup.h src/interpreter/program/definitions/Identifiable.h src/interpreter/program/definitions/WaveFormTable.cpp src/interpreter/program/definitions/WaveFormTable.h src/interpreter/STILCustomVisitor.cpp src/interpreter/STILCustomVisitor.h src/interpreter/program/definitions/WaveForm.cpp src/interpreter/program/definitions/WaveForm.h src/interpreter/SignalState.cpp src/interpreter/SignalState.h src/interpreter/program/definitions/STILConfig.cpp src/interpreter/program/definitions/STILConfig.h)
 include_directories(
         ${ANTLR4CPP_INCLUDE_DIRS}
         ${antlr4cpp_include_dirs_${PARSER_NAMESPACE}})
@@ -28,7 +43,7 @@ link_directories(
 # Target
 add_executable(stil_inter ${SOURCE_FILES})
 #add_dependencies(stil_inter generate_parser antlr4cpp)
-add_dependencies(stil_inter generate_parser)
+add_dependencies(stil_inter generate_parser generate_default_config)
 target_link_libraries(stil_inter ${antlr4_static})
 
 # Install stil_inter
