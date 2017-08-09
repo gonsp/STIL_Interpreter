@@ -96,8 +96,8 @@ pattern     : 'Pattern' id L_BRACKET inst_list R_BRACKET;
 ///////////////////////////////////////////////////////////////////////
 
 inst_list   : inst*;
-inst        : label? (loop | shift | w_inst | c_inst | f_inst | v_inst | call_inst
-            | macro_inst | stop_inst | scan_inst | iddq_inst);
+inst        : label? (loop | shift | w_inst | c_inst | f_inst | v_inst
+            | call_inst | macro_inst | stop_inst | iddq_inst);
 label       : id ':';
 loop        : 'Loop' int_t L_BRACKET inst_list R_BRACKET;
 shift       : 'Shift' L_BRACKET inst_list R_BRACKET;
@@ -108,7 +108,6 @@ v_inst      : 'V' L_BRACKET assigs R_BRACKET;
 call_inst   : 'Call' id (L_BRACKET assigs R_BRACKET)?;
 macro_inst  : 'Macro' id (L_BRACKET assigs R_BRACKET)?;
 stop_inst   : 'Stop';
-scan_inst   : 'ScanChain' id;
 iddq_inst   : 'IddqTestPoint';
 
 assigs      : assig*;

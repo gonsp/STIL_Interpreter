@@ -13,6 +13,7 @@
 #include "definitions/SignalGroup.h"
 #include "definitions/PatternBurst.h"
 #include "definitions/WaveFormTable.h"
+#include "definitions/STILConfig.h"
 
 using namespace std;
 using namespace antlr4;
@@ -43,6 +44,12 @@ public:
     Signals signals;
     SignalGroups signalGroups;
     WaveFormTables waveFormTables;
+
+    STILConfig config;
+
+    STILProgram(STILConfig config) {
+        this->config = config;
+    }
 };
 
 

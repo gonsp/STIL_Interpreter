@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Identifiable.h"
+#include <iostream>
 
 using namespace std;
 
@@ -23,12 +24,24 @@ public:
 
         float time;
         Event event;
+        char event_code;
 
         WaveFormEvent() {}
 
-        WaveFormEvent(float time, Event event) {
+        WaveFormEvent(float time, char event_code) {
             this->time = time;
-            this->event = event;
+            this->event_code = event_code;
+            switch(event_code) {
+                case 'D': event = ForceDown; break;
+                case 'U': event = ForceUp; break;
+                case 'Z': event = ForceOff; break;
+                case 'L': event = CompareLow; break;
+                case 'H': event = CompareHigh; break;
+                case 'X': event = CompareUnknown; break;
+                case 'T': event = CompareOff; break;
+                case 'N': event = ForceUnknown; break;
+                default: cerr << "Unrecognized event: " << event_code << endl; exit(1);
+            }
         }
     };
 
@@ -38,6 +51,8 @@ public:
     WaveForm() : Identifiable() {}
 
     WaveForm(string id, char wfc, vector<WaveFormEvent>& events);
+
+    string event_seq();
 
 };
 

@@ -43,18 +43,24 @@ void SignalState::clock_cycle(ostream& output) {
         WaveForms& waveForms = program->waveFormTables[waveform_table.id].waveforms;
 
         bool found = false;
-        WaveForm::WaveFormEvent event;
-        for(int i = 0; i < waveForms.size(); ++i) {
-            if(program->signalGroups[waveForms[i].id].contains(it_signal->second.id)) {
-                if(wfc == waveForms[i].wfc) {
+        int waveform = 0;
+        while(waveform < waveForms.size() && !found) {
+            if(program->signalGroups[waveForms[waveform].id].contains(it_signal->second.id)) {
+                if(wfc == waveForms[waveform].wfc) {
                     found = true;
-                    event = waveForms[i].events[0];
-                    break;
                 }
             }
+            ++waveform;
         }
         assert(found);
-        output << event.event << " ";
+        string event_seq = waveForms[waveform].event_seq();
+        char tester_event = program->config.eventsMap[event_seq];
+        if(tester_event == '\0') {
+            cerr << "Event sequence \"" << event_seq << "\" for waveform " << waveForms[waveform].id << " in WaveFormTable: " << waveform_table.id << " not defined in config file" << endl;
+            cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
+            exit(1);
+        }
+        output << tester_event << " ";
     }
     output << ";" << endl;
 }
