@@ -53,6 +53,10 @@ antlrcpp::Any STILCustomVisitor::visitWfc(STILParser::WfcContext* ctx) {
     return ctx->getText();
 }
 
+antlrcpp::Any STILCustomVisitor::visitWfc_seq(STILParser::Wfc_seqContext* ctx) {
+    return ctx->getText();
+}
+
 antlrcpp::Any STILCustomVisitor::visitWfc_extended(STILParser::Wfc_extendedContext* ctx) {
     return ctx->getText();
 }

@@ -28,7 +28,7 @@ signal_dir          : 'In' | 'Out' | 'InOut';
 signal_attributes   : L_BRACKET signal_scan? wfc_map? R_BRACKET;
 signal_scan         : 'ScanIn' | 'ScanOut';
 wfc_map            : 'WFCMap' L_BRACKET map_rule* R_BRACKET;
-map_rule            : wfc '->' wfc;
+map_rule            : wfc_seq '->' wfc;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -126,7 +126,8 @@ id          : STRING;
 num         : int_t | float_t;
 int_t       : INT;
 float_t     : FLOAT;
-wfc         : (CHARS | INT)+;
+wfc         : (CHARS | INT);
+wfc_seq     : (CHARS | INT)+;
 wfc_extended: (CHARS | INT | '#' | '%');
 event_code  : CHARS;
 

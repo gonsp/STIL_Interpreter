@@ -23,9 +23,11 @@ void STILState::execute_assigs(list<Assig> assigs) {
             } else {
                 char wfc1 = assig_result[signals[i]].value;
                 char wfc2 = it->second[i];
-                string from = {wfc1, wfc2};
-                assert(signalGroup.wfcmaps[from] != ' ');
-                assig_result[signals[i]].value = signalGroup.wfcmaps[from];
+                if(wfc1 != wfc2) {
+                    string from = {wfc1, wfc2};
+                    assert(signalGroup.wfcmaps[from] != ' ');
+                    assig_result[signals[i]].value = signalGroup.wfcmaps[from];
+                }
             }
         }
     }

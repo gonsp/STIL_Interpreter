@@ -29,6 +29,8 @@ private:
 
     virtual antlrcpp::Any visitWfc(STILParser::WfcContext* ctx) override;
 
+    virtual antlrcpp::Any visitWfc_seq(STILParser::Wfc_seqContext* ctx) override;
+
     virtual antlrcpp::Any visitWfc_extended(STILParser::Wfc_extendedContext* ctx) override;
 
     virtual antlrcpp::Any visitContext(STILParser::ContextContext* ctx) override;
