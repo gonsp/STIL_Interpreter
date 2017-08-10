@@ -29,7 +29,7 @@ typedef unordered_map<string, STILParser::Inst_listContext*> Procedures;
 typedef unordered_map<string, STILParser::Inst_listContext*> Macros;
 typedef unordered_map<string, Procedures> ProceduresContexts;
 typedef unordered_map<string, Macros> MacrosContexts;
-typedef unordered_map<string, Signal> Signals;
+typedef map<string, Signal> Signals;
 typedef unordered_map<string, SignalGroup> SignalGroups;
 typedef unordered_map<string, WaveFormTable> WaveFormTables;
 

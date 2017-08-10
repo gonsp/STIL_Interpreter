@@ -90,8 +90,8 @@ antlrcpp::Any STILProgramVisitor::visitWfc_map(STILParser::Wfc_mapContext* ctx) 
 antlrcpp::Any STILProgramVisitor::visitMap_rule(STILParser::Map_ruleContext* ctx) {
     string from = visit(ctx->wfc_seq());
     string to = visit(ctx->wfc());
-    cerr << from.size() << endl;
     assert(from.size() == 2 && from[0] != from[1]);
+    assert(to.size() == 1);
     return MapRule(from, to[0]);
 }
 
