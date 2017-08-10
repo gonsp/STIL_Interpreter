@@ -5,7 +5,7 @@
 #include <ANTLRInputStream.h>
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
-#include "SignalState.h"
+#include "STILState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig config) : program(config) {
     stil_input.open(stil_file);
@@ -42,7 +42,7 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
-    signalState = SignalState(&program);
+    signalState = STILState(&program);
     visit(program.patternExecs[pattern_exec]);
     cout << "Done" << endl;
 }
@@ -140,14 +140,14 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
-    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    list<STILState::Assig> assigs = visit(ctx->assigs());
     signalState.execute_assigs(assigs);
     signalState.clock_cycle(pattern_stream);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitC_inst(STILParser::C_instContext* ctx) {
-    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    list<STILState::Assig> assigs = visit(ctx->assigs());
     signalState.execute_assigs(assigs);
     return NULL;
 }
@@ -155,7 +155,7 @@ antlrcpp::Any STILInterpreter::visitC_inst(STILParser::C_instContext* ctx) {
 antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
     // We suposse that the STIL program is correct and we just need to
     // treat this instruction as a Condition
-    list<SignalState::Assig> assigs = visit(ctx->assigs());
+    list<STILState::Assig> assigs = visit(ctx->assigs());
     signalState.execute_assigs(assigs);
     return NULL;
 }
@@ -163,10 +163,17 @@ antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
 
     cout << "Saving previous state" << endl;
-    SignalState prev_signalState = signalState;
+    STILState prev_signalState = signalState;
 
     string id = visit(ctx->id());
     cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
+
+    if(ctx->assigs() != NULL) {
+        list<STILState::Assig> assigs = visit(ctx->assigs());
+        signalState.set_params(assigs);
+    } else {
+        signalState.clear_params();
+    }
 
     visit(program.procedures[contextStack.top().proceds_id][id]);
 
@@ -178,7 +185,17 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
 antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
     string id = visit(ctx->id());
     cout << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
+
+    if(ctx->assigs() != NULL) {
+        list<STILState::Assig> assigs = visit(ctx->assigs());
+        signalState.set_params(assigs);
+    } else {
+        signalState.clear_params();
+    }
+
     visit(program.macros[contextStack.top().macros_id][id]);
+
+    cout << "Macro executed" << endl;
     return NULL;
 }
 

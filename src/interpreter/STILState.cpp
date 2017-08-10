@@ -2,16 +2,16 @@
 // Created by Gonzalo Solera on 08/08/2017.
 //
 
-#include "SignalState.h"
+#include "STILState.h"
 
 using namespace std;
 
-SignalState::SignalState(STILProgram* program) {
+STILState::STILState(STILProgram* program) {
     this->program = program;
     next_vector = program->signals;
 }
 
-void SignalState::execute_assigs(list<Assig> assigs) {
+void STILState::execute_assigs(list<Assig> assigs) {
     Signals assig_result;
     for(auto it = assigs.begin(); it != assigs.end(); ++it) {
         cout << it->first << " = " << it->second << endl;
@@ -24,6 +24,7 @@ void SignalState::execute_assigs(list<Assig> assigs) {
                 char wfc1 = assig_result[signals[i]].value;
                 char wfc2 = it->second[i];
                 string from = {wfc1, wfc2};
+                assert(signalGroup.wfcmaps[from] != ' ');
                 assig_result[signals[i]].value = signalGroup.wfcmaps[from];
             }
         }
@@ -33,7 +34,7 @@ void SignalState::execute_assigs(list<Assig> assigs) {
     }
 }
 
-void SignalState::clock_cycle(ostream& output) {
+void STILState::clock_cycle(ostream& output) {
     output << " > " << "t" << waveform_table.id_no_quotes() << " ";
     for(auto it_signal = next_vector.begin(); it_signal != next_vector.end(); ++it_signal) {
 
@@ -64,3 +65,12 @@ void SignalState::clock_cycle(ostream& output) {
     }
     output << ";" << endl;
 }
+
+void STILState::set_params(list<STILState::Assig> params) {
+
+}
+
+void STILState::clear_params() {
+
+}
+

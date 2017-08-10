@@ -11,11 +11,12 @@
 
 using namespace std;
 
-class SignalState {
+class STILState {
 
 private:
 
     STILProgram* program;
+
 
 public:
 
@@ -24,9 +25,13 @@ public:
     Signals next_vector;
     Identifiable waveform_table;
 
-    SignalState() {}
+    STILState() {}
 
-    SignalState(STILProgram* program);
+    STILState(STILProgram* program);
+
+    void set_params(list<Assig> params);
+
+    void clear_params();
 
     void execute_assigs(list<Assig> assigs);
 

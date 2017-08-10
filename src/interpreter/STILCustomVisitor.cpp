@@ -5,7 +5,7 @@
 #include "STILCustomVisitor.h"
 #include "program/definitions/PatternContext.h"
 #include "program/STILProgram.h"
-#include "SignalState.h"
+#include "STILState.h"
 
 antlrcpp::Any STILCustomVisitor::visitTerminal(tree::TerminalNode* node) {
     return node->getText();
@@ -72,11 +72,11 @@ antlrcpp::Any STILCustomVisitor::visitContext(STILParser::ContextContext* ctx) {
 }
 
 antlrcpp::Any STILCustomVisitor::visitAssigs(STILParser::AssigsContext* ctx) {
-    list<SignalState::Assig> assigs;
+    list<STILState::Assig> assigs;
     for(int i = 0; i < ctx->assig().size(); ++i) {
         string signal_group_id = visit(ctx->assig(i)->id());
         string value = visit(ctx->assig(i)->assig_expr());
-        assigs.push_back(SignalState::Assig(signal_group_id, value));
+        assigs.push_back(STILState::Assig(signal_group_id, value));
     }
     return assigs;
 }

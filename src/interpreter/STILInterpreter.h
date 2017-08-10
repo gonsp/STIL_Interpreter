@@ -10,7 +10,7 @@
 #include <STILParser.h>
 #include "program/STILProgram.h"
 #include "STILCustomVisitor.h"
-#include "SignalState.h"
+#include "STILState.h"
 #include "program/definitions/STILConfig.h"
 #include <fstream>
 
@@ -28,7 +28,7 @@ private:
     ofstream timing_stream;
 
     ContextStack contextStack;
-    SignalState signalState;
+    STILState signalState;
 
     bool is_iddq = false;
 
