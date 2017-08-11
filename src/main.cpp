@@ -25,6 +25,8 @@ int main(int num_args, char* args[]) {
         exit(1);
     }
 
+    cout << "--------------------------------------" << endl;
+
     string path = string(args[1]);
     path = get_file_name(path);
 

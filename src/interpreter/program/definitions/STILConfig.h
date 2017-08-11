@@ -13,11 +13,15 @@ class STILConfig {
 
 private:
     void parse_input(istream& input);
+    void check_word(istream& input, string& s, string value);
 
 public:
     typedef unordered_map <string, char> EventsMap;
+    typedef unordered_map <string, string> NamesMap;
 
     EventsMap eventsMap;
+    NamesMap namesMap;
+    bool removeBrackets = false;
 
     STILConfig();
 

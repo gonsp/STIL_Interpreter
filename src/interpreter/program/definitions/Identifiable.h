@@ -6,6 +6,8 @@
 #define STIL_INTERPRETER_IDENTIFIABLE_H
 
 #include <string>
+#include "STILConfig.h"
+#include <iostream>
 
 using namespace std;
 
@@ -22,9 +24,30 @@ public:
         id = string("_unitialized_");
     }
 
-    string id_no_quotes() {
+    string format(STILConfig& config) {
         string id = this->id;
-        return id.erase(0, 1).erase(id.size()-1, 1);
+
+        if(config.namesMap.find(id) != config.namesMap.end()) {
+            cout << "Rule for name found" << endl;
+            return config.namesMap[id];
+        }
+
+        id = id.erase(0, 1).erase(id.size()-1, 1);
+
+        if(config.removeBrackets) {
+            for(int i = 0; i < id.size(); ++i) {
+                if(id[i] == '[') {
+                    for(int j = i+1; j < id.size(); ++j) {
+                        if(id[j] == ']') {
+                            string name = id.substr(0, i);
+                            string index = id.substr(i+1, j-i-1);
+                            return name + "_" + index;
+                        }
+                    }
+                }
+            }
+        }
+        return id;
     }
 
 };

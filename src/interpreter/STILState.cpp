@@ -12,10 +12,8 @@ STILState::STILState(STILProgram* program) {
 }
 
 void STILState::execute_assigs(list<Assig> assigs) {
-    cout << "---------------Last value of XTALO: " << next_vector["\"XTALO\""].value << endl;
     Signals assig_result;
     for(auto it = assigs.begin(); it != assigs.end(); ++it) {
-        cout << it->first << " = " << it->second << endl;
         SignalGroup& signalGroup = program->signalGroups[it->first];
         vector<string>& signals = signalGroup.signals;
         for(int i = 0; i < signals.size(); ++i) {
@@ -35,13 +33,18 @@ void STILState::execute_assigs(list<Assig> assigs) {
     for(auto it = assig_result.begin(); it != assig_result.end(); ++it) {
         next_vector[it->first].value = it->second.value;
     }
-    cout << "---------------Post value of XTALO: " << next_vector["\"XTALO\""].value << endl;
 }
 
 void STILState::clock_cycle(ostream& output) {
-    output << " > " << "t" << waveform_table.id_no_quotes() << " ";
+    output << " > " << "t" << waveform_table.format(program->config) << " ";
     for(auto it_signal = next_vector.begin(); it_signal != next_vector.end(); ++it_signal) {
-        cerr << it_signal->second.id << endl;
+
+        // This is in case that a signal has been removed in the config file.
+        // If it's removed, we don't print its value
+        if(it_signal->second.format(program->config) == "") {
+            continue;
+        }
+
         char wfc = it_signal->second.value;
         assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
 

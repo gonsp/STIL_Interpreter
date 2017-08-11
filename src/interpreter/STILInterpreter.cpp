@@ -54,12 +54,15 @@ void STILInterpreter::generate_headers() {
         if(it != program.waveFormTables.begin()) {
             pattern_stream << ",";
         }
-        pattern_stream << "t" << it->second.id_no_quotes();
+        pattern_stream << "t" << it->second.format(program.config);
     }
     pattern_stream << ";" << endl;
     pattern_stream << "vector($tset";
     for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
-        pattern_stream << "," << it->second.id_no_quotes();
+        string formated_id = it->second.format(program.config);
+        if(formated_id != "") {
+            pattern_stream << "," << formated_id;
+        }
     }
     pattern_stream << ")" << endl;
 };
