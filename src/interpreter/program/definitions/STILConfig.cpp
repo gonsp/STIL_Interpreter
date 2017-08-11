@@ -5,56 +5,98 @@
 #include "STILConfig.h"
 #include <fstream>
 #include <iostream>
-#include <assert.h>
 #include <sstream>
 #include "DefaultConfig.h"
+
+class STILConfig::LineNumberStreambuf : public std::streambuf {
+
+private:
+    std::streambuf* mySource;
+    std::istream* myOwner;
+    bool myIsAtStartOfLine;
+    char myBuffer;
+
+protected:
+    int underflow() {
+        int ch = mySource->sbumpc();
+        if(ch != EOF) {
+            myBuffer = ch;
+            setg(&myBuffer, &myBuffer, &myBuffer + 1);
+            if(myIsAtStartOfLine) {
+                ++myLineNumber;
+            }
+            myIsAtStartOfLine = myBuffer == '\n';
+        }
+        return ch;
+    }
+
+public:
+    int myLineNumber;
+
+    LineNumberStreambuf(std::istream& owner) : mySource(owner.rdbuf()), myOwner(&owner), myIsAtStartOfLine(true),
+                                               myLineNumber(0) {
+        myOwner->rdbuf(this);
+    }
+};
 
 
 STILConfig::STILConfig() {
     string s((char*) grammar_stil_config);
     istringstream iss(s);
-    istream& input(iss);
-    parse_input(input);
+    input = &iss;
+    parse_config_file();
+    input = NULL;
 }
 
 STILConfig::STILConfig(string path) {
     cout << "Parsing config file" << endl;
-    ifstream input;
-    input.open(path);
-    parse_input(input);
-    cout << "Parsing correct" << endl;
+    ifstream file;
+    file.open(path);
+    this->input = &file;
+    parse_config_file();
+    input = NULL;
+    cout << "Config file parsed correctly" << endl;
     cout << "--------------------------------------" << endl;
 }
 
-void STILConfig::parse_input(istream& input) {
-    string s;
+void STILConfig::parse_config_file() {
 
+    if(input == NULL) {
+        cerr << "Input stream to parser the config file is null" << endl;
+        exit(1);
+    }
+
+    istream& input = *(this->input);
+    LineNumberStreambuf line_buffer(input);
+    this->line_buffer = &line_buffer;
+
+    string s;
     input >> s;
-    check_word(input, s, "event_map");
+    parse_word_or_comment(s, "event_map");
     input >> s;
-    check_word(input, s, "{");
+    parse_word_or_comment(s, "{");
     while(input >> s && s != "}") {
         string stil_event_seq = s;
         char tester_event;
         input >> s;
-        assert(s == "->");
+        parse_word(s, "->");
         input >> tester_event;
         eventsMap[stil_event_seq] = tester_event;
     }
-    assert(s == "}");
+    parse_word(s, "}");
 
     input >> s;
-    check_word(input, s, "signal_name_map");
+    parse_word_or_comment(s, "signal_name_map");
     input >> s;
-    check_word(input, s, "{");
-    while(input >> s && s != "}") {
+    parse_word_or_comment(s, "{");
+    while(input >> s && s.find('}') == string::npos) {
         string from = s;
         string to;
         input >> s;
-        assert(s == "->");
+        parse_word(s, "->");
         getline(input, to);
         if(to.size() > 1 && to[0] == ' ') {
-            to = to.substr(1, to.size()-1);
+            to = to.substr(1, to.size() - 1);
         }
         if(from == "[]" && to == "_") {
             removeBrackets = true;
@@ -62,15 +104,21 @@ void STILConfig::parse_input(istream& input) {
             namesMap[from] = to;
         }
     }
-    assert(s == "}");
 }
 
-void STILConfig::check_word(istream& input, string& s, string value) {
+void STILConfig::parse_word_or_comment(string& s, string value) {
     if(s.size() >= 2 && s[0] == '/' && s[1] == '/') {
-        getline(input, s);
-        input >> s;
-        check_word(input, s, value);
+        getline(*input, s);
+        *input >> s;
+        parse_word_or_comment(s, value);
     } else {
-        assert(s == value);
+        parse_word(s, value);
+    }
+}
+
+void STILConfig::parse_word(string& s, string value) {
+    if(s != value) {
+        cerr << "Error parsing config file at line " << line_buffer->myLineNumber << endl;
+        exit(1);
     }
 }

@@ -28,7 +28,6 @@ public:
         string id = this->id;
 
         if(config.namesMap.find(id) != config.namesMap.end()) {
-            cout << "Rule for name found" << endl;
             return config.namesMap[id];
         }
 

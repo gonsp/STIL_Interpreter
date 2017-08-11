@@ -7,13 +7,21 @@
 
 #include <string>
 #include <unordered_map>
+#include <istream>
 using namespace std;
+
 
 class STILConfig {
 
 private:
-    void parse_input(istream& input);
-    void check_word(istream& input, string& s, string value);
+
+    istream* input;
+    class LineNumberStreambuf;
+    LineNumberStreambuf* line_buffer;
+
+    void parse_config_file();
+    void parse_word_or_comment(string& s, string value);
+    void parse_word(string& s, string value);
 
 public:
     typedef unordered_map <string, char> EventsMap;
