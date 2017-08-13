@@ -14,16 +14,14 @@ using namespace std;
 class STILState {
 
 private:
-
     STILProgram* program;
 
-
 public:
-
     typedef pair<string, string> Assig;
 
     Signals next_vector;
     Identifiable waveform_table;
+    int max_param_size = 0;
 
     STILState() {}
 
@@ -33,7 +31,7 @@ public:
 
     void clear_params();
 
-    void restore_params(const STILState& prev_state);
+    void restore_params(STILState& prev_state);
 
     void execute_assigs(list<Assig> assigs);
 

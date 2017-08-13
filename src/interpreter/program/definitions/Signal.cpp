@@ -13,15 +13,20 @@ char Signal::solve_param_ref(string ref_id, char type) {
     auto it = params.find(ref_id);
     if(it == params.end()) {
         it = params.begin();
-        assert(it != params.end());
+        if(it == params.end()) {
+            return value;
+        }
     }
 
     string& s = it->second;
-    assert(s.size() >= 0);
+    assert(s.size() > 0 && "There's a void string in a signal parameter!");
 
     char wfc = s.front();
     if(type == '#') {
         s.erase(0, 1);
+        if(s.size() == 0) {
+            params.erase(it);
+        }
     }
     return wfc;
 }

@@ -20,7 +20,7 @@ public:
     typedef unordered_map<string, string> Params;
 
     signal_dir dir;
-    char value;
+    char value = '?';
     Params params;
 
     Signal() : Identifiable() {}

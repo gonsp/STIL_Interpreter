@@ -120,6 +120,8 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
     return NULL;
 }
 
+
+
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
     cout << "Executing loop" << endl;
     int times = visit(ctx->int_t());
@@ -132,6 +134,11 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
     cout << "Executing shift" << endl;
+    int times = signalState.max_param_size;
+    while(times > 0) {
+        visit(ctx->inst_list());
+        --times;
+    }
     return NULL;
 }
 
