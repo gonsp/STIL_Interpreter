@@ -33,6 +33,8 @@ public:
 
     void clear_params();
 
+    void restore_params(const STILState& prev_state);
+
     void execute_assigs(list<Assig> assigs);
 
     void clock_cycle(ostream& output);

@@ -165,8 +165,9 @@ antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
 
-    cout << "Saving previous state" << endl;
+    cout << "Saving entire previous state" << endl;
     STILState prev_signalState = signalState;
+    signalState.clear_params(); // We clear the possible params from the previous call in the new state (they will be restored on the call's return)
 
     string id = visit(ctx->id());
     cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
@@ -174,8 +175,6 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
     if(ctx->assigs() != NULL) {
         list<STILState::Assig> assigs = visit(ctx->assigs());
         signalState.set_params(assigs);
-    } else {
-        signalState.clear_params();
     }
 
     visit(program.procedures[contextStack.top().proceds_id][id]);
@@ -186,19 +185,28 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
 }
 
 antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
+
+    STILState prev_signalState;
+
     string id = visit(ctx->id());
     cout << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
 
     if(ctx->assigs() != NULL) {
+        cout << "Saving previous params state" << endl;
+
+        prev_signalState = signalState; // We store the previous state in order to be able to restore the params status
+        signalState.clear_params();
+
         list<STILState::Assig> assigs = visit(ctx->assigs());
         signalState.set_params(assigs);
-    } else {
-        signalState.clear_params();
     }
 
     visit(program.macros[contextStack.top().macros_id][id]);
 
-    cout << "Macro executed" << endl;
+    cout << "Macro executed. Restoring previous params state" << endl;
+    if(ctx->assigs() != NULL) {
+        signalState.restore_params(prev_signalState);
+    }
     return NULL;
 }
 
@@ -210,4 +218,5 @@ antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx)
 
 antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
     is_iddq = true;
+    return NULL;
 }
