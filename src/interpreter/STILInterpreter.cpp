@@ -126,7 +126,9 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
     cout << "Executing loop" << endl;
     int times = visit(ctx->int_t());
     if(ctx->inst_list()->children.size() == 1) {
-        pattern_stream << "repeat " << times;
+        string s = "repeat " + to_string(times);
+        pattern_stream << s;
+        padding -= s.size();
         visit(ctx->inst_list());
     } else {
         while(times > 0) {
@@ -157,9 +159,11 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
+    pattern_stream << string(padding, ' ');
     list<STILState::Assig> assigs = visit(ctx->assigs());
     signalState.execute_assigs(assigs);
     signalState.clock_cycle(pattern_stream);
+    padding = PADDING;
     return NULL;
 }
 

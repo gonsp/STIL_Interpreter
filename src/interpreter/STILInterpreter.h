@@ -14,6 +14,8 @@
 #include "program/definitions/STILConfig.h"
 #include <fstream>
 
+#define PADDING 22
+
 using namespace std;
 using namespace antlr4;
 using namespace parser;
@@ -31,6 +33,7 @@ private:
     STILState signalState;
 
     bool is_iddq = false;
+    int padding = PADDING;
 
     void generate_headers();
 
