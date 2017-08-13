@@ -125,9 +125,14 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
     cout << "Executing loop" << endl;
     int times = visit(ctx->int_t());
-    while(times > 0) {
+    if(ctx->inst_list()->children.size() == 1) {
+        pattern_stream << "repeat " << times;
         visit(ctx->inst_list());
-        --times;
+    } else {
+        while(times > 0) {
+            visit(ctx->inst_list());
+            --times;
+        }
     }
     return NULL;
 }
@@ -144,7 +149,9 @@ antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
     string id = visit(ctx->id());
-    cout << "Changing active waveform_table to: " << id << endl;
+    if(id != signalState.waveform_table.id) {
+        cout << "Changing active waveform_table to: " << id << endl;
+    }
     signalState.waveform_table = id;
     return NULL;
 }
