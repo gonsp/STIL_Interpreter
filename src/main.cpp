@@ -18,7 +18,7 @@ string get_file_name(string file) {
 
 int main(int num_args, char* args[]) {
 
-    if(num_args < 2 || num_args > 6 || num_args % 2 == 1) {
+    if(num_args < 2 || num_args > 7) {
         cerr << "Incorrect number of parameters." << endl;
         cout << "Usage: stil_converter input_file.stil [-c config_file.config] [-p pattern_exec_name]" << endl;
         cout << "Output: $input_file.atp $input_file.txt" << endl;
@@ -33,6 +33,7 @@ int main(int num_args, char* args[]) {
     STILConfig config;
     string pattern_exec;
 
+    bool verbose = false;
     for(int i = 2; i < num_args; ++i) {
         string arg(args[i]);
         if(arg == "-c") {
@@ -41,7 +42,13 @@ int main(int num_args, char* args[]) {
         } else if(arg == "-p") {
             pattern_exec = args[i+1];
             ++i;
+        } else if(arg == "-v") {
+            verbose = true;
         }
+    }
+
+    if(!verbose) {
+        cout.setstate(ios_base::failbit);
     }
 
     STILInterpreter interpreter(args[1], path + ".atp", path + ".txt", config);
