@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(STIL_Interpreter)
+project(STIL_Converter)
 
 # Add Antlr runtime
 set(ANTLR4CPP_JAR_LOCATION ${PROJECT_SOURCE_DIR}/antlr/antlr-4.7-complete.jar)
@@ -41,12 +41,12 @@ link_directories(
         ${ANTLR4CPP_LIBS})
 
 # Target
-add_executable(stil_inter ${SOURCE_FILES})
-#add_dependencies(stil_inter generate_parser antlr4cpp)
-add_dependencies(stil_inter generate_parser generate_default_config)
-target_link_libraries(stil_inter ${antlr4_static})
+add_executable(stil_converter ${SOURCE_FILES})
+#add_dependencies(stil_converter generate_parser antlr4cpp)
+add_dependencies(stil_converter generate_parser generate_default_config)
+target_link_libraries(stil_converter ${antlr4_static})
 
-# Install stil_inter
-install(TARGETS stil_inter
+# Install stil_converter
+install(TARGETS stil_converter
         RUNTIME DESTINATION bin)
-message(STATUS "To install stil_inter under /usr/local/bin, type: make install")
+message(STATUS "To install stil_converter under /usr/local/bin, type: make install")

@@ -48,7 +48,7 @@ void STILInterpreter::run(string pattern_exec) {
 }
 
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
-//    generate_headers();
+    generate_headers();
     pattern_stream << "{" << endl;
     contextStack.push(PatternContext()); // Base context
     for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
