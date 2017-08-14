@@ -33,8 +33,12 @@ private:
     STILState signalState;
 
     int padding = PADDING;
+    long int prev_last_line_index = 0;
+    long int last_line_index = 0;
 
     void generate_headers();
+
+    void insert_halt();
 
     virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
 

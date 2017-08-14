@@ -47,26 +47,6 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "Done" << endl;
 }
 
-void STILInterpreter::generate_headers() {
-    pattern_stream << "opcode_mode=extended;" << endl;
-    pattern_stream << "import tset ";
-    for(auto it = program.waveFormTables.begin(); it != program.waveFormTables.end(); ++it) {
-        if(it != program.waveFormTables.begin()) {
-            pattern_stream << ",";
-        }
-        pattern_stream << "t" << it->second.format(program.config);
-    }
-    pattern_stream << ";" << endl;
-    pattern_stream << "vector($tset";
-    for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
-        string formated_id = it->second.format(program.config);
-        if(formated_id != "") {
-            pattern_stream << "," << formated_id;
-        }
-    }
-    pattern_stream << ")" << endl;
-};
-
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
 //    generate_headers();
     pattern_stream << "{" << endl;
@@ -76,6 +56,9 @@ antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext
         assert(contextStack.size() == 1); // Needs to remain just the base context
     }
     pattern_stream << "}" << endl;
+    insert_halt();
+    pattern_stream.close();
+    timing_stream.close();
     return NULL;
 }
 
@@ -157,6 +140,8 @@ antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
     signalState.execute_assigs(assigs);
     signalState.clock_cycle(pattern_stream);
     padding = PADDING;
+    prev_last_line_index = last_line_index;
+    last_line_index = pattern_stream.tellp();
     return NULL;
 }
 
@@ -231,4 +216,29 @@ antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx)
     cout << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
     pattern_stream << program.config.iddq_action << endl;
     return NULL;
+}
+
+void STILInterpreter::generate_headers() {
+    pattern_stream << "opcode_mode=extended;" << endl;
+    pattern_stream << "import tset ";
+    for(auto it = program.waveFormTables.begin(); it != program.waveFormTables.end(); ++it) {
+        if(it != program.waveFormTables.begin()) {
+            pattern_stream << ",";
+        }
+        pattern_stream << "t" << it->second.format(program.config);
+    }
+    pattern_stream << ";" << endl;
+    pattern_stream << "vector($tset";
+    for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
+        string formated_id = it->second.format(program.config);
+        if(formated_id != "") {
+            pattern_stream << "," << formated_id;
+        }
+    }
+    pattern_stream << ")" << endl;
+};
+
+void STILInterpreter::insert_halt() {
+    pattern_stream.seekp(prev_last_line_index);
+    pattern_stream << "halt";
 }

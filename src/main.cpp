@@ -20,7 +20,7 @@ int main(int num_args, char* args[]) {
 
     if(num_args < 2 || num_args > 7) {
         cerr << "Incorrect number of parameters." << endl;
-        cout << "Usage: stil_converter input_file.stil [-c config_file.config] [-p pattern_exec_name]" << endl;
+        cout << "Usage: stil_converter input_file.stil [-v] [-c config_file.config] [-p pattern_exec_name]" << endl;
         cout << "Output: $input_file.atp $input_file.txt" << endl;
         exit(1);
     }
