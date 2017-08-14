@@ -71,10 +71,9 @@ void STILConfig::parse_config_file() {
     this->line_buffer = &line_buffer;
 
     string s;
-    input >> s;
-    parse_word_or_comment(s, "event_map");
-    input >> s;
-    parse_word_or_comment(s, "{");
+
+    parse_word_or_comment("event_map");
+    parse_word_or_comment("{");
     while(input >> s && s != "}") {
         string stil_event_seq = s;
         char tester_event;
@@ -85,10 +84,8 @@ void STILConfig::parse_config_file() {
     }
     parse_word(s, "}");
 
-    input >> s;
-    parse_word_or_comment(s, "signal_name_map");
-    input >> s;
-    parse_word_or_comment(s, "{");
+    parse_word_or_comment("signal_name_map");
+    parse_word_or_comment("{");
     while(input >> s && s != "}") {
         string from = s;
         string to;
@@ -104,11 +101,10 @@ void STILConfig::parse_config_file() {
             namesMap[from] = to;
         }
     }
+    parse_word(s, "}");
 
-    input >> s;
-    parse_word_or_comment(s, "scan_padding");
-    input >> s;
-    parse_word_or_comment(s, "{");
+    parse_word_or_comment("scan_padding");
+    parse_word_or_comment("{");
     input >> s;
     parse_word(s, "scan_in");
     input >> s;
@@ -119,14 +115,14 @@ void STILConfig::parse_config_file() {
     input >> s;
     parse_word(s, "->");
     input >> scan_padding_out;
-    input >> s;
 }
 
-void STILConfig::parse_word_or_comment(string& s, string value) {
+void STILConfig::parse_word_or_comment(string value) {
+    string s;
+    *input >> s;
     if(s.size() >= 2 && s[0] == '/' && s[1] == '/') {
         getline(*input, s);
-        *input >> s;
-        parse_word_or_comment(s, value);
+        parse_word_or_comment(value);
     } else {
         parse_word(s, value);
     }
@@ -135,6 +131,7 @@ void STILConfig::parse_word_or_comment(string& s, string value) {
 void STILConfig::parse_word(string& s, string value) {
     if(s != value) {
         cerr << "Error parsing config file at line " << line_buffer->myLineNumber << endl;
+        cerr << "Expecting: \"" << value << "\" but read: \"" << s << "\"" << endl;
         exit(1);
     }
 }

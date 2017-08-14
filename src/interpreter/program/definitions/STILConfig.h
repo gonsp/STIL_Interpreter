@@ -20,7 +20,7 @@ private:
     LineNumberStreambuf* line_buffer;
 
     void parse_config_file();
-    void parse_word_or_comment(string& s, string value);
+    void parse_word_or_comment(string value);
     void parse_word(string& s, string value);
 
 public:
