@@ -114,3 +114,9 @@ void STILState::restore_params(STILState& prev_state) {
     }
 }
 
+void STILState::set_padding_to_params(int max_size) {
+    for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
+        it->second.set_padding_to_params(max_size, program->config.padding_wfc);
+    }
+}
+

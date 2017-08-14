@@ -89,7 +89,7 @@ void STILConfig::parse_config_file() {
     parse_word_or_comment(s, "signal_name_map");
     input >> s;
     parse_word_or_comment(s, "{");
-    while(input >> s && s.find('}') == string::npos) {
+    while(input >> s && s != "}") {
         string from = s;
         string to;
         input >> s;
@@ -104,6 +104,12 @@ void STILConfig::parse_config_file() {
             namesMap[from] = to;
         }
     }
+
+    input >> s;
+    parse_word_or_comment(s, "scan_padding");
+    input >> s;
+    parse_word_or_comment(s, "{");
+    input >> padding_wfc;
 }
 
 void STILConfig::parse_word_or_comment(string& s, string value) {

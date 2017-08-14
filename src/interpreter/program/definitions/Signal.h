@@ -14,12 +14,17 @@ enum signal_dir {
     IN, OUT, INOUT
 };
 
+enum signal_scan_dir {
+    NONE, SCAN_IN, SCAN_OUT
+};
+
 class Signal : public Identifiable {
 
 public:
     typedef unordered_map<string, string> Params;
 
     signal_dir dir;
+    signal_scan_dir scan_dir = NONE;
     char value = '?';
     Params params;
 
@@ -28,6 +33,8 @@ public:
     Signal(string id, signal_dir dir);
 
     char solve_param_ref(string ref_id, char type);
+
+    void set_padding_to_params(int max_size, char wfc);
 };
 
 

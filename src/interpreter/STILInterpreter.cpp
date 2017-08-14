@@ -68,7 +68,7 @@ void STILInterpreter::generate_headers() {
 };
 
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
-    generate_headers();
+//    generate_headers();
     pattern_stream << "{" << endl;
     contextStack.push(PatternContext()); // Base context
     for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
@@ -142,6 +142,7 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
 antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
     cout << "Executing shift" << endl;
     int times = signalState.max_param_size;
+    signalState.set_padding_to_params(times);
     while(times > 0) {
         visit(ctx->inst_list());
         --times;

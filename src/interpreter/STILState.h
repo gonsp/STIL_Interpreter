@@ -36,6 +36,8 @@ public:
     void execute_assigs(list<Assig> assigs);
 
     void clock_cycle(ostream& output);
+
+    void set_padding_to_params(int max_size);
 };
 
 
