@@ -29,6 +29,8 @@ private:
 
     virtual antlrcpp::Any visitSignal_dir(STILParser::Signal_dirContext* ctx) override;
 
+    virtual antlrcpp::Any visitSignal_scan(STILParser::Signal_scanContext* ctx) override;
+
     virtual antlrcpp::Any visitSignal_groups(STILParser::Signal_groupsContext* ctx) override;
 
     virtual antlrcpp::Any visitSignal_group(STILParser::Signal_groupContext* ctx) override;

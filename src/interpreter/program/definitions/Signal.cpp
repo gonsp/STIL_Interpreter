@@ -9,6 +9,10 @@ Signal::Signal(string id, signal_dir dir) : Identifiable(id) {
     this->dir = dir;
 }
 
+Signal::Signal(string id, signal_dir dir, signal_scan_dir scan_dir) : Signal(id, dir) {
+    this->scan_dir = scan_dir;
+}
+
 char Signal::solve_param_ref(string ref_id, char type) {
     auto it = params.find(ref_id);
     if(it == params.end()) {

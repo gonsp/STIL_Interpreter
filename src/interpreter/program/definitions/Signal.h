@@ -32,6 +32,8 @@ public:
 
     Signal(string id, signal_dir dir);
 
+    Signal(string id, signal_dir dir, signal_scan_dir scan_dir);
+
     char solve_param_ref(string ref_id, char type);
 
     void set_padding_to_params(int max_size, char wfc);

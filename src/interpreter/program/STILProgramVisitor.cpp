@@ -28,7 +28,12 @@ antlrcpp::Any STILProgramVisitor::visitSignals(STILParser::SignalsContext* ctx) 
 antlrcpp::Any STILProgramVisitor::visitSignal(STILParser::SignalContext* ctx) {
     string id = visit(ctx->id());
     signal_dir dir = visit(ctx->signal_dir());
-    program.signals[id] = Signal(id, dir);
+    signal_scan_dir scan_dir = NONE;
+    if(ctx->signal_attributes() != NULL && ctx->signal_attributes()->signal_scan() != NULL) {
+        signal_scan_dir aux = visit(ctx->signal_attributes()->signal_scan());
+        scan_dir = aux;
+    }
+    program.signals[id] = Signal(id, dir, scan_dir);
     program.signalGroups[id] = SignalGroup(program.signals[id]); // Adding a default signalgroup
     return NULL;
 }
@@ -40,6 +45,14 @@ antlrcpp::Any STILProgramVisitor::visitSignal_dir(STILParser::Signal_dirContext*
         return OUT;
     } else {
         return INOUT;
+    }
+}
+
+antlrcpp::Any STILProgramVisitor::visitSignal_scan(STILParser::Signal_scanContext* ctx) {
+    if(ctx->getText() == "ScanIn") {
+        return SCAN_IN;
+    } else if(ctx->getText() == "ScanOut") {
+        return SCAN_OUT;
     }
 }
 
