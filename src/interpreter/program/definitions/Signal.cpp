@@ -35,16 +35,17 @@ char Signal::solve_param_ref(string ref_id, char type) {
     return wfc;
 }
 
-void Signal::set_padding_to_params(int max_size, char wfc) {
+void Signal::set_padding_to_params(int max_size) {
     if(scan_dir != NONE) {
         for(auto it = params.begin(); it != params.end(); ++it) {
             string& values = it->second;
             if(values.size() > 1) { // Avoid modifying used params + signalgroups params
                 if(values.size() != max_size) {
-                    string padding(max_size - values.size(), wfc);
                     if(scan_dir == SCAN_IN) {
+                        string padding(max_size - values.size(), '$');
                         values = padding + values;
                     } else if(scan_dir == SCAN_OUT) {
+                        string padding(max_size - values.size(), '@');
                         values = values + padding;
                     }
                 }

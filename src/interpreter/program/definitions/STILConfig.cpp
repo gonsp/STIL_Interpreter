@@ -109,7 +109,17 @@ void STILConfig::parse_config_file() {
     parse_word_or_comment(s, "scan_padding");
     input >> s;
     parse_word_or_comment(s, "{");
-    input >> padding_wfc;
+    input >> s;
+    parse_word(s, "scan_in");
+    input >> s;
+    parse_word(s, "->");
+    input >> scan_padding_in;
+    input >> s;
+    parse_word(s, "scan_out");
+    input >> s;
+    parse_word(s, "->");
+    input >> scan_padding_out;
+    input >> s;
 }
 
 void STILConfig::parse_word_or_comment(string& s, string value) {

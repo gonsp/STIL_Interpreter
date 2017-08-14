@@ -57,6 +57,12 @@ void STILState::clock_cycle(ostream& output) {
         assert(wfc != '?' && "WFC not defined for signal before clock_cycle!");
         assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
 
+        if(wfc == '$') {
+            wfc = program->config.scan_padding_in;
+        } else if(wfc == '@') {
+            wfc = program->config.scan_padding_out;
+        }
+
         WaveForms& waveForms = program->waveFormTables[waveform_table.id].waveforms;
 
         bool found = false;
@@ -116,7 +122,7 @@ void STILState::restore_params(STILState& prev_state) {
 
 void STILState::set_padding_to_params(int max_size) {
     for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
-        it->second.set_padding_to_params(max_size, program->config.padding_wfc);
+        it->second.set_padding_to_params(max_size);
     }
 }
 

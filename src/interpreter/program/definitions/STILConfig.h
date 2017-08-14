@@ -30,7 +30,8 @@ public:
     EventsMap eventsMap;
     NamesMap namesMap;
     bool removeBrackets = false;
-    char padding_wfc;
+    char scan_padding_in;
+    char scan_padding_out;
 
     STILConfig();
 
