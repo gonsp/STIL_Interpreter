@@ -32,7 +32,6 @@ private:
     ContextStack contextStack;
     STILState signalState;
 
-    bool is_iddq = false;
     int padding = PADDING;
 
     void generate_headers();
@@ -66,7 +65,7 @@ private:
 //    virtual antlrcpp::Any visitAssig(STILParser::AssigContext* ctx) override;
 
 public:
-    STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig config);
+    STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config);
 
     void run();
 

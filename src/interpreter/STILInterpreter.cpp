@@ -7,7 +7,7 @@
 #include "program/STILProgramVisitor.h"
 #include "STILState.h"
 
-STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig config) : program(config) {
+STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
     stil_input.open(stil_file);
     pattern_stream.open(pattern_file);
     timing_stream.open(timing_file);
@@ -74,14 +74,6 @@ antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext
     for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
         visit(ctx->pattern_burst_call(i));
         assert(contextStack.size() == 1); // Needs to remain just the base context
-    }
-    if(is_iddq) {
-        pattern_stream << "subr iddq: set_cpu(cpuA)\n"
-                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
-                "wait_iddq: if (cpuA) jump wait_iddq\n"
-                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;\n"
-                "return\n"
-                "> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ;" << endl;
     }
     pattern_stream << "}" << endl;
     return NULL;
@@ -236,6 +228,7 @@ antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx)
 }
 
 antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
-    is_iddq = true;
+    cout << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
+    pattern_stream << program.config.iddq_action << endl;
     return NULL;
 }

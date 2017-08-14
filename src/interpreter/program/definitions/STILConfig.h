@@ -32,6 +32,7 @@ public:
     bool removeBrackets = false;
     char scan_padding_in;
     char scan_padding_out;
+    string iddq_action;
 
     STILConfig();
 

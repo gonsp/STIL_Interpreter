@@ -47,9 +47,7 @@ public:
 
     STILConfig config;
 
-    STILProgram(STILConfig config) {
-        this->config = config;
-    }
+    STILProgram(STILConfig config) : config(config) {}
 };
 
 

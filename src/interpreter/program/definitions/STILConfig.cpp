@@ -72,6 +72,7 @@ void STILConfig::parse_config_file() {
 
     string s;
 
+    // EVENT MAP
     parse_word_or_comment("event_map");
     parse_word_or_comment("{");
     while(input >> s && s != "}") {
@@ -84,6 +85,7 @@ void STILConfig::parse_config_file() {
     }
     parse_word(s, "}");
 
+    // SIGNAL NAME MAP
     parse_word_or_comment("signal_name_map");
     parse_word_or_comment("{");
     while(input >> s && s != "}") {
@@ -103,6 +105,7 @@ void STILConfig::parse_config_file() {
     }
     parse_word(s, "}");
 
+    // SCAN PADDING
     parse_word_or_comment("scan_padding");
     parse_word_or_comment("{");
     input >> s;
@@ -115,6 +118,13 @@ void STILConfig::parse_config_file() {
     input >> s;
     parse_word(s, "->");
     input >> scan_padding_out;
+    input >> s;
+    parse_word(s, "}");
+
+    // IDDQ ACTION
+    parse_word_or_comment("iddq_action");
+    parse_word_or_comment("{");
+    getline(input, iddq_action, '}');
 }
 
 void STILConfig::parse_word_or_comment(string value) {
