@@ -13,7 +13,11 @@ string get_file_name(string file) {
     while(i >= 0 && file[i] != '.') {
         --i;
     }
-    return file.substr(0, i);
+    int j = i;
+    while(j >= 0 && file[j] != '/') {
+        --j;
+    }
+    return file.substr(j+1, i-j-1);
 }
 
 int main(int num_args, char* args[]) {
@@ -25,8 +29,7 @@ int main(int num_args, char* args[]) {
         exit(1);
     }
 
-    string path = string(args[1]);
-    path = get_file_name(path);
+    string file_name = get_file_name(string(args[1]));
 
     STILConfig config;
     string pattern_exec;
@@ -49,7 +52,7 @@ int main(int num_args, char* args[]) {
         cout.setstate(ios_base::failbit);
     }
 
-    STILInterpreter interpreter(args[1], path + ".atp", path + ".txt", config);
+    STILInterpreter interpreter(args[1], "./" + file_name + ".atp", "./" + file_name + ".txt", config);
 
     if(pattern_exec == "") {
         interpreter.run();

@@ -53,6 +53,8 @@ antlrcpp::Any STILProgramVisitor::visitSignal_scan(STILParser::Signal_scanContex
         return SCAN_IN;
     } else if(ctx->getText() == "ScanOut") {
         return SCAN_OUT;
+    } else {
+        return NULL;
     }
 }
 
