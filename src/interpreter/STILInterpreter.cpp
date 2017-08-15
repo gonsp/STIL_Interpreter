@@ -9,8 +9,8 @@
 #include "STILState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
-    STILFilePreprocessor preprocessor(stil_file);
-    preprocessor.remove_user_keyword_definitions();
+//    STILFilePreprocessor preprocessor(stil_file);
+//    preprocessor.remove_user_keyword_definitions();
     stil_input.open(stil_file);
     pattern_stream.open(pattern_file);
     timing_stream.open(timing_file);
@@ -164,13 +164,12 @@ antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
+    string id = visit(ctx->id());
+    cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
 
     cout << "Saving entire previous state" << endl;
     STILState prev_signalState = signalState;
     signalState.clear_params(); // We clear the possible params from the previous call in the new state (they will be restored on the call's return)
-
-    string id = visit(ctx->id());
-    cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
 
     if(ctx->assigs() != NULL) {
         list<STILState::Assig> assigs = visit(ctx->assigs());
@@ -185,11 +184,10 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
 }
 
 antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
-
-    STILState prev_signalState;
-
     string id = visit(ctx->id());
     cout << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
+
+    STILState prev_signalState;
 
     if(ctx->assigs() != NULL) {
         cout << "Saving previous params state" << endl;

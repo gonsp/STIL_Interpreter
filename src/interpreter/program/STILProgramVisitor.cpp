@@ -27,34 +27,36 @@ antlrcpp::Any STILProgramVisitor::visitSignals(STILParser::SignalsContext* ctx) 
 
 antlrcpp::Any STILProgramVisitor::visitSignal(STILParser::SignalContext* ctx) {
     string id = visit(ctx->id());
-    signal_dir dir = visit(ctx->signal_dir());
-    signal_scan_dir scan_dir = NONE;
-    if(ctx->signal_attributes() != NULL && ctx->signal_attributes()->signal_scan() != NULL) {
-        signal_scan_dir aux = visit(ctx->signal_attributes()->signal_scan());
-        scan_dir = aux;
+    Signal::signal_dir dir = visit(ctx->signal_dir());
+    if(dir != Signal::PSEUDO) {
+        Signal::signal_scan_dir scan_dir = Signal::NONE;
+        if(ctx->signal_attributes() != NULL && ctx->signal_attributes()->signal_scan() != NULL) {
+            Signal::signal_scan_dir aux = visit(ctx->signal_attributes()->signal_scan());
+            scan_dir = aux;
+        }
+        program.signals[id] = Signal(id, dir, scan_dir);
+        program.signalGroups[id] = SignalGroup(program.signals[id]); // Adding a default signalgroup
     }
-    program.signals[id] = Signal(id, dir, scan_dir);
-    program.signalGroups[id] = SignalGroup(program.signals[id]); // Adding a default signalgroup
     return NULL;
 }
 
 antlrcpp::Any STILProgramVisitor::visitSignal_dir(STILParser::Signal_dirContext* ctx) {
     if(ctx->getText() == "In") {
-        return IN;
+        return Signal::IN;
     } else if(ctx->getText() == "Out") {
-        return OUT;
+        return Signal::OUT;
     } else if(ctx->getText() == "InOut") {
-        return INOUT;
+        return Signal::INOUT;
     } else {
-        return PSEUDO;
+        return Signal::PSEUDO;
     }
 }
 
 antlrcpp::Any STILProgramVisitor::visitSignal_scan(STILParser::Signal_scanContext* ctx) {
     if(ctx->getText() == "ScanIn") {
-        return SCAN_IN;
+        return Signal::SCAN_IN;
     } else if(ctx->getText() == "ScanOut") {
-        return SCAN_OUT;
+        return Signal::SCAN_OUT;
     } else {
         return NULL;
     }

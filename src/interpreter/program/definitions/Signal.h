@@ -10,17 +10,17 @@
 
 using namespace std;
 
-enum signal_dir {
-    IN, OUT, INOUT, PSEUDO
-};
-
-enum signal_scan_dir {
-    NONE, SCAN_IN, SCAN_OUT
-};
-
 class Signal : public Identifiable {
 
 public:
+    enum signal_dir {
+        IN, OUT, INOUT, PSEUDO
+    };
+
+    enum signal_scan_dir {
+        NONE, SCAN_IN, SCAN_OUT
+    };
+
     typedef unordered_map<string, string> Params;
 
     signal_dir dir;
