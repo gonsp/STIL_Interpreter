@@ -3,11 +3,14 @@
 //
 
 #include <ANTLRInputStream.h>
+#include <STILFilePreprocessor.h>
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
 #include "STILState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
+    STILFilePreprocessor preprocessor(stil_file);
+    preprocessor.remove_user_keyword_definitions();
     stil_input.open(stil_file);
     pattern_stream.open(pattern_file);
     timing_stream.open(timing_file);
@@ -20,14 +23,15 @@ void STILInterpreter::run() {
 }
 
 void STILInterpreter::run(string pattern_exec) {
+
+    cout << "--------------------------------------" << endl;
+
+    cout << "Starting file parsing" << endl;
     ANTLRInputStream input(stil_input);
     STILLexer lexer(&input);
     CommonTokenStream tokens(&lexer);
     tokens.fill();
 
-    cout << "--------------------------------------" << endl;
-
-    cout << "Starting file parsing" << endl;
     STILParser parser(&tokens);
     ParseTree* ast = parser.program();
     cout << "File parsed successfully" << endl;

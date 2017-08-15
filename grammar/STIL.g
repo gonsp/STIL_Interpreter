@@ -24,7 +24,7 @@ history : 'History' L_BRACKET R_BRACKET;
 
 signals             : 'Signals' L_BRACKET signal* R_BRACKET;
 signal              : id signal_dir signal_attributes?;
-signal_dir          : 'In' | 'Out' | 'InOut' | 'Pseudo';
+signal_dir          : 'In' | 'Out' | 'InOut' | 'Pseudo';
 signal_attributes   : L_BRACKET signal_scan? wfc_map? R_BRACKET;
 signal_scan         : 'ScanIn' | 'ScanOut';
 wfc_map            : 'WFCMap' L_BRACKET map_rule* R_BRACKET;
