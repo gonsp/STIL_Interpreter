@@ -43,8 +43,10 @@ antlrcpp::Any STILProgramVisitor::visitSignal_dir(STILParser::Signal_dirContext*
         return IN;
     } else if(ctx->getText() == "Out") {
         return OUT;
-    } else {
+    } else if(ctx->getText() == "InOut") {
         return INOUT;
+    } else {
+        return PSEUDO;
     }
 }
 

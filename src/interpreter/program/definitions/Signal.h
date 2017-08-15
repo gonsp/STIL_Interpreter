@@ -11,7 +11,7 @@
 using namespace std;
 
 enum signal_dir {
-    IN, OUT, INOUT
+    IN, OUT, INOUT, PSEUDO
 };
 
 enum signal_scan_dir {
