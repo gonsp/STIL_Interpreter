@@ -21,7 +21,20 @@ public:
         NONE, SCAN_IN, SCAN_OUT
     };
 
-    typedef unordered_map<string, string> Params;
+    class Param : public Identifiable {
+
+    public:
+        string values;
+        bool needs_refresh = false;
+
+        Param() : Identifiable() {}
+
+        Param(string id, string& values);
+
+        bool refresh();
+    };
+
+    typedef unordered_map<string, Param> Params;
 
     signal_dir dir;
     signal_scan_dir scan_dir = NONE;
@@ -37,6 +50,8 @@ public:
     char solve_param_ref(string ref_id, char type);
 
     void set_padding_to_params(int max_size);
+
+    void refresh_params();
 };
 
 
