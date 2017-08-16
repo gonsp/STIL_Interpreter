@@ -124,6 +124,7 @@ void STILConfig::parse_config_file() {
     // IDDQ ACTION
     parse_word_or_comment("iddq_action");
     parse_word_or_comment("{");
+    getline(input, s);
     getline(input, iddq_action, '}');
 }
 
