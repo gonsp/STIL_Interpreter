@@ -38,26 +38,26 @@ antlrcpp::Any STILCustomVisitor::visitPeriod(STILParser::PeriodContext* ctx) {
 }
 
 antlrcpp::Any STILCustomVisitor::visitTime_expr(STILParser::Time_exprContext* ctx) {
-    float time = visit(ctx->num());
-    string units = visit(ctx->TIME_UNIT());
-    if(units == "ns") {
-        return time;
-    } else if(units == "ms") {
-        return time * 1000;
-    } else {
-        return time * 1000000;
+    string s = visit(ctx->TIME_EXPR());
+    s.erase(0, 1); // Deleting quotes
+    s.pop_back();
+    assert(s.back() == 's');
+    int scale = 1000000; // Units are seconds
+    char prefix = s[s.size()-2];
+    if(prefix < '0' || prefix > '9') { // Units have a prefix
+        assert(prefix == 'n' || prefix == 'm');
+        if(prefix == 'n') { // Nanoseconds
+            scale = 1;
+        } else if(prefix == 'm') { // Miliseconds
+            scale = 1000;
+        }
+        s.pop_back();
     }
-}
-
-antlrcpp::Any STILCustomVisitor::visitWfc(STILParser::WfcContext* ctx) {
-    return ctx->getText();
+    float time = stof(s);
+    return time * scale; // Time in nanoseconds
 }
 
 antlrcpp::Any STILCustomVisitor::visitWfc_seq(STILParser::Wfc_seqContext* ctx) {
-    return ctx->getText();
-}
-
-antlrcpp::Any STILCustomVisitor::visitWfc_extended(STILParser::Wfc_extendedContext* ctx) {
     return ctx->getText();
 }
 
@@ -98,7 +98,7 @@ antlrcpp::Any STILCustomVisitor::visitAssig_expr(STILParser::Assig_exprContext* 
 
 antlrcpp::Any STILCustomVisitor::visitRepeat(STILParser::RepeatContext* ctx) {
     int times = visit(ctx->int_t());
-    string wfc = visit(ctx->wfc_extended());
+    string wfc = visit(ctx->wfc_seq());
     string result;
     while(times-- > 0) {
         result += wfc;

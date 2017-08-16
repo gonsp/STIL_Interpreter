@@ -107,8 +107,8 @@ antlrcpp::Any STILProgramVisitor::visitWfc_map(STILParser::Wfc_mapContext* ctx) 
 }
 
 antlrcpp::Any STILProgramVisitor::visitMap_rule(STILParser::Map_ruleContext* ctx) {
-    string from = visit(ctx->wfc_seq());
-    string to = visit(ctx->wfc());
+    string from = visit(ctx->wfc_seq(0));
+    string to = visit(ctx->wfc_seq(1));
     assert(from.size() == 2 && from[0] != from[1]);
     assert(to.size() == 1);
     return MapRule(from, to[0]);
@@ -140,7 +140,7 @@ antlrcpp::Any STILProgramVisitor::visitWaveforms(STILParser::WaveformsContext* c
 
 antlrcpp::Any STILProgramVisitor::visitWaveform(STILParser::WaveformContext* ctx) {
     string id = visit(ctx->id());
-    string wfc = visit(ctx->wfc());
+    string wfc = visit(ctx->wfc_seq());
     vector<WaveForm::WaveFormEvent> events;
     for(int i = 0; i < ctx->event().size(); ++i) {
         WaveForm::WaveFormEvent event = visit(ctx->event(i));

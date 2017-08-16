@@ -9,7 +9,7 @@ program : format? header? signals signal_groups timing scan_structures_l
 
 ///////////////////////////////////////////////////////////////////////
 
-format  : 'STIL' FLOAT (L_BRACKET design R_BRACKET)?;
+format  : 'STIL' float_t (L_BRACKET design R_BRACKET)?;
 design  : 'Design' int_t;
 
 ///////////////////////////////////////////////////////////////////////
@@ -27,8 +27,8 @@ signal              : id signal_dir signal_attributes?;
 signal_dir          : 'In' | 'Out' | 'InOut' | 'Pseudo';
 signal_attributes   : L_BRACKET signal_scan? wfc_map? R_BRACKET;
 signal_scan         : 'ScanIn' | 'ScanOut';
-wfc_map            : 'WFCMap' L_BRACKET map_rule* R_BRACKET;
-map_rule            : wfc_seq '->' wfc;
+wfc_map             : 'WFCMap' L_BRACKET map_rule* R_BRACKET;
+map_rule            : wfc_seq '->' wfc_seq;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -42,9 +42,8 @@ timing          : 'Timing' L_BRACKET waveform_table* R_BRACKET;
 waveform_table  : 'WaveformTable' id L_BRACKET period waveforms R_BRACKET;
 period          : 'Period' time_expr;
 waveforms       : 'Waveforms' L_BRACKET waveform* R_BRACKET;
-waveform        : id L_BRACKET wfc L_BRACKET event+ R_BRACKET R_BRACKET;
+waveform        : id L_BRACKET wfc_seq L_BRACKET event+ R_BRACKET R_BRACKET;
 event           : time_expr event_code;
-time_expr       : QUOTE num TIME_UNIT QUOTE;
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -112,8 +111,8 @@ iddq_inst   : 'IddqTestPoint';
 
 assigs      : assig*;
 assig       : id EQ assig_expr;
-assig_expr  : JOIN? (repeat | wfc_extended)*;
-repeat      : REPEAT int_t wfc_extended;
+assig_expr  : JOIN? (repeat | wfc_seq)*;
+repeat      : REPEAT int_t wfc_seq;
 
 ///////////////////////////////////////////////////////////////////////
 // This is ugly but necessary, since the lexer doesn't know how to differentiate
@@ -126,16 +125,14 @@ id          : STRING;
 num         : int_t | float_t;
 int_t       : INT;
 float_t     : FLOAT;
-wfc         : (CHARS | INT);
-wfc_seq     : (CHARS | INT)+;
-wfc_extended: (CHARS | INT | '#' | '%');
+wfc_seq     : (CHARS | INT | WFC_SEQ);
 event_code  : CHARS;
+time_expr   : TIME_EXPR;
 
 ///////////////////////////////////////////////////////////////////////
 // TOKENS
 ///////////////////////////////////////////////////////////////////////
 
-TIME_UNIT   : 'ns' | 'ms' | 's';
 SUM         : '+';
 EQ          : '=';
 SEMICOLON   : ';';
@@ -152,6 +149,10 @@ FLOAT   : INT'.'INT;
 INT     : DIG+;
 CHARS   : LETTER+;
 STRING  : '"' ~('\r' | '\n' | '"')* '"';
+WFC_SEQ : (DIG | LETTER | '#' | '%')+;
+
+TIME_EXPR       : QUOTE (INT | FLOAT) UNIT QUOTE;
+fragment UNIT   : 'ns' | 'ms' | 's';
 
 fragment DIG    : [0-9];
 fragment NUM    : INT | FLOAT;

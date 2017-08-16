@@ -216,7 +216,7 @@ antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx)
 
 antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
     cout << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
-    pattern_stream << program.config.iddq_action << endl;
+    pattern_stream << program.config.iddq_action;
     return NULL;
 }
 

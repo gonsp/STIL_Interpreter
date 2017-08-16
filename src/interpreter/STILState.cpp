@@ -18,6 +18,8 @@ void STILState::execute_assigs(list<Assig> assigs) {
         SignalGroup& signalGroup = program->signalGroups[it->first];
         vector<string>& signals = signalGroup.signals;
 
+        assert(it->second.size() == signals.size());
+
         for(int i = 0; i < signals.size(); ++i) {
 
             char wfc = it->second[i];
@@ -45,15 +47,15 @@ void STILState::execute_assigs(list<Assig> assigs) {
 
 void STILState::clock_cycle(ostream& output) {
     output << "> " << "t" << waveform_table.format(program->config) << "   ";
-    for(auto it_signal = next_vector.begin(); it_signal != next_vector.end(); ++it_signal) {
+    for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
 
         // This is in case that a signal has been removed in the config file.
         // If it's removed, we don't print its value
-        if(it_signal->second.format(program->config) == "") {
+        if(it->second.format(program->config) == "") {
             continue;
         }
 
-        char wfc = it_signal->second.value;
+        char wfc = it->second.value;
         assert(wfc != '?' && "WFC not defined for signal before clock_cycle!");
         assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
 
@@ -68,7 +70,7 @@ void STILState::clock_cycle(ostream& output) {
         bool found = false;
         int waveform = 0;
         while(waveform < waveForms.size() && !found) {
-            if(program->signalGroups[waveForms[waveform].id].contains(it_signal->second.id)) {
+            if(program->signalGroups[waveForms[waveform].id].contains(it->second.id)) {
                 if(wfc == waveForms[waveform].wfc) {
                     found = true;
                     break;
@@ -76,7 +78,10 @@ void STILState::clock_cycle(ostream& output) {
             }
             ++waveform;
         }
-        assert(found);
+        if(!found) {
+            cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
+            exit(1);
+        }
         string event_seq = waveForms[waveform].event_seq();
         char tester_event = program->config.eventsMap[event_seq];
         if(tester_event == '\0') {
