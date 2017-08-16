@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 import sys
+
+from subprocess import call
 from os import listdir
 
 def test(file):
     print("Executing test", file)
+
+    with open("../test_logs/" + file + ".txt", 'w') as logs:
+        p = subprocess.Popen("stil_conversor ../input_files/" + file + " -v", stdout = logs, stderr = logs)
+
+    print("Hello", p.returncode)
     # execute stil_converter file -> test_output_files
     # redirecting its standar output to a log file in test_logs
 

@@ -107,7 +107,7 @@ antlrcpp::Any STILInterpreter::visitInst(STILParser::InstContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
-    cout << "Executing loop" << endl;
+    cout << stil_line << ": " << "Executing loop" << endl;
     int times = visit(ctx->int_t());
     if(ctx->inst_list()->children.size() == 1) {
         string s = "repeat " + to_string(times);
@@ -124,7 +124,7 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
-    cout << "Executing shift" << endl;
+    cout << stil_line << ": " << "Executing shift" << endl;
     int times = signalState.max_param_size;
     signalState.set_padding_to_params(times);
     while(times > 0) {
@@ -170,7 +170,7 @@ antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
     string id = visit(ctx->id());
-    cout << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
+    cout << stil_line << ": " << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
 
     cout << "Saving entire previous state" << endl;
     STILState prev_signalState = signalState;
@@ -190,7 +190,7 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
 
 antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
     string id = visit(ctx->id());
-    cout << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
+    cout << stil_line << ": " << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
 
     STILState prev_signalState;
 
@@ -214,13 +214,13 @@ antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ct
 }
 
 antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx) {
-    cout << "Stopping test" << endl;
+    cout << stil_line << ": " << "Stopping test" << endl;
     exit(1);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
-    cout << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
+    cout << stil_line << ": " << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
     pattern_stream << program.config.iddq_action;
     return NULL;
 }
