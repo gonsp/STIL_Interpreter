@@ -13,9 +13,9 @@ def test(file):
 
     print("Executing test", name)
 
-    with open("test_logs/" + name + time + ".txt", 'w+') as logs:
-        p = subprocess.Popen(["stil_converter", "../input_files/" + file, "-v"], stdout = logs, stderr = logs, cwd = "test_output_files")
-        exit_code = p.wait()
+    with open("test_logs/" + name + time + ".txt", 'w+') as logs_file:
+        process = subprocess.Popen(["stil_converter", "../input_files/" + file, "-v"], stdout = logs_file, stderr = logs_file, cwd = "test_output_files")
+        exit_code = process.wait()
 
     if exit_code != 0:
         print("Program crashed")
