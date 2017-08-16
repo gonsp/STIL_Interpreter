@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
 project(STIL_Converter)
+enable_testing()
 
 # Add Antlr runtime
 set(ANTLR4CPP_JAR_LOCATION ${PROJECT_SOURCE_DIR}/antlr/antlr-4.7-complete.jar)
@@ -50,3 +51,12 @@ target_link_libraries(stil_converter ${antlr4_static})
 install(TARGETS stil_converter
         RUNTIME DESTINATION bin)
 message(STATUS "To install stil_converter under /usr/local/bin, type: make install")
+
+# Tests
+add_test(
+        NAME
+        GOYAC1.iddq.stil
+        COMMAND
+        python3 test_driver.py GOYAC1.iddq.stil
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
+)

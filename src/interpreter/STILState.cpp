@@ -37,7 +37,7 @@ void STILState::execute_assigs(list<Assig> assigs) {
                     string from = {wfc1, wfc2};
                     if(signalGroup.wfcmaps[from] == 0) {
                         cerr << "Error at line: " << *stil_line << endl;
-                        cerr << "WFC map not defined for the char join of: " << from << " at SignalGroup: " << signalGroup.id << endl;
+                        cerr << "WFC map not defined for the char join of: " << from << " at signal: " << signals[i] << endl;
                         cerr << "In one instruction (V/C/F) you can only assign the same value "
                              << "to each signal in each assignation, or assign 2 different values "
                              << "but having a WFCMap defined for that SignalGroup and that combination of wfc" << endl;
