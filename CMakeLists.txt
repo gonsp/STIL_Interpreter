@@ -53,10 +53,18 @@ install(TARGETS stil_converter
 message(STATUS "To install stil_converter under /usr/local/bin, type: make install")
 
 # Tests
+# Make sure you install the executable before (make install)
 add_test(
         NAME
         GOYAC1.iddq.stil
         COMMAND
         python3 test_driver.py GOYAC1.iddq.stil
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
+)
+add_test(
+        NAME
+        GOYAC1B.iddq.stil
+        COMMAND
+        python3 test_driver.py GOYAC1B.iddq.stil
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
 )

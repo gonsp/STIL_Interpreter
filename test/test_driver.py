@@ -1,22 +1,29 @@
 #!/usr/bin/env python
 import sys
+import subprocess
+import datetime
 
-from subprocess import call
 from os import listdir
 
+
 def test(file):
-    print("Executing test", file)
 
-    with open("../test_logs/" + file + ".txt", 'w') as logs:
-        p = subprocess.Popen("stil_conversor ../input_files/" + file + " -v", stdout = logs, stderr = logs)
+    name = file.rsplit('.', 1)[0]
+    time = datetime.datetime.now().strftime("_%I_%M%p-%B-%d")
 
-    print("Hello", p.returncode)
-    # execute stil_converter file -> test_output_files
-    # redirecting its standar output to a log file in test_logs
+    print("Executing test", name)
 
-    # if stil_converter exits with error code, return false
-    # if not, check diff output_files/file with test_output_files/file
-    # if not equal, return false, else, return true
+    with open("test_logs/" + name + time + ".txt", 'w+') as logs:
+        p = subprocess.Popen(["stil_converter", "../input_files/" + file, "-v"], stdout = logs, stderr = logs, cwd = "test_output_files")
+        exit_code = p.wait()
+
+    if exit_code != 0:
+        print("Program crashed")
+        return False
+
+    diff = subprocess.call(["diff", "output_files/" + name + ".atp", "test_output_files/" + name + ".atp"])
+    return diff == 0
+
 
 def main():
     if len(sys.argv) == 2:
