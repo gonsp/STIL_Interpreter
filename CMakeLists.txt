@@ -54,17 +54,14 @@ message(STATUS "To install stil_converter under /usr/local/bin, type: make insta
 
 # Tests
 # Make sure you install the executable before (make install)
-add_test(
-        NAME
-        GOYAC1.iddq.stil
-        COMMAND
-        python3 test_driver.py GOYAC1.iddq.stil
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
-)
-add_test(
-        NAME
-        GOYAC1B.iddq.stil
-        COMMAND
-        python3 test_driver.py GOYAC1B.iddq.stil
-        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
-)
+file(GLOB input_test_files "${PROJECT_SOURCE_DIR}/test/input_files/*")
+foreach(file ${input_test_files})
+    get_filename_component(name ${file} NAME)
+    add_test(
+            NAME
+            ${name}
+            COMMAND
+            python3 test_driver.py ${name}
+            WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
+    )
+endforeach()

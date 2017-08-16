@@ -9,11 +9,11 @@
 #include "STILState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
-//    STILFilePreprocessor preprocessor(stil_file);
-//    preprocessor.remove_user_keyword_definitions();
+    STILFilePreprocessor preprocessor(stil_file);
+    preprocessor.remove_user_keyword_definitions();
     stil_input.open(stil_file);
     pattern_stream.open(pattern_file);
-    timing_stream.open(timing_file);
+//    timing_stream.open(timing_file);
 }
 
 void STILInterpreter::run() {
