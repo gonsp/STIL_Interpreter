@@ -6,9 +6,10 @@
 
 using namespace std;
 
-STILState::STILState(STILProgram* program) {
+STILState::STILState(STILProgram* program, int* stil_line) {
     this->program = program;
     next_vector = program->signals;
+    this->stil_line = stil_line;
 }
 
 void STILState::execute_assigs(list<Assig> assigs) {
@@ -34,7 +35,14 @@ void STILState::execute_assigs(list<Assig> assigs) {
                 char wfc2 = wfc;
                 if(wfc1 != wfc2) {
                     string from = {wfc1, wfc2};
-                    assert(signalGroup.wfcmaps[from] != ' ' && "WFC map not defined for this char join!");
+                    if(signalGroup.wfcmaps[from] == 0) {
+                        cerr << "Error at line: " << *stil_line << endl;
+                        cerr << "WFC map not defined for the char join of: " << from << " at SignalGroup: " << signalGroup.id << endl;
+                        cerr << "In one instruction (V/C/F) you can only assign the same value "
+                             << "to each signal in each assignation, or assign 2 different values "
+                             << "but having a WFCMap defined for that SignalGroup and that combination of wfc" << endl;
+                        exit(1);
+                    };
                     assig_result[signals[i]].value = signalGroup.wfcmaps[from];
                 }
             }
@@ -79,12 +87,14 @@ void STILState::clock_cycle(ostream& output) {
             ++waveform;
         }
         if(!found) {
+            cerr << "Error at line: " << *stil_line << endl;
             cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
             exit(1);
         }
         string event_seq = waveForms[waveform].event_seq();
         char tester_event = program->config.eventsMap[event_seq];
         if(tester_event == '\0') {
+            cerr << "Error at line: " << *stil_line << endl;
             cerr << "Event sequence \"" << event_seq << "\" for waveform " << waveForms[waveform].id << " in WaveFormTable: " << waveform_table.id << " not defined in config file" << endl;
             cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
             exit(1);

@@ -21,11 +21,13 @@ public:
 
     Signals next_vector;
     Identifiable waveform_table;
+
     int max_param_size = 0;
+    int* stil_line;
 
     STILState() {}
 
-    STILState(STILProgram* program);
+    STILState(STILProgram* program, int* stil_line);
 
     void set_params(list<Assig> params);
 

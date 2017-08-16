@@ -46,7 +46,8 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
-    signalState = STILState(&program);
+    stil_line = 0;
+    signalState = STILState(&program, &stil_line);
     visit(program.patternExecs[pattern_exec]);
     cout << "Done" << endl;
 }
@@ -99,7 +100,11 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
     return NULL;
 }
 
-
+antlrcpp::Any STILInterpreter::visitInst(STILParser::InstContext* ctx) {
+    stil_line = (int) ctx->getStart()->getLine();
+    visitChildren(ctx);
+    return NULL;
+}
 
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
     cout << "Executing loop" << endl;

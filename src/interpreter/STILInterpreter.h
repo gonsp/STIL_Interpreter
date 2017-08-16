@@ -32,6 +32,7 @@ private:
     ContextStack contextStack;
     STILState signalState;
 
+    int stil_line;
     int padding = PADDING;
     long int prev_last_line_index = 0;
     long int last_line_index = 0;
@@ -45,6 +46,8 @@ private:
     virtual antlrcpp::Any visitPattern_burst_call(STILParser::Pattern_burst_callContext* ctx) override;
 
     virtual antlrcpp::Any visitPattern_list(STILParser::Pattern_listContext* ctx) override;
+
+    virtual antlrcpp::Any visitInst(STILParser::InstContext* ctx) override;
 
     virtual antlrcpp::Any visitLoop(STILParser::LoopContext* ctx) override;
 
