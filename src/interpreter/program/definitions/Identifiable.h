@@ -31,7 +31,8 @@ public:
             return config.namesMap[id];
         }
 
-        id = id.erase(0, 1).erase(id.size()-1, 1);
+        id.erase(0, 1);
+        id.pop_back();
 
         if(config.removeBrackets) {
             for(int i = 0; i < id.size(); ++i) {

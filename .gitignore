@@ -33,6 +33,8 @@
 
 # Build
 cmake-build-debug
+build
+bld
 CMakeFiles
 CMakeCache.txt
 antlr4cpp
