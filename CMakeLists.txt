@@ -6,7 +6,7 @@ enable_testing()
 set(ANTLR4CPP_JAR_LOCATION ${PROJECT_SOURCE_DIR}/antlr/antlr-4.7-complete.jar)
 set(ANTLR4CPP_GENERATED_SRC_DIR ${PROJECT_SOURCE_DIR}/src/parser)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/antlr)
-include(Antlr4Cpp)
+include(Antlr4cpp)
 
 # Generate parser source code for STIL grammar
 set(PARSER_NAMESPACE parser)
@@ -29,7 +29,13 @@ add_custom_target(
 
 # Compiler settings
 set(CMAKE_CXX_STANDARD 11)
-SET(GCC_COVERAGE_COMPILE_FLAGS "-v")
+#set(GCC_COVERAGE_COMPILE_FLAGS "-v")
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE ReleaseWithAsserts)
+endif(NOT CMAKE_BUILD_TYPE)
+
+set(CMAKE_CXX_FLAGS_RELEASEWITHASSERTS "-Wall -O3")
 
 # Source files
 set(SOURCE_FILES
@@ -43,9 +49,9 @@ link_directories(
 
 # Target
 add_executable(stil_converter ${SOURCE_FILES})
-#add_dependencies(stil_converter generate_parser antlr4cpp)
-add_dependencies(stil_converter generate_parser generate_default_config)
+add_dependencies(stil_converter antlr4cpp generate_parser generate_default_config)
 target_link_libraries(stil_converter ${antlr4_static})
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
 # Install stil_converter
 install(TARGETS stil_converter
