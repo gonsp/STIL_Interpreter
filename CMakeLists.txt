@@ -54,7 +54,9 @@ message(STATUS "To install stil_converter under /usr/local/bin, type: make insta
 
 # Tests
 # Make sure you install the executable before (make install)
-file(GLOB input_test_files "${PROJECT_SOURCE_DIR}/test/input_files/*")
+# Make sure all the tests were when you run cmake.
+# To run the tests, type "make test"
+file(GLOB input_test_files "${PROJECT_SOURCE_DIR}/test/input_files/*.stil")
 foreach(file ${input_test_files})
     get_filename_component(name ${file} NAME)
     add_test(
