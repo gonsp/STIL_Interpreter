@@ -31,7 +31,7 @@ typedef unordered_map<string, Procedures> ProceduresContexts;
 typedef unordered_map<string, Macros> MacrosContexts;
 typedef map<string, Signal> Signals;
 typedef unordered_map<string, SignalGroup> SignalGroups;
-typedef unordered_map<string, WaveFormTable> WaveFormTables;
+typedef map<string, WaveFormTable> WaveFormTables;
 
 class STILProgram {
 
