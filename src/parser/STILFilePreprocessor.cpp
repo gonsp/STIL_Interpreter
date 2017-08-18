@@ -8,13 +8,12 @@
 #include "STILFilePreprocessor.h"
 
 STILFilePreprocessor::STILFilePreprocessor(string file_path) {
-    this->file_path = file_path;
     original.open(file_path);
     if(!original.good()) {
         cerr << "Input stil file not found!" << endl;
         exit(1);
     }
-    processed.open(file_path+".tmp");
+    processed.open(file_path + ".tmp");
 }
 
 // The arbitrary structure of a user_keyword block makes impossible
@@ -61,7 +60,4 @@ void STILFilePreprocessor::remove_user_keyword_definitions() {
     }
     original.close();
     processed.close();
-    string tmp_path = file_path + ".tmp";
-    remove(file_path.c_str());
-    rename(tmp_path.c_str(), file_path.c_str());
 }

@@ -16,8 +16,6 @@ private:
     ifstream original;
     ofstream processed;
 
-    string file_path;
-
 public:
 
     STILFilePreprocessor(string file_path);
