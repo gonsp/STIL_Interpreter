@@ -10,6 +10,10 @@
 STILFilePreprocessor::STILFilePreprocessor(string file_path) {
     this->file_path = file_path;
     original.open(file_path);
+    if(!original.good()) {
+        cerr << "Input stil file not found!" << endl;
+        exit(1);
+    }
     processed.open(file_path+".tmp");
 }
 
