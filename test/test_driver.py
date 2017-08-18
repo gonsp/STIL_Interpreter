@@ -5,7 +5,6 @@ import datetime
 
 from os import listdir
 
-
 def test(file):
 
     name = file.rsplit('.', 1)[0]
@@ -14,7 +13,7 @@ def test(file):
     print("Executing test", name)
 
     with open("test_logs/" + name + time + ".txt", 'w+') as logs_file:
-        process = subprocess.Popen(["stil_converter", "../input_files/" + file, "-v"], stdout = logs_file, stderr = logs_file, cwd = "test_output_files")
+        process = subprocess.Popen([exec_path, "../input_files/" + file, "-v"], stdout = logs_file, stderr = logs_file, cwd = "test_output_files")
         exit_code = process.wait()
 
     if exit_code != 0:
@@ -26,8 +25,12 @@ def test(file):
 
 
 def main():
-    if len(sys.argv) == 2:
-        input_files = [sys.argv[1]]
+
+    global exec_path
+    exec_path = sys.argv[1]
+
+    if len(sys.argv) == 3:
+        input_files = [sys.argv[2]]
     else:
         input_files = [f for f in listdir("input_files")]
 

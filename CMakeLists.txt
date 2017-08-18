@@ -69,7 +69,7 @@ foreach(file ${input_test_files})
             NAME
             ${name}
             COMMAND
-            python3 test_driver.py ${name}
+            python3 test_driver.py $<TARGET_FILE:stil_converter> ${name}
             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
     )
 endforeach()
