@@ -8,7 +8,9 @@
 #include <unordered_map>
 #include "Identifiable.h"
 #include "WaveForm.h"
+#include "SignalGroup.h"
 
+typedef unordered_map<string, SignalGroup> SignalGroups;
 typedef vector<WaveForm> WaveForms;
 
 class WaveFormTable : public Identifiable {
@@ -21,6 +23,8 @@ public:
     WaveFormTable() : Identifiable() {}
 
     WaveFormTable(string id, float period, WaveForms& waveforms);
+
+    string get_event_seq(string signal_id, char wfc, SignalGroups& signalGroups);
 
 };
 

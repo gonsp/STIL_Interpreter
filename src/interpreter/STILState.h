@@ -20,7 +20,7 @@ public:
     typedef pair<string, string> Assig;
 
     Signals next_vector;
-    Identifiable waveform_table;
+    Identifiable active_table;
 
     int max_param_size = 0;
     int* stil_line;

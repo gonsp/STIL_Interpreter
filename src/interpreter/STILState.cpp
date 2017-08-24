@@ -55,7 +55,7 @@ void STILState::execute_assigs(list<Assig> assigs) {
 }
 
 void STILState::clock_cycle(ostream& output) {
-    output << "> " << "t" << waveform_table.format(program->config) << "   ";
+    output << "> " << "t" << active_table.format(program->config) << "   ";
     for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
 
         // This is in case that a signal has been removed in the config file.
@@ -74,29 +74,13 @@ void STILState::clock_cycle(ostream& output) {
             wfc = program->config.scan_padding_out;
         }
 
-        WaveForms& waveForms = program->waveFormTables[waveform_table.id].waveforms;
+        WaveFormTable& table = program->waveFormTables[active_table.id];
+        string event_seq = table.get_event_seq(it->second.id, wfc, program->signalGroups);
 
-        bool found = false;
-        int waveform = 0;
-        while(waveform < waveForms.size() && !found) {
-            if(program->signalGroups[waveForms[waveform].id].contains(it->second.id)) {
-                if(wfc == waveForms[waveform].wfc) {
-                    found = true;
-                    break;
-                }
-            }
-            ++waveform;
-        }
-        if(!found) {
-            cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
-            exit(1);
-        }
-        string event_seq = waveForms[waveform].event_seq();
         char tester_event = program->config.eventsMap[event_seq];
         if(tester_event == '\0') {
             cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Event sequence \"" << event_seq << "\" for waveform " << waveForms[waveform].id << " in WaveFormTable: " << waveform_table.id << " not defined in config file" << endl;
+//            cerr << "Event sequence \"" << event_seq << "\" for waveform " << waveForms[waveform].id << " in WaveFormTable: " << active_table.id << " not defined in config file" << endl;
             cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
             exit(1);
         }
