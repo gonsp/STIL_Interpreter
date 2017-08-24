@@ -77,10 +77,16 @@ void STILState::clock_cycle(ostream& output) {
         WaveFormTable& table = program->waveFormTables[active_table.id];
         string event_seq = table.get_event_seq(it->second.id, wfc, program->signalGroups);
 
+        if(event_seq == "") {
+            cerr << "Error at line: " << *stil_line << endl;
+            cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
+            exit(1);
+        }
+
         char tester_event = program->config.eventsMap[event_seq];
         if(tester_event == '\0') {
             cerr << "Error at line: " << *stil_line << endl;
-//            cerr << "Event sequence \"" << event_seq << "\" for waveform " << waveForms[waveform].id << " in WaveFormTable: " << active_table.id << " not defined in config file" << endl;
+            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << active_table.id << " not defined in config file" << endl;
             cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
             exit(1);
         }

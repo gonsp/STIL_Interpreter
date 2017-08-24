@@ -13,18 +13,11 @@ string WaveFormTable::get_event_seq(string signal_id, char wfc, SignalGroups& si
     bool found = false;
     int waveform = 0;
     while(waveform < waveforms.size() && !found) {
-        if(signalGroups[waveforms[waveform].id].contains(signal_id)) {
-            if(wfc == waveforms[waveform].wfc) {
-                found = true;
-                break;
-            }
+        if(signalGroups[waveforms[waveform].id].contains(signal_id) && wfc == waveforms[waveform].wfc) {
+            found = true;
+        } else {
+            ++waveform;
         }
-        ++waveform;
-    }
-    if(!found) {
-//        cerr << "Error at line: " << *stil_line << endl;
-        cerr << "Waveform not found for signal: " << signal_id << " and WFC: " << wfc << endl;
-        exit(1);
     }
     return waveforms[waveform].event_seq();
 }
