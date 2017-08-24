@@ -8,6 +8,8 @@
 #include "program/STILProgramVisitor.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
+    this->stil_file = stil_file;
+
     STILFilePreprocessor preprocessor(stil_file);
     preprocessor.remove_user_keyword_definitions();
 
@@ -48,7 +50,13 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "Starting interpretation" << endl;
     stil_line = 0;
     signalState = STILState(&program, &stil_line);
+
     visit(program.patternExecs[pattern_exec]);
+
+    pattern_stream.close();
+    timing_stream.close();
+    string aux = stil_file + ".tmp";
+    remove(aux.c_str()); // Removing the temporal preprocessed file
     cout << "Done" << endl;
 }
 
@@ -62,8 +70,6 @@ antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext
     }
     pattern_stream << "}" << endl;
     insert_halt();
-    pattern_stream.close();
-    timing_stream.close();
     return NULL;
 }
 

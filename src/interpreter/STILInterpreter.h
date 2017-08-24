@@ -25,6 +25,8 @@ class STILInterpreter : public STILCustomVisitor {
 private:
     STILProgram program;
 
+    string stil_file;
+
     ifstream stil_input;
     ofstream pattern_stream;
     ofstream timing_stream;
