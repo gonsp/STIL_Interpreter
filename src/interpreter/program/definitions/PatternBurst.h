@@ -26,5 +26,6 @@ public:
 
 };
 
+typedef unordered_map<string, PatternBurst> PatternBursts;
 
 #endif //STIL_INTERPRETER_PATTERNBURST_H

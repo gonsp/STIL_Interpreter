@@ -6,7 +6,6 @@
 #include <STILFilePreprocessor.h>
 #include "STILInterpreter.h"
 #include "program/STILProgramVisitor.h"
-#include "STILState.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
     STILFilePreprocessor preprocessor(stil_file);

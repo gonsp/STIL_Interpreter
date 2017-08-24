@@ -3,7 +3,6 @@
 //
 
 #include "STILProgramVisitor.h"
-#include "definitions/WaveFormTable.h"
 
 antlrcpp::Any STILProgramVisitor::visitProgram(STILParser::ProgramContext* ctx) {
     visit(ctx->signals());

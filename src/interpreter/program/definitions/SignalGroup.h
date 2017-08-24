@@ -32,5 +32,7 @@ public:
 
 };
 
+typedef unordered_map<string, SignalGroup> SignalGroups;
+
 
 #endif //STIL_INTERPRETER_SIGNALGROUP_H

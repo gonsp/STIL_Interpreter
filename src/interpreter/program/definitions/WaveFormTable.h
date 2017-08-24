@@ -6,11 +6,11 @@
 #define STIL_INTERPRETER_WAVEFORMTABLE_H
 
 #include <unordered_map>
+#include <map>
 #include "Identifiable.h"
 #include "WaveForm.h"
 #include "SignalGroup.h"
 
-typedef unordered_map<string, SignalGroup> SignalGroups;
 typedef vector<WaveForm> WaveForms;
 
 class WaveFormTable : public Identifiable {
@@ -27,6 +27,8 @@ public:
     string get_event_seq(string signal_id, char wfc, SignalGroups& signalGroups);
 
 };
+
+typedef map<string, WaveFormTable> WaveFormTables;
 
 
 #endif //STIL_INTERPRETER_WAVEFORMTABLE_H

@@ -23,15 +23,11 @@ using namespace parser;
 #define GLOBAL_DEF "global"
 
 typedef unordered_map<string, STILParser::Pattern_execContext*> PatternExecs;
-typedef unordered_map<string, PatternBurst> PatternBursts;
 typedef unordered_map<string, STILParser::Inst_listContext*> Patterns;
 typedef unordered_map<string, STILParser::Inst_listContext*> Procedures;
 typedef unordered_map<string, STILParser::Inst_listContext*> Macros;
-typedef unordered_map<string, Procedures> ProceduresContexts;
-typedef unordered_map<string, Macros> MacrosContexts;
-typedef map<string, Signal> Signals;
-typedef unordered_map<string, SignalGroup> SignalGroups;
-typedef map<string, WaveFormTable> WaveFormTables;
+typedef unordered_map<string, Procedures> ProcedureBlocks;
+typedef unordered_map<string, Macros> MacroBlocks;
 
 class STILProgram {
 
@@ -39,8 +35,8 @@ public:
     PatternExecs patternExecs;
     PatternBursts patternBursts;
     Patterns patterns;
-    ProceduresContexts procedures;
-    MacrosContexts macros;
+    ProcedureBlocks procedures;
+    MacroBlocks macros;
     Signals signals;
     SignalGroups signalGroups;
     WaveFormTables waveFormTables;

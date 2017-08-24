@@ -6,6 +6,7 @@
 #define STIL_INTERPRETER_SIGNAL_H
 
 #include <string>
+#include <map>
 #include "Identifiable.h"
 
 using namespace std;
@@ -53,6 +54,8 @@ public:
 
     void refresh_params();
 };
+
+typedef map<string, Signal> Signals;
 
 
 #endif //STIL_INTERPRETER_SIGNAL_H
