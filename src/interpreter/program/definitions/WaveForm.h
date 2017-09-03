@@ -45,8 +45,10 @@ public:
         }
     };
 
+    typedef vector<WaveFormEvent> EventSeq;
+
     char wfc;
-    vector<WaveFormEvent> events;
+    EventSeq events;
 
     WaveForm() : Identifiable() {}
 
