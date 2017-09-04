@@ -33,8 +33,7 @@ protected:
 public:
     int myLineNumber;
 
-    LineNumberStreambuf(std::istream& owner) : mySource(owner.rdbuf()), myOwner(&owner), myIsAtStartOfLine(true),
-                                               myLineNumber(0) {
+    LineNumberStreambuf(std::istream& owner) : mySource(owner.rdbuf()), myOwner(&owner), myIsAtStartOfLine(true), myLineNumber(0) {
         myOwner->rdbuf(this);
     }
 };
@@ -52,7 +51,7 @@ STILConfig::STILConfig(string path) {
     cout << "Parsing config file" << endl;
     ifstream file;
     file.open(path);
-    this->input = &file;
+    input = &file;
     parse_config_file();
     input = NULL;
     cout << "Config file parsed correctly" << endl;

@@ -24,7 +24,7 @@ public:
         id = string("_unitialized_");
     }
 
-    string format(STILConfig& config) {
+    string format(STILConfig& config) const {
         string id = this->id;
 
         if(config.namesMap.find(id) != config.namesMap.end()) {

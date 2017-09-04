@@ -9,13 +9,13 @@
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
     this->stil_file = stil_file;
+    this->pattern_file = pattern_file;
+    this->timing_file = timing_file;
 
     STILFilePreprocessor preprocessor(stil_file);
     preprocessor.remove_user_keyword_definitions();
 
     stil_input.open(stil_file + ".tmp");
-    pattern_stream.open(pattern_file);
-    //    timing_stream.open(timing_file);
 }
 
 void STILInterpreter::run() {
@@ -48,28 +48,28 @@ void STILInterpreter::run(string pattern_exec) {
     cout << "--------------------------------------" << endl;
 
     cout << "Starting interpretation" << endl;
-    stil_line = 0;
-    signalState = STILState(&program, &stil_line);
+    actual_line = 0;
+    signalState = STILState(&program, &actual_line);
+    patternGenerator = STILPatternGenerator(pattern_file, &program, &actual_line);
+    timingGenerator = STILTimingGenerator(timing_file);
 
     visit(program.patternExecs[pattern_exec]);
 
-    pattern_stream.close();
-    timing_stream.close();
+    patternGenerator.finish();
+    timingGenerator.finish();
+
     string aux = stil_file + ".tmp";
     remove(aux.c_str()); // Removing the temporal preprocessed file
     cout << "Done" << endl;
 }
 
 antlrcpp::Any STILInterpreter::visitPattern_exec(STILParser::Pattern_execContext* ctx) {
-    generate_headers();
-    pattern_stream << "{" << endl;
+    patternGenerator.print_headers();
     contextStack.push(PatternContext()); // Base context
     for(int i = 0; i < ctx->pattern_burst_call().size(); ++i) {
         visit(ctx->pattern_burst_call(i));
         assert(contextStack.size() == 1); // Needs to remain just the base context
     }
-    pattern_stream << "}" << endl;
-    insert_halt();
     return NULL;
 }
 
@@ -107,18 +107,17 @@ antlrcpp::Any STILInterpreter::visitPattern_list(STILParser::Pattern_listContext
 }
 
 antlrcpp::Any STILInterpreter::visitInst(STILParser::InstContext* ctx) {
-    stil_line = (int) ctx->getStart()->getLine();
+    actual_line = (int) ctx->getStart()->getLine();
     visitChildren(ctx);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
-    cout << stil_line << ": " << "Executing loop" << endl;
+    cout << actual_line << ": " << "Executing loop" << endl;
     int times = visit(ctx->int_t());
     if(ctx->inst_list()->children.size() == 1) {
         string s = "repeat " + to_string(times);
-        pattern_stream << s;
-        padding -= s.size();
+        patternGenerator.print_tester_inst(s);
         visit(ctx->inst_list());
     } else {
         while(times > 0) {
@@ -130,7 +129,7 @@ antlrcpp::Any STILInterpreter::visitLoop(STILParser::LoopContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
-    cout << stil_line << ": " << "Executing shift" << endl;
+    cout << actual_line << ": " << "Executing shift" << endl;
     int times = signalState.max_param_size;
     signalState.set_padding_to_params(times);
     while(times > 0) {
@@ -150,13 +149,9 @@ antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
 }
 
 antlrcpp::Any STILInterpreter::visitV_inst(STILParser::V_instContext* ctx) {
-    pattern_stream << string(padding, ' ');
     list<STILState::Assig> assigs = visit(ctx->assigs());
     signalState.execute_assigs(assigs);
-    signalState.clock_cycle(pattern_stream);
-    padding = PADDING;
-    prev_last_line_index = last_line_index;
-    last_line_index = pattern_stream.tellp();
+    patternGenerator.clock_cycle(signalState, timingGenerator);
     return NULL;
 }
 
@@ -176,7 +171,7 @@ antlrcpp::Any STILInterpreter::visitF_inst(STILParser::F_instContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx) {
     string id = visit(ctx->id());
-    cout << stil_line << ": " << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
+    cout << actual_line << ": " << "Calling procedure: " << id << " from block " << contextStack.top().proceds_id << endl;
 
     cout << "Saving entire previous state" << endl;
     STILState prev_signalState = signalState;
@@ -196,7 +191,7 @@ antlrcpp::Any STILInterpreter::visitCall_inst(STILParser::Call_instContext* ctx)
 
 antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ctx) {
     string id = visit(ctx->id());
-    cout << stil_line << ": " << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
+    cout << actual_line << ": " << "Calling macro: " << id << " from block " << contextStack.top().macros_id << endl;
 
     STILState prev_signalState;
 
@@ -220,38 +215,13 @@ antlrcpp::Any STILInterpreter::visitMacro_inst(STILParser::Macro_instContext* ct
 }
 
 antlrcpp::Any STILInterpreter::visitStop_inst(STILParser::Stop_instContext* ctx) {
-    cout << stil_line << ": " << "Stopping test" << endl;
+    cout << actual_line << ": " << "Stopping test" << endl;
     exit(1);
     return NULL;
 }
 
 antlrcpp::Any STILInterpreter::visitIddq_inst(STILParser::Iddq_instContext* ctx) {
-    cout << stil_line << ": " << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
-    pattern_stream << program.config.iddq_action;
+    cout << actual_line << ": " << "Executing Iddq instruction. Replacing it by the string defined in config" << endl;
+    patternGenerator.print_iddq();
     return NULL;
-}
-
-void STILInterpreter::generate_headers() {
-    pattern_stream << "opcode_mode=extended;" << endl;
-    pattern_stream << "import tset ";
-    for(auto it = program.waveFormTables.begin(); it != program.waveFormTables.end(); ++it) {
-        if(it != program.waveFormTables.begin()) {
-            pattern_stream << ",";
-        }
-        pattern_stream << "t" << it->second.format(program.config);
-    }
-    pattern_stream << ";" << endl;
-    pattern_stream << "vector($tset";
-    for(auto it = program.signals.begin(); it != program.signals.end(); ++it) {
-        string formated_id = it->second.format(program.config);
-        if(formated_id != "") {
-            pattern_stream << "," << formated_id;
-        }
-    }
-    pattern_stream << ")" << endl;
-};
-
-void STILInterpreter::insert_halt() {
-    pattern_stream.seekp(prev_last_line_index);
-    pattern_stream << "halt";
 }

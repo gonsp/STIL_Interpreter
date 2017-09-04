@@ -12,9 +12,9 @@
 #include "STILCustomVisitor.h"
 #include "STILState.h"
 #include "program/definitions/STILConfig.h"
+#include "STILPatternGenerator.h"
+#include "STILTimingGenerator.h"
 #include <fstream>
-
-#define PADDING 22
 
 using namespace std;
 using namespace antlr4;
@@ -26,22 +26,17 @@ private:
     STILProgram program;
 
     string stil_file;
+    string pattern_file;
+    string timing_file;
 
     ifstream stil_input;
-    ofstream pattern_stream;
-    ofstream timing_stream;
 
     ContextStack contextStack;
     STILState signalState;
+    STILPatternGenerator patternGenerator;
+    STILTimingGenerator timingGenerator;
 
-    int stil_line;
-    int padding = PADDING;
-    long int prev_last_line_index = 0;
-    long int last_line_index = 0;
-
-    void generate_headers();
-
-    void insert_halt();
+    int actual_line;
 
     virtual antlrcpp::Any visitPattern_exec(STILParser::Pattern_execContext* ctx) override;
 

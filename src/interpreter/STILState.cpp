@@ -54,47 +54,6 @@ void STILState::execute_assigs(list<Assig> assigs) {
     }
 }
 
-void STILState::clock_cycle(ostream& output) {
-    output << "> " << "t" << active_table.format(program->config) << "   ";
-    for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
-
-        // This is in case that a signal has been removed in the config file.
-        // If it's removed, we don't print its value
-        if(it->second.format(program->config) == "") {
-            continue;
-        }
-
-        char wfc = it->second.value;
-        assert(wfc != '?' && "WFC not defined for signal before clock_cycle!");
-        assert(wfc != '#' && wfc != '%'); // Check that it has been substituted by a parameter
-
-        if(wfc == '$') {
-            wfc = program->config.scan_padding_in;
-        } else if(wfc == '@') {
-            wfc = program->config.scan_padding_out;
-        }
-
-        WaveFormTable& table = program->waveFormTables[active_table.id];
-        string event_seq = table.get_event_seq(it->second.id, wfc, program->signalGroups);
-
-        if(event_seq == "") {
-            cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
-            exit(1);
-        }
-
-        char tester_event = program->config.eventsMap[event_seq];
-        if(tester_event == '\0') {
-            cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << active_table.id << " not defined in config file" << endl;
-            cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
-            exit(1);
-        }
-        output << tester_event << " ";
-    }
-    output << ";" << endl;
-}
-
 void STILState::set_params(list<STILState::Assig> params) {
     for(auto it = params.begin(); it != params.end(); ++it) {
         SignalGroup& signalGroup = program->signalGroups[it->first];
