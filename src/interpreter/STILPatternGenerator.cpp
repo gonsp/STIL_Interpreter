@@ -33,7 +33,10 @@ void STILPatternGenerator::print_headers() {
 
 void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerator& timingGenerator) {
     output << string(padding, ' ');
-    output << "> " << "t" << state.active_table.format(program->config) << "   ";
+    output << "> " << "t";
+    long int offset = output.tellp();
+    output << "                ";
+
 
     for(auto it = state.next_vector.begin(); it != state.next_vector.end(); ++it) {
 
@@ -54,13 +57,8 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
         }
 
         WaveFormTable& table = program->waveFormTables[state.active_table.id];
-        string event_seq = table.get_event_seq(it->second.id, wfc, program->signalGroups);
-
-        if(event_seq == "") {
-            cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Waveform not found for signal: " << it->second.id << " and WFC: " << wfc << endl;
-            exit(1);
-        }
+        WaveForm& waveform = table.get_waveform(it->second.id, wfc, program->signalGroups);
+        string event_seq = waveform.event_seq();
 
         STILConfig::EventsTranslation translation = program->config.eventsMap[event_seq];
         char tester_event = translation.first;
@@ -77,6 +75,10 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
     padding = PADDING;
     prev_last_line_index = last_line_index;
     last_line_index = output.tellp();
+
+    output.seekp(offset);
+    output << "1";
+    output.seekp(last_line_index);
 }
 
 void STILPatternGenerator::finish() {

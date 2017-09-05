@@ -24,7 +24,7 @@ public:
 
     WaveFormTable(string id, float period, WaveForms& waveforms);
 
-    string get_event_seq(string signal_id, char wfc, SignalGroups& signalGroups);
+    WaveForm& get_waveform(string signal_id, char wfc, SignalGroups& signalGroups);
 
 };
 

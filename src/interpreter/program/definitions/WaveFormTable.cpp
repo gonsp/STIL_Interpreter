@@ -2,6 +2,7 @@
 // Created by Gonzalo Solera on 04/08/2017.
 //
 
+#include <assert.h>
 #include "WaveFormTable.h"
 
 WaveFormTable::WaveFormTable(string id, float period, WaveForms& waveforms) : Identifiable(id) {
@@ -9,7 +10,7 @@ WaveFormTable::WaveFormTable(string id, float period, WaveForms& waveforms) : Id
     this->waveforms = waveforms;
 }
 
-string WaveFormTable::get_event_seq(string signal_id, char wfc, SignalGroups& signalGroups) {
+WaveForm& WaveFormTable::get_waveform(string signal_id, char wfc, SignalGroups& signalGroups) {
     bool found = false;
     int waveform = 0;
     while(waveform < waveforms.size() && !found) {
@@ -19,5 +20,11 @@ string WaveFormTable::get_event_seq(string signal_id, char wfc, SignalGroups& si
             ++waveform;
         }
     }
-    return waveforms[waveform].event_seq();
+
+    if(!found) {
+        cerr << "Waveform not found for signal: " << signal_id << " and WFC: " << wfc << endl;
+        exit(1);
+    }
+
+    return waveforms[waveform];
 }
