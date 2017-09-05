@@ -22,9 +22,9 @@ void STILPatternGenerator::print_headers() {
     output << ";" << endl;
     output << "vector($tset";
     for(auto it = program->signals.begin(); it != program->signals.end(); ++it) {
-        string formated_id = it->second.format(program->config);
-        if(formated_id != "") {
-            output << "," << formated_id;
+        string formatted_id = it->second.format(program->config);
+        if(formatted_id != "") {
+            output << "," << formatted_id;
         }
     }
     output << ")" << endl;
@@ -62,13 +62,12 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
             exit(1);
         }
 
-        char tester_event = program->config.eventsMap[event_seq];
+        STILConfig::EventsTranslation translation = program->config.eventsMap[event_seq];
+        char tester_event = translation.first;
         if(tester_event == '\0') {
             cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << state.active_table.id
-                 << " not defined in config file" << endl;
-            cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events"
-                 << endl;
+            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << state.active_table.id << " not defined in config file" << endl;
+            cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
             exit(1);
         }
         output << tester_event << " ";

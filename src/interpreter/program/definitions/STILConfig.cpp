@@ -77,10 +77,14 @@ void STILConfig::parse_config_file() {
     while(input >> s && s != "}") {
         string stil_event_seq = s;
         char tester_event;
+        string wave_set;
+
         input >> s;
         parse_word(s, "->");
         input >> tester_event;
-        eventsMap[stil_event_seq] = tester_event;
+        getline(input, wave_set);
+
+        eventsMap[stil_event_seq] = EventsTranslation(tester_event, WaveSet(wave_set));
     }
     parse_word(s, "}");
 
@@ -90,6 +94,7 @@ void STILConfig::parse_config_file() {
     while(input >> s && s != "}") {
         string from = s;
         string to;
+
         input >> s;
         parse_word(s, "->");
         getline(input, to);

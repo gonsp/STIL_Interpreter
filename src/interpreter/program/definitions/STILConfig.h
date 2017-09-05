@@ -8,6 +8,8 @@
 #include <string>
 #include <unordered_map>
 #include <istream>
+#include "WaveSet.h"
+
 using namespace std;
 
 
@@ -24,7 +26,8 @@ private:
     void parse_word(string& s, string value);
 
 public:
-    typedef unordered_map <string, char> EventsMap;
+    typedef pair<char, WaveSet> EventsTranslation;
+    typedef unordered_map <string, EventsTranslation> EventsMap;
     typedef unordered_map <string, string> NamesMap;
 
     EventsMap eventsMap;

@@ -6,12 +6,18 @@
 #define STIL_CONVERTER_TIMESET_H
 
 #include <vector>
+#include "WaveSet.h"
+
 using namespace std;
 
-typedef int WaveDescriptors;
-class TimeSet : public vector<WaveDescriptors> {
+// This class represents a full Teradyne timeset: A WaveSet describing how the signal's waveform should be for each signal.
+// The WaveSets will be reduced to an arbitrary chosen representative whenever the timeset generation finishes and there are multiple options
+// in one signal's cell.
+
+class TimeSet : public vector<WaveSet> {
 
 public:
+
 
 };
 
