@@ -11,16 +11,8 @@ using namespace std;
 
 class STILFilePreprocessor {
 
-private:
-
-    ifstream original;
-    ofstream processed;
-
 public:
-
-    STILFilePreprocessor(string file_path);
-
-    void remove_user_keyword_definitions();
+    void static preprocess(string file_path);
 };
 
 

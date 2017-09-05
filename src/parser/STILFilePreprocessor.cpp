@@ -7,22 +7,26 @@
 #include <unordered_set>
 #include "STILFilePreprocessor.h"
 
-STILFilePreprocessor::STILFilePreprocessor(string file_path) {
-    original.open(file_path);
-    if(!original.good()) {
-        cerr << "Input stil file not found!" << endl;
-        exit(1);
-    }
-    processed.open(file_path + ".tmp");
-}
-
 // The arbitrary structure of a user_keyword block makes impossible
 // (or really difficult) the parsing of the stil file.
 // This workaround consists on a pre-processor of the input file
 // to remove the definitions of the user_keywords by filtering the
 // input file into a temporal one. Then deleting the original and
 // changing the temporal name to the original one.
-void STILFilePreprocessor::remove_user_keyword_definitions() {
+void STILFilePreprocessor::preprocess(string file_path) {
+
+    ifstream original;
+    ofstream processed;
+
+    original.open(file_path);
+    if(!original.good()) {
+        cerr << "Input stil file not found!" << endl;
+        exit(1);
+    }
+    processed.open(file_path + ".tmp");
+
+    //-------------------------------------------
+
     cout << "Pre-processing input file (removing user keywords)" << endl;
     unordered_set<string> keywords;
     string line;
@@ -58,6 +62,7 @@ void STILFilePreprocessor::remove_user_keyword_definitions() {
             processed << line << endl;
         }
     }
+
     original.close();
     processed.close();
 }

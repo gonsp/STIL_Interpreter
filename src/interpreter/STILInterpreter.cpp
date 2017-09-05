@@ -12,8 +12,7 @@ STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string t
     this->pattern_file = pattern_file;
     this->timing_file = timing_file;
 
-    STILFilePreprocessor preprocessor(stil_file);
-    preprocessor.remove_user_keyword_definitions();
+    STILFilePreprocessor::preprocess(stil_file);
 
     stil_input.open(stil_file + ".tmp");
 }
