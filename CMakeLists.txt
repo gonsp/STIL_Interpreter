@@ -15,16 +15,16 @@ antlr4cpp_process_grammar(generate_parser ${PARSER_NAMESPACE} STIL ${PROJECT_SOU
 # Default config
 add_custom_command(
         OUTPUT
-        ${PROJECT_SOURCE_DIR}/src/interpreter/program/definitions/DefaultConfig.h
+        src/interpreter/teradyne/DefaultConfig.h
         COMMAND
-        xxd -i grammar/stil.config src/interpreter/program/definitions/DefaultConfig.h
+        xxd -i grammar/stil.config src/interpreter/teradyne/DefaultConfig.h
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         DEPENDS ${PROJECT_SOURCE_DIR}/grammar/stil.config
 )
 
 add_custom_target(
         generate_default_config
-        DEPENDS ${PROJECT_SOURCE_DIR}/src/interpreter/program/definitions/DefaultConfig.h
+        DEPENDS src/interpreter/teradyne/DefaultConfig.h
 )
 
 # Compiler settings
@@ -41,7 +41,7 @@ set(CMAKE_CXX_FLAGS_RELEASEWITHASSERTS "-Wall -O3")
 set(SOURCE_FILES
         src/main.cpp
         src/parser/STILBaseVisitor.h src/parser/STILFilePreprocessor.h src/parser/STILLexer.h src/parser/STILParser.h src/parser/STILVisitor.h src/parser/STILParser.cpp src/parser/STILVisitor.cpp src/parser/STILBaseVisitor.cpp src/parser/STILFilePreprocessor.cpp src/parser/STILLexer.cpp
-        src/interpreter/program/STILProgramVisitor.cpp src/interpreter/program/STILProgramVisitor.h src/interpreter/program/STILProgram.h src/interpreter/program/definitions/Signal.cpp src/interpreter/program/definitions/Signal.h src/interpreter/STILInterpreter.cpp src/interpreter/STILInterpreter.h src/interpreter/program/definitions/PatternBurst.cpp src/interpreter/program/definitions/PatternBurst.h src/interpreter/program/definitions/PatternContext.cpp src/interpreter/program/definitions/PatternContext.h src/interpreter/program/definitions/SignalGroup.cpp src/interpreter/program/definitions/SignalGroup.h src/interpreter/program/definitions/Identifiable.h src/interpreter/program/definitions/WaveFormTable.cpp src/interpreter/program/definitions/WaveFormTable.h src/interpreter/STILCustomVisitor.cpp src/interpreter/STILCustomVisitor.h src/interpreter/program/definitions/WaveForm.cpp src/interpreter/program/definitions/WaveForm.h src/interpreter/STILState.cpp src/interpreter/STILState.h src/interpreter/program/definitions/STILConfig.cpp src/interpreter/program/definitions/STILConfig.h src/parser/STILFilePreprocessor.cpp src/parser/STILFilePreprocessor.h src/interpreter/STILTimingGenerator.cpp src/interpreter/STILTimingGenerator.h src/interpreter/program/definitions/TimeSet.cpp src/interpreter/program/definitions/TimeSet.h src/interpreter/STILPatternGenerator.cpp src/interpreter/STILPatternGenerator.h src/interpreter/program/definitions/WaveDescription.cpp src/interpreter/program/definitions/WaveDescription.h src/interpreter/program/definitions/WaveSet.cpp src/interpreter/program/definitions/WaveSet.h)
+        src/interpreter/stil/STILProgramVisitor.cpp src/interpreter/stil/STILProgramVisitor.h src/interpreter/stil/STILProgram.h src/interpreter/stil/Signal.cpp src/interpreter/stil/Signal.h src/interpreter/STILInterpreter.cpp src/interpreter/STILInterpreter.h src/interpreter/stil/PatternBurst.cpp src/interpreter/stil/PatternBurst.h src/interpreter/stil/PatternContext.cpp src/interpreter/stil/PatternContext.h src/interpreter/stil/SignalGroup.cpp src/interpreter/stil/SignalGroup.h src/interpreter/stil/Identifiable.h src/interpreter/stil/Identifiable.cpp src/interpreter/stil/WaveFormTable.cpp src/interpreter/stil/WaveFormTable.h src/interpreter/STILCustomVisitor.cpp src/interpreter/STILCustomVisitor.h src/interpreter/teradyne/WaveForm.cpp src/interpreter/teradyne/WaveForm.h src/interpreter/STILState.cpp src/interpreter/STILState.h src/interpreter/teradyne/STILConfig.cpp src/interpreter/teradyne/STILConfig.h src/parser/STILFilePreprocessor.cpp src/parser/STILFilePreprocessor.h src/interpreter/teradyne/STILTimingGenerator.cpp src/interpreter/teradyne/STILTimingGenerator.h src/interpreter/teradyne/TimeSet.cpp src/interpreter/teradyne/TimeSet.h src/interpreter/teradyne/STILPatternGenerator.cpp src/interpreter/teradyne/STILPatternGenerator.h src/interpreter/teradyne/WaveDescription.cpp src/interpreter/teradyne/WaveDescription.h src/interpreter/teradyne/WaveSet.cpp src/interpreter/teradyne/WaveSet.h)
 include_directories(
         ${ANTLR4CPP_INCLUDE_DIRS}
         ${antlr4cpp_include_dirs_${PARSER_NAMESPACE}})
