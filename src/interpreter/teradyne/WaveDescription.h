@@ -14,20 +14,15 @@ using namespace std;
 // A WaveDescription is an specific possible description of a waveform. It's important to note that a single WaveDescription could
 // refer to multiple ways of representing that specific waveform if an edge's time is not specified.
 
-#define DISABLE -1
-#define ANY -2
-
 class WaveDescription {
 
-    enum WaveFormat {
-        NR, RH, RL, SBH, SBL, SBC, Off, Edge
-    };
+
 
 public:
     WaveFormat format;
     vector<float> edges;
 
-    WaveDescription(WaveForm& waveform, string& rule);
+    WaveDescription(float period, WaveForm& waveform, WaveTranslation& rule);
 };
 
 

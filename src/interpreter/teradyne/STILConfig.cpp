@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <list>
 #include "DefaultConfig.h"
 
 class STILConfig::LineNumberStreambuf : public std::streambuf {
@@ -84,7 +85,17 @@ void STILConfig::parse_config_file() {
         input >> tester_event;
         getline(input, translations);
 
-        eventsMap[stil_event_seq] = EventsTranslation(tester_event, translations);
+        list<WaveTranslation> wave_translations;
+        istringstream iss(translations);
+        char c;
+        while(iss >> c) {   // It's a "coma"
+            iss >> c;       // It's a left parenthesis
+            string rule;    // It's a full rule
+            getline(iss, rule, ')');
+            wave_translations.push_back(WaveTranslation(rule));
+        }
+
+        eventsMap[stil_event_seq] = EventsTranslation(tester_event, wave_translations);
     }
     parse_word(s, "}");
 

@@ -8,6 +8,8 @@
 #include <string>
 #include <unordered_map>
 #include <istream>
+#include <list>
+#include "WaveTranslation.h"
 
 using namespace std;
 
@@ -25,7 +27,8 @@ private:
     void parse_word(string& s, string value);
 
 public:
-    typedef pair<char, string> EventsTranslation;
+
+    typedef pair<char, list<WaveTranslation>> EventsTranslation;
     typedef unordered_map <string, EventsTranslation> EventsMap;
     typedef unordered_map <string, string> NamesMap;
 

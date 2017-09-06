@@ -11,6 +11,7 @@
 #include <list>
 #include "WaveDescription.h"
 #include "WaveForm.h"
+#include "WaveTranslation.h"
 
 
 class WaveSet : public list<WaveDescription> {
@@ -19,7 +20,7 @@ public:
 
     WaveSet() {}
 
-    WaveSet(WaveForm& waveform, string& translation_rules);
+    WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules);
 };
 
 
