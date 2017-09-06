@@ -33,11 +33,13 @@ void STILPatternGenerator::print_headers() {
 
 void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerator& timingGenerator) {
     output << string(padding, ' ');
-    output << "> " << "t";
-    long int offset = output.tellp();
-    output << "                ";
+//    output << "> " << "t";
+//    long int offset = output.tellp();
+//    output << "                ";
+    output << "> " << "t" << state.active_table.format(program->config) << "   ";
 
-    TimeSet timeset;
+    WaveFormTable& table = program->waveFormTables[state.active_table];
+    TimeSet timeset(table.period);
 
     for(auto it = state.next_vector.begin(); it != state.next_vector.end(); ++it) {
 
@@ -57,7 +59,6 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
             wfc = program->config.scan_padding_out;
         }
 
-        WaveFormTable& table = program->waveFormTables[state.active_table];
         WaveForm& waveform = table.get_waveform(it->second, wfc, program->signalGroups);
         string event_seq = waveform.event_seq();
 
@@ -79,9 +80,9 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
     prev_last_line_index = last_line_index;
     last_line_index = output.tellp();
 
-    output.seekp(offset);
-    output << timingGenerator.add_timeset(timeset);
-    output.seekp(last_line_index);
+//    output.seekp(offset);
+//    output << timingGenerator.add_timeset(timeset);
+//    output.seekp(last_line_index);
 }
 
 void STILPatternGenerator::finish() {

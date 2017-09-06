@@ -17,8 +17,9 @@ using namespace std;
 class TimeSet : public vector<WaveSet> {
 
 public:
+    float period;
 
-
+    TimeSet(float period);
 };
 
 

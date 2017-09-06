@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <string>
+#include "WaveForm.h"
 
 using namespace std;
 
@@ -19,14 +20,14 @@ using namespace std;
 class WaveDescription {
 
     enum WaveFormat {
-        NR, RL, RH, SBH, SBL, SBC, Off, Edge
+        NR, RH, RL, SBH, SBL, SBC, Off, Edge
     };
 
 public:
     WaveFormat format;
     vector<float> edges;
 
-    WaveDescription(string s);
+    WaveDescription(WaveForm& waveform, string& rule);
 };
 
 

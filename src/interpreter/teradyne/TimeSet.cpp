@@ -3,3 +3,7 @@
 //
 
 #include "TimeSet.h"
+
+TimeSet::TimeSet(float period) {
+    this->period = period;
+}
