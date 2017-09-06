@@ -140,7 +140,7 @@ antlrcpp::Any STILInterpreter::visitShift(STILParser::ShiftContext* ctx) {
 
 antlrcpp::Any STILInterpreter::visitW_inst(STILParser::W_instContext* ctx) {
     string id = visit(ctx->id());
-    if(id != signalState.active_table.id) {
+    if(id != signalState.active_table) {
         cout << "Changing active waveform_table to: " << id << endl;
     }
     signalState.active_table = id;

@@ -1,15 +1,11 @@
 #include "Identifiable.h"
 
-Identifiable::Identifiable(string id) {
-    this->id = id;
-}
+Identifiable::Identifiable(string id) : string(id) {}
 
-Identifiable::Identifiable() {
-    id = string("_unitialized_");
-}
+Identifiable::Identifiable() : string("_unitialized_") {}
 
 string Identifiable::format(STILConfig& config) const {
-    string id = this->id;
+    string id = *this;
 
     if(config.namesMap.find(id) != config.namesMap.end()) {
         return config.namesMap[id];

@@ -57,15 +57,15 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
             wfc = program->config.scan_padding_out;
         }
 
-        WaveFormTable& table = program->waveFormTables[state.active_table.id];
-        WaveForm& waveform = table.get_waveform(it->second.id, wfc, program->signalGroups);
+        WaveFormTable& table = program->waveFormTables[state.active_table];
+        WaveForm& waveform = table.get_waveform(it->second, wfc, program->signalGroups);
         string event_seq = waveform.event_seq();
 
         STILConfig::EventsTranslation translation = program->config.eventsMap[event_seq];
         char tester_event = translation.first;
         if(tester_event == '\0') {
             cerr << "Error at line: " << *stil_line << endl;
-            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << state.active_table.id << " not defined in config file" << endl;
+            cerr << "Event sequence \"" << event_seq << "\" in WaveFormTable: " << state.active_table << " not defined in config file" << endl;
             cerr << "Please, define a correct config file that maps all the used permutations of STIL events inside the used waveforms to generate tester events" << endl;
             exit(1);
         }

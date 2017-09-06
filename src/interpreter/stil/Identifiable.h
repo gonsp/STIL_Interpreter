@@ -11,10 +11,9 @@
 
 using namespace std;
 
-class Identifiable {
+class Identifiable : public string {
 
 public:
-    string id;
 
     Identifiable(string id);
 

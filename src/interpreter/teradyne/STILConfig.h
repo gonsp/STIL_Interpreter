@@ -8,7 +8,6 @@
 #include <string>
 #include <unordered_map>
 #include <istream>
-#include "WaveSet.h"
 
 using namespace std;
 

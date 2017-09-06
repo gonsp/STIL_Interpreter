@@ -14,7 +14,7 @@ WaveForm& WaveFormTable::get_waveform(string signal_id, char wfc, SignalGroups& 
     bool found = false;
     int waveform = 0;
     while(waveform < waveforms.size() && !found) {
-        if(signalGroups[waveforms[waveform].id].contains(signal_id) && wfc == waveforms[waveform].wfc) {
+        if(signalGroups[waveforms[waveform]].contains(signal_id) && wfc == waveforms[waveform].wfc) {
             found = true;
         } else {
             ++waveform;

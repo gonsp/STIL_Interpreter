@@ -59,13 +59,13 @@ void STILState::set_params(list<STILState::Assig> params) {
         SignalGroup& signalGroup = program->signalGroups[it->first];
         if(signalGroup.signals.size() == 1) {
             Signal& signal = next_vector[signalGroup.signals[0]];
-            signal.params[signalGroup.id] = Signal::Param(it->first, it->second);
+            signal.params[signalGroup] = Signal::Param(it->first, it->second);
             max_param_size = max(max_param_size, (int) it->second.size());
         } else {
             for(int s = 0; s < signalGroup.signals.size(); ++s) {
                 Signal& signal = next_vector[signalGroup.signals[s]];
                 string aux = {it->second[s]};
-                signal.params[signalGroup.id] = Signal::Param(it->first, aux);
+                signal.params[signalGroup] = Signal::Param(it->first, aux);
             }
             max_param_size = max(max_param_size, 1);
         }
@@ -82,7 +82,7 @@ void STILState::clear_params() {
 void STILState::restore_params(STILState& prev_state) {
     max_param_size = prev_state.max_param_size;
     for(auto it = next_vector.begin(); it != next_vector.end(); ++it) {
-        it->second.params = prev_state.next_vector[it->second.id].params;
+        it->second.params = prev_state.next_vector[it->second].params;
     }
 }
 

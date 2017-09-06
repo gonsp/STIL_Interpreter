@@ -25,7 +25,7 @@ char Signal::solve_param_ref(string ref_id, char type) {
     string& s = it->second.values;
     if(s.size() == 0) {
         cerr << "There's a void string in a signal parameter!" << endl;
-        cerr << "Signal: " << id << ", parameter name: " << it->second.id << endl;
+        cerr << "Signal: " << *this << ", parameter name: " << it->second << endl;
         exit(1);
     }
 
