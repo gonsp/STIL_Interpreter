@@ -3,7 +3,7 @@
 //
 
 #include "PatternContext.h"
-#include "../STILProgram.h"
+#include "STILProgram.h"
 
 PatternContext::PatternContext() {
     proceds_id = GLOBAL_DEF;

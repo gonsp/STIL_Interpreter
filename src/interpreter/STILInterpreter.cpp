@@ -5,7 +5,7 @@
 #include <ANTLRInputStream.h>
 #include <STILFilePreprocessor.h>
 #include "STILInterpreter.h"
-#include "program/STILProgramVisitor.h"
+#include "stil/STILProgramVisitor.h"
 
 STILInterpreter::STILInterpreter(string stil_file, string pattern_file, string timing_file, STILConfig& config) : program(config) {
     this->stil_file = stil_file;

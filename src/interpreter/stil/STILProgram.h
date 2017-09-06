@@ -9,11 +9,11 @@
 #include <unordered_map>
 #include <tree/ParseTree.h>
 #include <STILParser.h>
-#include "definitions/Signal.h"
-#include "definitions/SignalGroup.h"
-#include "definitions/PatternBurst.h"
-#include "definitions/WaveFormTable.h"
-#include "definitions/STILConfig.h"
+#include "Signal.h"
+#include "SignalGroup.h"
+#include "PatternBurst.h"
+#include "WaveFormTable.h"
+#include "../teradyne/STILConfig.h"
 
 using namespace std;
 using namespace antlr4;

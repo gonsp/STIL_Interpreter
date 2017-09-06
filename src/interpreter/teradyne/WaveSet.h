@@ -9,6 +9,8 @@
 // Here there are stored these options through WaveDescriptions.
 
 #include "WaveDescription.h"
+#include "WaveForm.h"
+
 
 class WaveSet : public vector<WaveDescription> {
 
@@ -16,7 +18,7 @@ public:
 
     WaveSet() {}
 
-    WaveSet(string s);
+    WaveSet(WaveForm& waveform, string& translation_rules);
 };
 
 

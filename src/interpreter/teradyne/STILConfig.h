@@ -26,7 +26,7 @@ private:
     void parse_word(string& s, string value);
 
 public:
-    typedef pair<char, WaveSet> EventsTranslation;
+    typedef pair<char, string> EventsTranslation;
     typedef unordered_map <string, EventsTranslation> EventsMap;
     typedef unordered_map <string, string> NamesMap;
 

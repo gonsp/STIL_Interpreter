@@ -8,13 +8,13 @@
 #include <stack>
 #include <STILLexer.h>
 #include <STILParser.h>
-#include "program/STILProgram.h"
+#include <fstream>
+#include "stil/STILProgram.h"
 #include "STILCustomVisitor.h"
 #include "STILState.h"
-#include "program/definitions/STILConfig.h"
-#include "STILPatternGenerator.h"
-#include "STILTimingGenerator.h"
-#include <fstream>
+#include "teradyne/STILConfig.h"
+#include "teradyne/STILPatternGenerator.h"
+#include "teradyne/STILTimingGenerator.h"
 
 using namespace std;
 using namespace antlr4;

@@ -5,9 +5,14 @@
 #include "STILTimingGenerator.h"
 
 STILTimingGenerator::STILTimingGenerator(string timing_file) {
+    last_id = 0;
     output.open(timing_file);
 }
 
 void STILTimingGenerator::finish() {
     output.close();
+}
+
+int STILTimingGenerator::add_timeset(TimeSet& timeset) {
+    return last_id++;
 }

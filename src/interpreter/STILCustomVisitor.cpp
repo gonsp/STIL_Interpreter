@@ -3,8 +3,8 @@
 //
 
 #include "STILCustomVisitor.h"
-#include "program/definitions/PatternContext.h"
-#include "program/STILProgram.h"
+#include "stil/PatternContext.h"
+#include "stil/STILProgram.h"
 #include "STILState.h"
 
 antlrcpp::Any STILCustomVisitor::visitTerminal(tree::TerminalNode* node) {

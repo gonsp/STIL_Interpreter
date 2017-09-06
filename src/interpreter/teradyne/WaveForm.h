@@ -6,8 +6,8 @@
 #define STIL_INTERPRETER_WAVEFORM_H
 
 #include <vector>
-#include "Identifiable.h"
 #include <iostream>
+#include "../stil/Identifiable.h"
 
 using namespace std;
 

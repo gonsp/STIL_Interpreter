@@ -2,7 +2,7 @@
 #include <STILBaseVisitor.h>
 
 #include "interpreter/STILInterpreter.h"
-#include "interpreter/program/definitions/STILConfig.h"
+#include "interpreter/teradyne/STILConfig.h"
 
 using namespace parser;
 using namespace antlr4;

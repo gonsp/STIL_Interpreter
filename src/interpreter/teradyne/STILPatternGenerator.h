@@ -5,7 +5,7 @@
 #ifndef STIL_CONVERTER_STILPATTERNGENERATOR_H
 #define STIL_CONVERTER_STILPATTERNGENERATOR_H
 
-#include "STILState.h"
+#include "../STILState.h"
 #include "STILTimingGenerator.h"
 
 using namespace std;

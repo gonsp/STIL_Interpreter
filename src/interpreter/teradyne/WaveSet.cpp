@@ -4,6 +4,6 @@
 
 #include "WaveSet.h"
 
-WaveSet::WaveSet(string s) {
+WaveSet::WaveSet(WaveForm& waveform, string& translation_rules) {
 
 }

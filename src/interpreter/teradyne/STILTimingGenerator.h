@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <fstream>
-#include "program/definitions/TimeSet.h"
+#include "TimeSet.h"
 
 using namespace std;
 
@@ -16,12 +16,15 @@ class STILTimingGenerator {
 private:
     ofstream output;
     vector<TimeSet> timesets;
+    int last_id;
 
 public:
 
     STILTimingGenerator() {}
 
     STILTimingGenerator(string timing_file);
+
+    int add_timeset(TimeSet& timeset);
 
     void finish();
 };

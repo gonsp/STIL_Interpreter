@@ -7,7 +7,7 @@
 
 #include <string>
 #include <vector>
-#include "program/STILProgram.h"
+#include "stil/STILProgram.h"
 
 using namespace std;
 

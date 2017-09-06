@@ -37,6 +37,7 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
     long int offset = output.tellp();
     output << "                ";
 
+    TimeSet timeset;
 
     for(auto it = state.next_vector.begin(); it != state.next_vector.end(); ++it) {
 
@@ -69,6 +70,8 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
             exit(1);
         }
         output << tester_event << " ";
+
+        timeset.push_back(WaveSet(waveform, translation.second));
     }
     output << ";" << endl;
 
@@ -77,7 +80,7 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
     last_line_index = output.tellp();
 
     output.seekp(offset);
-    output << "1";
+    output << timingGenerator.add_timeset(timeset);
     output.seekp(last_line_index);
 }
 
