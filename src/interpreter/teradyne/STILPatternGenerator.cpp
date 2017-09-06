@@ -62,7 +62,7 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
         WaveForm& waveform = table.get_waveform(it->second, wfc, program->signalGroups);
         string event_seq = waveform.event_seq();
 
-        STILConfig::EventsTranslation translation = program->config.eventsMap[event_seq];
+        STILConfig::EventsTranslation& translation = program->config.eventsMap[event_seq];
         char tester_event = translation.first;
         if(tester_event == '\0') {
             cerr << "Error at line: " << *stil_line << endl;

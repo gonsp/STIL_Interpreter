@@ -8,11 +8,12 @@
 // The set of possible representations for a signal's waveform.
 // Here there are stored these options through WaveDescriptions.
 
+#include <list>
 #include "WaveDescription.h"
 #include "WaveForm.h"
 
 
-class WaveSet : public vector<WaveDescription> {
+class WaveSet : public list<WaveDescription> {
 
 public:
 
