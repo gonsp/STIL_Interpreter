@@ -6,7 +6,7 @@
 #define STIL_INTERPRETER_STILPROGRAMVISITOR_H
 
 
-#include "STILProgram.h"
+#include "definitions/STILProgram.h"
 #include "../STILCustomVisitor.h"
 
 using namespace std;

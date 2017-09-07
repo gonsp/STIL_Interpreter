@@ -7,7 +7,7 @@
 
 #include <string>
 #include <iostream>
-#include "../teradyne/STILConfig.h"
+#include "../../teradyne/STILConfig.h"
 
 using namespace std;
 

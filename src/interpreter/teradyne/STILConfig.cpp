@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <list>
-#include "DefaultConfig.h"
+#include "definitions/DefaultConfig.h"
 
 class STILConfig::LineNumberStreambuf : public std::streambuf {
 

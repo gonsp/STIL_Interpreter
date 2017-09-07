@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <map>
 #include "Identifiable.h"
-#include "../teradyne/WaveForm.h"
+#include "../../teradyne/definitions/WaveForm.h"
 #include "SignalGroup.h"
 
 typedef vector<WaveForm> WaveForms;

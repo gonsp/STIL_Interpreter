@@ -8,7 +8,7 @@
 #include <string>
 #include <STILParser.h>
 #include "Identifiable.h"
-#include "PatternContext.h"
+#include "../../PatternContext.h"
 
 using namespace std;
 using namespace parser;

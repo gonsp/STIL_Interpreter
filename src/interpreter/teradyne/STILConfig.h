@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <istream>
 #include <list>
-#include "WaveTranslation.h"
+#include "definitions/WaveTranslation.h"
 
 using namespace std;
 

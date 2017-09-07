@@ -13,7 +13,7 @@
 #include "SignalGroup.h"
 #include "PatternBurst.h"
 #include "WaveFormTable.h"
-#include "../teradyne/STILConfig.h"
+#include "../../teradyne/STILConfig.h"
 
 using namespace std;
 using namespace antlr4;

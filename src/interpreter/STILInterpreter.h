@@ -9,7 +9,7 @@
 #include <STILLexer.h>
 #include <STILParser.h>
 #include <fstream>
-#include "stil/STILProgram.h"
+#include "stil/definitions/STILProgram.h"
 #include "STILCustomVisitor.h"
 #include "STILState.h"
 #include "teradyne/STILConfig.h"
