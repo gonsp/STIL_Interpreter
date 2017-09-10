@@ -6,17 +6,17 @@
 
 WaveSet::WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules) {
     for(auto rule = translation_rules.begin(); rule != translation_rules.end(); ++rule) {
-        descriptions.push_back(WaveDescription(period, waveform, *rule));
+        push_back(WaveDescription(period, waveform, *rule));
     }
 }
 
 WaveSet WaveSet::merge(const WaveSet& waveset) const {
     WaveSet merged;
-    for(auto i = descriptions.begin(); i != descriptions.end(); ++i) {
-        for(auto j = waveset.descriptions.begin(); j != waveset.descriptions.end(); ++j) {
+    for(auto i = begin(); i != end(); ++i) {
+        for(auto j = waveset.begin(); j != waveset.end(); ++j) {
             pair<bool, WaveDescription> merge_result = i->merge(*j);
             if(merge_result.first) {
-                merged.descriptions.push_back(merge_result.second);
+                merged.push_back(merge_result.second);
             }
         }
     }

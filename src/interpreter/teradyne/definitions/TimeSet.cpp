@@ -12,14 +12,14 @@ bool TimeSet::merge(const TimeSet& timeset) {
     if(period != timeset.period) {
         return false;
     }
-    vector<WaveSet> merged_wavesets;
-    for(int i = 0; i < timeset.wavesets.size(); ++i) {
-        WaveSet merged_waveset = wavesets[i].merge(timeset.wavesets[i]);
-        if(merged_waveset.descriptions.size() == 0) {
+    TimeSet merged_timeset(period);
+    for(int i = 0; i < timeset.size(); ++i) {
+        WaveSet merged_waveset = (*this)[i].merge(timeset[i]);
+        if(merged_waveset.size() == 0) {
             return false;
         }
-        merged_wavesets.push_back(merged_waveset);
+        merged_timeset.push_back(merged_waveset);
     }
-    wavesets = merged_wavesets;
+    (*this) = merged_timeset;
     return true;
 }

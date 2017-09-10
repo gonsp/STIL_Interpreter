@@ -14,11 +14,9 @@
 #include "WaveTranslation.h"
 
 
-class WaveSet {
+class WaveSet : public list<WaveDescription> {
 
 public:
-
-	list<WaveDescription> descriptions;
 
     WaveSet() {}
 
