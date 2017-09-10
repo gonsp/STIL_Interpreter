@@ -25,6 +25,8 @@ public:
     TimeSet(float period);
 
     bool merge(const TimeSet& timeset);
+
+    string to_string() const;
 };
 
 

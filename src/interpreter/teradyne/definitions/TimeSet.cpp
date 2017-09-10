@@ -14,7 +14,7 @@ bool TimeSet::merge(const TimeSet& timeset) {
     }
     TimeSet merged_timeset(period);
     for(int i = 0; i < timeset.size(); ++i) {
-        WaveSet merged_waveset = (*this)[i].merge(timeset[i]);
+        WaveSet merged_waveset = at(i).merge(timeset[i]);
         if(merged_waveset.size() == 0) {
             return false;
         }
@@ -22,4 +22,17 @@ bool TimeSet::merge(const TimeSet& timeset) {
     }
     (*this) = merged_timeset;
     return true;
+}
+
+string TimeSet::to_string() const {
+    string s;
+    s += "{";
+    for(int i = 0; i < size(); ++i) {
+        if(i != 0) {
+            s += ", ";
+        }
+        s += at(i).to_string();
+    }
+    s += "}";
+    return s;
 }

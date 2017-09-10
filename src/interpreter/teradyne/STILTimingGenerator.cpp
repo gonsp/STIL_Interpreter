@@ -16,6 +16,7 @@ int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
 //    if(cache.count(timeset) != 0) {
 //        return cache[timeset];
 //    }
+    cout << "Adding timeset: " << timeset.to_string() << endl;
     for(int id = 0; id < timesets.size(); ++id) {
         if(timesets[id].merge(timeset)) {
 //            cache[timeset] = id;

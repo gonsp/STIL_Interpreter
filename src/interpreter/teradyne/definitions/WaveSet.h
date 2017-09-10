@@ -23,6 +23,8 @@ public:
     WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules);
 
     WaveSet merge(const WaveSet& waveset) const;
+
+    string to_string() const;
 };
 
 

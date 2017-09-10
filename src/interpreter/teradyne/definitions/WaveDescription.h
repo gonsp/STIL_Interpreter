@@ -25,6 +25,8 @@ public:
     WaveDescription(float period, WaveForm& waveform, WaveTranslation& rule);
 
     pair<bool, WaveDescription> merge(const WaveDescription& description) const;
+
+    string to_string() const;
 };
 
 

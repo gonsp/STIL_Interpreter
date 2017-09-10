@@ -47,3 +47,18 @@ pair<bool, WaveDescription> WaveDescription::merge(const WaveDescription& descri
     merged.first = true;
     return merged;
 }
+
+string WaveDescription::to_string() const {
+    string s;
+    s += "|";
+    s += std::to_string(format);
+    s += ": ";
+    for(int i = 0; i < edges.size(); ++i) {
+        if(i != 0) {
+            s += ", ";
+        }
+        s += std::to_string(edges[i]);
+    }
+    s += "|";
+    return s;
+}

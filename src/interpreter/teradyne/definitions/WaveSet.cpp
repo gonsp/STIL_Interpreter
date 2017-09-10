@@ -22,3 +22,16 @@ WaveSet WaveSet::merge(const WaveSet& waveset) const {
     }
     return merged;
 }
+
+string WaveSet::to_string() const {
+    string s;
+    s += "(";
+    for(auto it = begin(); it != end(); ++it) {
+        if(it != begin()) {
+            s += ", ";
+        }
+        s += it->to_string();
+    }
+    s += ")";
+    return s;
+}
