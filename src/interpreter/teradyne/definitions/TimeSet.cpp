@@ -55,3 +55,10 @@ string TimeSet::to_string() const {
     s += "}";
     return s;
 }
+
+void TimeSet::reduce() {
+    for(int i = 0; i < size(); ++i) {
+        at(i).first.reduce();
+        at(i).second.reduce();
+    }
+}

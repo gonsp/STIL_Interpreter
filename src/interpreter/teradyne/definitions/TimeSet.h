@@ -28,6 +28,8 @@ public:
 
     bool merge(const TimeSet& timeset);
 
+    void reduce();
+
     string to_string() const;
 };
 

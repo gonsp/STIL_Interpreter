@@ -32,6 +32,8 @@ public:
 
     WaveSet merge(const WaveSet& waveset) const;
 
+    void reduce();
+
     string to_string() const;
 };
 

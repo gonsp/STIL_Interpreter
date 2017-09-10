@@ -57,3 +57,7 @@ string WaveSet::to_string() const {
     s += ")";
     return s;
 }
+
+void WaveSet::reduce() {
+    erase(++begin(), end());
+}

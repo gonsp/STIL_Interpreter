@@ -9,6 +9,10 @@ STILTimingGenerator::STILTimingGenerator(string timing_file) {
 }
 
 void STILTimingGenerator::finish() {
+    for(int id = 0; id < timesets.size(); ++id) {
+        timesets[id].reduce();
+        output << id << "       " << timesets[id].to_string() << endl;
+    }
     output.close();
 }
 
@@ -16,7 +20,6 @@ int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
 //    if(cache.count(timeset) != 0) {
 //        return cache[timeset];
 //    }
-    cout << "Adding timeset: " << timeset.to_string() << endl;
     for(int id = 0; id < timesets.size(); ++id) {
         if(timesets[id].merge(timeset)) {
 //            cache[timeset] = id;
@@ -26,9 +29,6 @@ int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
     int id = timesets.size();
     cout << "Creating timeset: " << id << endl;
     timesets.push_back(timeset);
-    if(id > 1) {
-        exit(666);
-    }
 //    cache[timeset] = id;
     return id;
 }
