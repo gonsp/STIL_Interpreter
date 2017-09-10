@@ -12,7 +12,7 @@ bool TimeSet::merge(const TimeSet& timeset) {
     vector<WaveSet> merged_wavesets;
     for(int i = 0; i < timeset.wavesets.size(); ++i) {
         WaveSet merged_waveset = wavesets[i].merge(timeset.wavesets[i]);
-        if(merged_waveset.size() == 0) {
+        if(merged_waveset.descriptions.size() == 0) {
             return false;
         }
         merged_wavesets.push_back(merged_waveset);

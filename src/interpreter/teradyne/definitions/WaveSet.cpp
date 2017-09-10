@@ -4,9 +4,9 @@
 
 #include "WaveSet.h"
 
-WaveSet::WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules) : list<WaveDescription>() {
+WaveSet::WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules) {
     for(auto rule = translation_rules.begin(); rule != translation_rules.end(); ++rule) {
-        push_back(WaveDescription(period, waveform, *rule));
+        descriptions.push_back(WaveDescription(period, waveform, *rule));
     }
 }
 
@@ -16,7 +16,7 @@ WaveSet WaveSet::merge(const WaveSet& waveset) const {
         for(auto j = waveset.begin(); j != waveset.end(); ++j) {
             pair<bool, WaveDescription> merge_result = i->merge(*j);
             if(merge_result.first) {
-                merged.push_back(merge_result.second);
+                merged.descriptions.push_back(merge_result.second);
             }
         }
     }
