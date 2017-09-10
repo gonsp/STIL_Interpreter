@@ -16,13 +16,19 @@ using namespace std;
 
 class WaveDescription {
 
-
-
 public:
     WaveFormat format;
     vector<float> edges;
 
+    WaveDescription() {}
+
     WaveDescription(float period, WaveForm& waveform, WaveTranslation& rule);
+
+    pair<bool, WaveDescription> merge(const WaveDescription& description) const {
+        pair<bool, WaveDescription> merged;
+        merged.first = true;
+        return merged;
+    }
 };
 
 

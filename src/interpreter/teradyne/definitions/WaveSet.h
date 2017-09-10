@@ -18,9 +18,11 @@ class WaveSet : public list<WaveDescription> {
 
 public:
 
-    WaveSet() {}
+    WaveSet() : list<WaveDescription>() {}
 
     WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules);
+
+    WaveSet merge(const WaveSet& waveset) const;
 };
 
 

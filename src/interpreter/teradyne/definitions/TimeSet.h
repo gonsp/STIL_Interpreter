@@ -14,12 +14,18 @@ using namespace std;
 // The WaveSets will be reduced to an arbitrary chosen representative whenever the timeset generation finishes and there are multiple options
 // in one signal's cell.
 
-class TimeSet : public vector<WaveSet> {
+class TimeSet {
 
 public:
+
     float period;
+    vector<WaveSet> wavesets;
+
+    TimeSet() {}
 
     TimeSet(float period);
+
+    bool merge(const TimeSet& timeset);
 };
 
 

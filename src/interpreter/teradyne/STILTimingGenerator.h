@@ -16,6 +16,7 @@ class STILTimingGenerator {
 private:
     ofstream output;
     vector<TimeSet> timesets;
+//    unordered_map<TimeSet, int> cache;
     int last_id;
 
 public:
