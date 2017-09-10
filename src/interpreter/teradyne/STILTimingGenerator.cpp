@@ -17,22 +17,27 @@ int STILTimingGenerator::add_timeset(TimeSet& timeset) {
 //    if(cache.count(timeset) != 0) {
 //        return cache[timeset];
 //    }
-    cout << "Adding timeset" << endl;
-    for(int id = 0; id < last_id; ++id) {
-        cout << "---------------------------------" << endl;
-        cout << "Trying to merge it with timeset: " << id << endl;
-        if(timesets[id].merge(timeset)) {
-            cout << "Merge is done!!" << endl;
-//            cache[timeset] = id;
-            cout << "Using timeset: " << id << endl;
-            return id;
-        } else {
-            cout << "Merge is not possible" << endl;
-        }
-        cout << "---------------------------------" << endl;
+    cout << "------------------------------------" << endl;
+    cout << "Adding timeset: " << timeset.period;
+    for(int i = 0; i < timeset.wavesets.size(); ++i) {
+        cout << timeset.wavesets[i].descriptions.size() << ", ";
     }
+    cout << endl;
+    for(int id = 0; id < last_id; ++id) {
+        cout << "Trying to merge with timeset: " << timeset.period;
+        for(int i = 0; i < timeset.wavesets.size(); ++i) {
+            cout << timeset.wavesets[i].descriptions.size() << ", ";
+        }
+        cout << endl;
+        if(timesets[id].merge(timeset)) {
+//            cache[timeset] = id;
+            cout << "%%%%%%%%%%%%%%Using timeset: " << id << endl;
+            return id;
+        }
+    }
+    cout << "==============Creating timeset: " << last_id << endl;
     timesets.push_back(timeset);
+    cout << "------------------------------------" << endl;
 //    cache[timeset] = last_id;
-    cout << "Creating timeset: " << last_id << endl;
     return last_id++;
 }

@@ -12,8 +12,8 @@ WaveSet::WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& transl
 
 WaveSet WaveSet::merge(const WaveSet& waveset) const {
     WaveSet merged;
-    for(auto i = this->begin(); i != this->end(); ++i) {
-        for(auto j = waveset.begin(); j != waveset.end(); ++j) {
+    for(auto i = descriptions.begin(); i != descriptions.end(); ++i) {
+        for(auto j = waveset.descriptions.begin(); j != waveset.descriptions.end(); ++j) {
             pair<bool, WaveDescription> merge_result = i->merge(*j);
             if(merge_result.first) {
                 merged.descriptions.push_back(merge_result.second);
