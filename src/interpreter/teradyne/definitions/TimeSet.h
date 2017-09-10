@@ -14,7 +14,7 @@ using namespace std;
 // The WaveSets will be reduced to an arbitrary chosen representative whenever the timeset generation finishes and there are multiple options
 // in one signal's cell.
 
-class TimeSet : public vector<WaveSet> {
+class TimeSet : public vector<pair<WaveSet, WaveSet>> {
 
 public:
 
@@ -23,6 +23,8 @@ public:
     TimeSet() {}
 
     TimeSet(float period);
+
+    void add_waveset(const WaveSet& waveset);
 
     bool merge(const TimeSet& timeset);
 

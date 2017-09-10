@@ -18,7 +18,15 @@ class WaveSet : public list<WaveDescription> {
 
 public:
 
-    WaveSet() {}
+    enum WaveSetType {
+        DRIVE, COMPARE, UNDEFINED
+    };
+
+    WaveSetType type;
+
+    WaveSet();
+
+    WaveSet(WaveSetType type);
 
     WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules);
 

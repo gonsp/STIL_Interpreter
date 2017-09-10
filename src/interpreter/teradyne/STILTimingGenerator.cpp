@@ -23,8 +23,12 @@ int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
             return id;
         }
     }
-    cout << "Creating timeset: " << timesets.size() << endl;
+    int id = timesets.size();
+    cout << "Creating timeset: " << id << endl;
     timesets.push_back(timeset);
-//    cache[timeset] = last_id;
-    return timesets.size();
+    if(id > 1) {
+        exit(666);
+    }
+//    cache[timeset] = id;
+    return id;
 }

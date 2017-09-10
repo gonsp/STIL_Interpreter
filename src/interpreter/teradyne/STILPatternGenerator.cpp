@@ -72,7 +72,8 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
         }
         output << tester_event << " ";
 
-        timeset.push_back(WaveSet(table.period, waveform, translation.second));
+        WaveSet waveset(table.period, waveform, translation.second);
+        timeset.add_waveset(waveset);
     }
     output << ";" << endl;
 

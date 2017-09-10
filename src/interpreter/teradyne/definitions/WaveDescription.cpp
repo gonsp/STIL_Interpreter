@@ -50,7 +50,7 @@ pair<bool, WaveDescription> WaveDescription::merge(const WaveDescription& descri
 
 string WaveDescription::to_string() const {
     string s;
-    s += "|";
+    s += "[";
     s += std::to_string(format);
     s += ": ";
     for(int i = 0; i < edges.size(); ++i) {
@@ -59,6 +59,6 @@ string WaveDescription::to_string() const {
         }
         s += std::to_string(edges[i]);
     }
-    s += "|";
+    s += "]";
     return s;
 }
