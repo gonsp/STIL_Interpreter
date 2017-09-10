@@ -9,6 +9,9 @@ TimeSet::TimeSet(float period) {
 }
 
 bool TimeSet::merge(const TimeSet& timeset) {
+    if(period != timeset.period) {
+        return false;
+    }
     vector<WaveSet> merged_wavesets;
     for(int i = 0; i < timeset.wavesets.size(); ++i) {
         WaveSet merged_waveset = wavesets[i].merge(timeset.wavesets[i]);

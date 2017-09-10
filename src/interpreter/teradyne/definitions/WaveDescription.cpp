@@ -19,3 +19,31 @@ WaveDescription::WaveDescription(float period, WaveForm& waveform, WaveTranslati
         }
     }
 }
+
+pair<bool, WaveDescription> WaveDescription::merge(const WaveDescription& description) const {
+    pair<bool, WaveDescription> merged(false, WaveDescription());
+    if(format != description.format) {
+        return merged;
+    }
+    merged.second.format = format;
+    for(int i = 0; i < edges.size(); ++i) {
+        const float& a = edges[i];
+        const float& b = description.edges[i];
+        if(a == b) {
+            merged.second.edges.push_back(a);
+        } else {
+            if(a == DISABLE || b == DISABLE) {
+                return merged;
+            }
+            if(a == ANY) {
+                merged.second.edges.push_back(b);
+            } else if(b == ANY) {
+                merged.second.edges.push_back(a);
+            } else {
+                return merged;
+            }
+        }
+    }
+    merged.first = true;
+    return merged;
+}
