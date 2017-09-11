@@ -60,4 +60,5 @@ string WaveSet::to_string() const {
 
 void WaveSet::reduce() {
     erase(++begin(), end());
+    front().reduce();
 }

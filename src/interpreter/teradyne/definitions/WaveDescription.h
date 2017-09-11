@@ -26,6 +26,8 @@ public:
 
     pair<bool, WaveDescription> merge(const WaveDescription& description) const;
 
+    void reduce();
+
     string to_string() const;
 };
 

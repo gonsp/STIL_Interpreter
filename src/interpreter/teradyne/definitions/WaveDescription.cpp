@@ -60,12 +60,17 @@ string WaveDescription::to_string() const {
         if(edges[i] == DISABLE) {
             s += " - ";
         } else {
-            if(edges[i] == ANY) {
-                edges[i] += i > 0 ? edges[i-1] : 0;
-            }
             s += std::to_string(edges[i]);
         }
     }
     s += "]";
     return s;
+}
+
+void WaveDescription::reduce() {
+    for(int i = 0; i < edges.size(); ++i) {
+        if(edges[i] == ANY) {
+            edges[i] += i > 0 ? edges[i-1] : 0;
+        }
+    }
 }
