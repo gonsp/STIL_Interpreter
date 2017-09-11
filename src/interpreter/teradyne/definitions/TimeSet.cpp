@@ -26,14 +26,17 @@ bool TimeSet::merge(const TimeSet& timeset) {
     for(int i = 0; i < timeset.size(); ++i) {
         WaveSet merged_waveset;
         if(timeset[i].first.type != WaveSet::WaveSetType::UNDEFINED) {
+            assert(timeset[i].first.type == WaveSet::WaveSetType::DRIVE);
             merged_waveset = at(i).first.merge(timeset[i].first);
+            merged_timeset.push_back(pair<WaveSet, WaveSet>(merged_waveset, at(i).second));
         } else {
+            assert(timeset[i].second.type == WaveSet::WaveSetType::COMPARE);
             merged_waveset = at(i).second.merge(timeset[i].second);
+            merged_timeset.push_back(pair<WaveSet, WaveSet>(at(i).first, merged_waveset));
         }
         if(merged_waveset.size() == 0) {
             return false;
         }
-        merged_timeset.add_waveset(merged_waveset);
     }
     (*this) = merged_timeset;
     return true;

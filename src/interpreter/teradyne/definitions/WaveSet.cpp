@@ -59,6 +59,9 @@ string WaveSet::to_string() const {
 }
 
 void WaveSet::reduce() {
-    erase(++begin(), end());
-    front().reduce();
+    assert(type == UNDEFINED || size() > 0);
+    if(type != UNDEFINED) {
+        erase(++begin(), end());
+        front().reduce();
+    }
 }
