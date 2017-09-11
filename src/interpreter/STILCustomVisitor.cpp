@@ -3,7 +3,7 @@
 //
 
 #include "STILCustomVisitor.h"
-#include "PatternContext.h"
+#include "teradyne/definitions/PatternContext.h"
 #include "stil/definitions/STILProgram.h"
 #include "STILState.h"
 
