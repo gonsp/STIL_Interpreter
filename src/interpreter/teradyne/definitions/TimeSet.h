@@ -14,7 +14,7 @@ using namespace std;
 // The WaveSets will be reduced to an arbitrary chosen representative whenever the timeset generation finishes and there are multiple options
 // in one signal's cell.
 
-class TimeSet : public vector<pair<WaveSet, WaveSet>> {
+class TimeSet : private vector<pair<WaveSet, WaveSet>> {
 
 public:
 
@@ -32,7 +32,7 @@ public:
 
     string to_string() const;
 
-    bool operator()(const TimeSet& timeset) const;
+    bool operator()(const TimeSet& other) const;
 };
 
 

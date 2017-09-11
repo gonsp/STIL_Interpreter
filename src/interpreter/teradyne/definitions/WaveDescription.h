@@ -30,7 +30,7 @@ public:
 
     string to_string() const;
 
-    bool operator==(const WaveDescription& description) const;
+    bool operator==(const WaveDescription& other) const;
 };
 
 

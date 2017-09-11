@@ -34,7 +34,7 @@ bool TimeSet::merge(const TimeSet& timeset) {
             merged_waveset = at(i).second.merge(timeset[i].second);
             merged_timeset.push_back(pair<WaveSet, WaveSet>(at(i).first, merged_waveset));
         }
-        if(merged_waveset.size() == 0) {
+        if(merged_waveset.descriptions.size() == 0) {
             return false;
         }
     }
@@ -66,6 +66,6 @@ void TimeSet::reduce() {
     }
 }
 
-bool TimeSet::operator()(const TimeSet& timeset) const {
-    return period == timeset.period && *this == timeset;
+bool TimeSet::operator()(const TimeSet& other) const {
+    return period == other.period && *this == other;
 }

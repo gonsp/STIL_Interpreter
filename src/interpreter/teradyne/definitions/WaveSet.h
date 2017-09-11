@@ -14,7 +14,7 @@
 #include "WaveTranslation.h"
 
 
-class WaveSet : public list<WaveDescription> {
+class WaveSet {
 
 public:
 
@@ -23,6 +23,7 @@ public:
     };
 
     WaveSetType type;
+    list<WaveDescription> descriptions;
 
     WaveSet();
 

@@ -16,8 +16,8 @@ WaveSet::WaveSet(WaveSet::WaveSetType type) {
 WaveSet::WaveSet(float period, WaveForm& waveform, list<WaveTranslation>& translation_rules) {
     type = UNDEFINED;
     for(auto rule = translation_rules.begin(); rule != translation_rules.end(); ++rule) {
-        push_back(WaveDescription(period, waveform, *rule));
-        WaveSetType last_type = back().format == Edge || back().format == Off ? COMPARE : DRIVE;
+        descriptions.push_back(WaveDescription(period, waveform, *rule));
+        WaveSetType last_type = descriptions.back().format == Edge || descriptions.back().format == Off ? COMPARE : DRIVE;
         if(type == UNDEFINED) {
             type = last_type;
         } else {
@@ -34,11 +34,11 @@ WaveSet WaveSet::merge(const WaveSet& waveset) const {
     }
     assert(type == waveset.type);
     WaveSet merged(type);
-    for(auto i = begin(); i != end(); ++i) {
-        for(auto j = waveset.begin(); j != waveset.end(); ++j) {
+    for(auto i = descriptions.begin(); i != descriptions.end(); ++i) {
+        for(auto j = waveset.descriptions.begin(); j != waveset.descriptions.end(); ++j) {
             pair<bool, WaveDescription> merge_result = i->merge(*j);
             if(merge_result.first) {
-                merged.push_back(merge_result.second);
+                merged.descriptions.push_back(merge_result.second);
             }
         }
     }
@@ -48,8 +48,8 @@ WaveSet WaveSet::merge(const WaveSet& waveset) const {
 string WaveSet::to_string() const {
     string s;
     s += "(";
-    for(auto it = begin(); it != end(); ++it) {
-        if(it != begin()) {
+    for(auto it = descriptions.begin(); it != descriptions.end(); ++it) {
+        if(it != descriptions.begin()) {
             s += ", ";
         }
         s += it->to_string();
@@ -59,13 +59,13 @@ string WaveSet::to_string() const {
 }
 
 void WaveSet::reduce() {
-    assert(type == UNDEFINED || size() > 0);
+    assert(type == UNDEFINED || descriptions.size() > 0);
     if(type != UNDEFINED) {
-        erase(++begin(), end());
-        front().reduce();
+        descriptions.erase(++descriptions.begin(), descriptions.end());
+        descriptions.front().reduce();
     }
 }
 
 bool WaveSet::operator==(const WaveSet& other) const {
-    return type == other.type && *this == other;
+    return type == other.type && descriptions == other.descriptions;
 }
