@@ -57,7 +57,14 @@ string WaveDescription::to_string() const {
         if(i != 0) {
             s += ", ";
         }
-        s += std::to_string(edges[i]);
+        if(edges[i] == DISABLE) {
+            s += " - ";
+        } else {
+            if(edges[i] == ANY) {
+                edges[i] += i > 0 ? edges[i-1] : 0;
+            }
+            s += std::to_string(edges[i]);
+        }
     }
     s += "]";
     return s;
