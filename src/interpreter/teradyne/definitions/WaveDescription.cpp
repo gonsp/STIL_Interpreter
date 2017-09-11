@@ -70,7 +70,7 @@ string WaveDescription::to_string() const {
 void WaveDescription::reduce() {
     for(int i = 0; i < edges.size(); ++i) {
         if(edges[i] == ANY) {
-            edges[i] += i > 0 ? edges[i-1] : 0;
+            edges[i] = i > 0 ? edges[i-1] : 0;
         }
     }
 }
