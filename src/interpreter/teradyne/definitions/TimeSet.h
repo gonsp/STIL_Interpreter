@@ -31,6 +31,8 @@ public:
     void reduce();
 
     string to_string() const;
+
+    bool operator()(const TimeSet& timeset) const;
 };
 
 

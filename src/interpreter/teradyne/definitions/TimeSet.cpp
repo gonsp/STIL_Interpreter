@@ -65,3 +65,7 @@ void TimeSet::reduce() {
         at(i).second.reduce();
     }
 }
+
+bool TimeSet::operator()(const TimeSet& timeset) const {
+    return period == timeset.period && *this == timeset;
+}

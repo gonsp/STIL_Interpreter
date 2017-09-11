@@ -74,3 +74,7 @@ void WaveDescription::reduce() {
         }
     }
 }
+
+bool WaveDescription::operator==(const WaveDescription& description) const {
+    return format == description.format && edges == description.edges;
+}

@@ -65,3 +65,7 @@ void WaveSet::reduce() {
         front().reduce();
     }
 }
+
+bool WaveSet::operator==(const WaveSet& other) const {
+    return type == other.type && *this == other;
+}

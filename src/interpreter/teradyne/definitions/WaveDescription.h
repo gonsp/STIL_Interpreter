@@ -29,6 +29,8 @@ public:
     void reduce();
 
     string to_string() const;
+
+    bool operator==(const WaveDescription& description) const;
 };
 
 
