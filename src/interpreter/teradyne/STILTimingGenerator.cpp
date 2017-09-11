@@ -17,18 +17,28 @@ void STILTimingGenerator::finish() {
 }
 
 int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
-//    if(cache.count(timeset) != 0) {4
-//        return cache[timeset];
-//    }
+    int max = 0;
+    for(int i = 0; i < cache.bucket_count(); ++i) {
+        int count = cache.bucket_size(i);
+        cout << count << endl;
+        if(count > max) {
+            max = count;
+        }
+    }
+    cout << "%%%%%%%%%%%%%%%% max elements in bucket: " << max << endl;
+    auto it = cache.find(timeset);
+    if(it != cache.end()) {
+        return it->second;
+    }
     for(int id = 0; id < timesets.size(); ++id) {
         if(timesets[id].merge(timeset)) {
-//            cache[timeset] = id;
+            cache[timeset] = id;
             return id;
         }
     }
     int id = timesets.size();
     cout << "Creating timeset: " << id << endl;
     timesets.push_back(timeset);
-//    cache[timeset] = id;
+    cache[timeset] = id;
     return id;
 }

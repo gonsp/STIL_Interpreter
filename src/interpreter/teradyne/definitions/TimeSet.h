@@ -14,11 +14,12 @@ using namespace std;
 // The WaveSets will be reduced to an arbitrary chosen representative whenever the timeset generation finishes and there are multiple options
 // in one signal's cell.
 
-class TimeSet : private vector<pair<WaveSet, WaveSet>> {
+class TimeSet {
 
 public:
 
     float period;
+    vector<pair<WaveSet, WaveSet>> wavesets;
 
     TimeSet() {}
 
@@ -32,7 +33,15 @@ public:
 
     string to_string() const;
 
-    bool operator()(const TimeSet& other) const;
+    bool operator==(const TimeSet& other) const;
+
+    class Hasher {
+
+    public:
+        size_t operator()(const TimeSet& timeset) const;
+
+        void combine_hash(size_t& prev, size_t next) const;
+    };
 };
 
 

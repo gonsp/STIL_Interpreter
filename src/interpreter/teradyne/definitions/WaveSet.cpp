@@ -69,3 +69,8 @@ void WaveSet::reduce() {
 bool WaveSet::operator==(const WaveSet& other) const {
     return type == other.type && descriptions == other.descriptions;
 }
+
+size_t WaveSet::Hasher::operator()(const WaveSet& waveset) const {
+    // TODO implement this
+    return 0;
+}

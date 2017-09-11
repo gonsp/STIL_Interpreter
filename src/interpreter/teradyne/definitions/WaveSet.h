@@ -38,6 +38,12 @@ public:
     string to_string() const;
 
     bool operator==(const WaveSet& waveset) const;
+
+    class Hasher {
+
+    public:
+        size_t operator()(const WaveSet& waveset) const;
+    };
 };
 
 
