@@ -70,18 +70,3 @@ void TimeSet::reduce() {
 bool TimeSet::operator==(const TimeSet& other) const {
     return period == other.period && wavesets == other.wavesets;
 }
-
-size_t TimeSet::Hasher::operator()(const TimeSet& timeset) const {
-    size_t hash_value = hash<float>()(timeset.period);
-    for(int i = 0; i < timeset.wavesets.size(); ++i) {
-        combine_hash(hash_value, WaveSet::Hasher()(timeset.wavesets[i].first));
-        combine_hash(hash_value, WaveSet::Hasher()(timeset.wavesets[i].second));
-    }
-    return hash_value;
-//    return hash<string>()(timeset.to_string());
-}
-
-void TimeSet::Hasher::combine_hash(size_t& prev, size_t next) const {
-    prev ^= (next << 1);
-    prev = prev >> 1;
-}

@@ -17,15 +17,6 @@ void STILTimingGenerator::finish() {
 }
 
 int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
-    int max = 0;
-    for(int i = 0; i < cache.bucket_count(); ++i) {
-        int count = cache.bucket_size(i);
-        cout << count << endl;
-        if(count > max) {
-            max = count;
-        }
-    }
-    cout << "%%%%%%%%%%%%%%%% max elements in bucket: " << max << endl;
     auto it = cache.find(timeset);
     if(it != cache.end()) {
         return it->second;

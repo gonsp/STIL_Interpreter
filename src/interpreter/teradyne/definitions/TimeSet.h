@@ -34,14 +34,6 @@ public:
     string to_string() const;
 
     bool operator==(const TimeSet& other) const;
-
-    class Hasher {
-
-    public:
-        size_t operator()(const TimeSet& timeset) const;
-
-        void combine_hash(size_t& prev, size_t next) const;
-    };
 };
 
 

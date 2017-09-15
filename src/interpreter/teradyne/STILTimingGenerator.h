@@ -8,6 +8,7 @@
 #include <vector>
 #include <fstream>
 #include "definitions/TimeSet.h"
+#include "definitions/TimeSetHasher.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ class STILTimingGenerator {
 private:
     ofstream output;
     vector<TimeSet> timesets;
-    unordered_map<TimeSet, int, TimeSet::Hasher> cache;
+    unordered_map<TimeSet, int, TimeSetHasher> cache;
 
 public:
 
