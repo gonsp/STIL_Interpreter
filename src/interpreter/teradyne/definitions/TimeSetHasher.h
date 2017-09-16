@@ -13,7 +13,7 @@ using namespace std;
 class TimeSetHasher {
 
 private:
-    void combine_hash(size_t& prev, size_t next) const;
+    void combine_hash(size_t& hash, size_t next_hash) const;
 
 public:
     size_t operator()(const TimeSet& timeset) const;

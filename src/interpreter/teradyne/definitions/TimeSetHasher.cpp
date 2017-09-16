@@ -30,7 +30,8 @@ size_t TimeSetHasher::operator()(const WaveDescription& description) const {
     return hash_value;
 }
 
-void TimeSetHasher::combine_hash(size_t& prev, size_t next) const {
-    prev ^= (next << 1);
-    prev = prev >> 1;
+void TimeSetHasher::combine_hash(size_t& hash, size_t next_hash) const {
+    // prev ^= (next << 1); // Doesn't perform good
+    // prev = prev >> 1;
+    hash ^= next_hash + 0x9e3779b9 + (hash<<6) + (hash>>2); // From https://stackoverflow.com/questions/2590677/how-do-i-combine-hash-values-in-c0x
 }
