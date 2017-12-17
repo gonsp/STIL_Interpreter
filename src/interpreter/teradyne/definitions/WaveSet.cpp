@@ -59,26 +59,41 @@ string WaveSet::to_string() const {
 }
 
 string WaveSet::get_format() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(descriptions.size() == 1);
     return descriptions.front().get_format();
 }
 
 string WaveSet::get_drive_on() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(type == DRIVE);
     return std::to_string(descriptions.front().edges[0]);
 }
 
 string WaveSet::get_drive_data() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(type == DRIVE);
     return std::to_string(descriptions.front().edges[1]);
 }
 
 string WaveSet::get_drive_return() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(type == DRIVE);
     return std::to_string(descriptions.front().edges[2]);
 }
 
 string WaveSet::get_drive_off() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(type == DRIVE);
     return std::to_string(descriptions.front().edges[3]);
 }
@@ -88,6 +103,9 @@ string WaveSet::get_compare_mode() const {
 }
 
 string WaveSet::get_compare_open() const {
+    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+        return "_";
+    }
     assert(type == COMPARE);
     return std::to_string(descriptions.front().edges[0]);
 }
