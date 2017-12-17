@@ -11,8 +11,7 @@
 // (or really difficult) the parsing of the stil file.
 // This workaround consists on a pre-processor of the input file
 // to remove the definitions of the user_keywords by filtering the
-// input file into a temporal one. Then deleting the original and
-// changing the temporal name to the original one.
+// input file into a temporal one.
 void STILFilePreprocessor::preprocess(string file_path) {
 
     ifstream original;

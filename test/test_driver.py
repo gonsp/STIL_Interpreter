@@ -8,7 +8,7 @@ from os import listdir
 def test(file):
 
     name = file.rsplit('.', 1)[0]
-    time = datetime.datetime.now().strftime("_%I_%M%p-%B-%d")
+    time = datetime.datetime.now().strftime("_%m_%d_%H_%M")
 
     print("Executing test", name)
 

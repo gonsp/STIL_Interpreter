@@ -50,7 +50,7 @@ link_directories(
 
 # Target
 add_executable(stil_converter ${SOURCE_FILES})
-add_dependencies(stil_converter generate_parser generate_default_config)
+add_dependencies(stil_converter generate_parser generate_default_config antlr4cpp)
 target_link_libraries(stil_converter ${antlr4_static})
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
