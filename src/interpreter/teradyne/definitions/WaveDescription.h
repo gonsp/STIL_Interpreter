@@ -30,6 +30,8 @@ public:
 
     string to_string() const;
 
+    string get_format() const;
+
     bool operator==(const WaveDescription& other) const;
 };
 

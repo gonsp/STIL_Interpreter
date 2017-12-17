@@ -67,6 +67,28 @@ string WaveDescription::to_string() const {
     return s;
 }
 
+string WaveSet::get_format() const {
+    if(format == NR) {
+        return "NR";
+    } else if(format == RH) {
+        return "RH";
+    } else if(format == RL) {
+        return "RL";
+    } else if(format == SBH) {
+        return "SBH";
+    } else if(format == SBL) {
+        return "SBL";
+    } else if(format == SBC) {
+        return "SBC";
+    } else if(format == Off) {
+        return "Off";
+    } else if(format == Edge) {
+        return "Edge";
+    } else {
+        return "";
+    }
+}
+
 void WaveDescription::reduce() {
     for(int i = 0; i < edges.size(); ++i) {
         if(edges[i] == ANY) {

@@ -27,7 +27,7 @@ public:
 
     int add_timeset(const TimeSet& timeset);
 
-    void finish();
+    void finish(vector<string> signal_names);
 };
 
 

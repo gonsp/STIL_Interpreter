@@ -37,6 +37,20 @@ public:
 
     string to_string() const;
 
+    string get_format() const;
+
+    float get_drive_on() const;
+
+    float get_drive_data() const;
+
+    float get_drive_return() const;
+
+    float get_drive_off() const;
+
+    string get_compare_mode() const;
+
+    float get_compare_open() const;
+
     bool operator==(const WaveSet& waveset) const;
 };
 

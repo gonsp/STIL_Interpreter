@@ -58,6 +58,40 @@ string WaveSet::to_string() const {
     return s;
 }
 
+string WaveSet::get_format() const {
+    assert(descriptions.size() == 1);
+    return descriptions.front().get_format();
+}
+
+float WaveSet::get_drive_on() const {
+    assert(type == DRIVE);
+    return descriptions.front().edges[0];
+}
+
+float WaveSet::get_drive_data() const {
+    assert(type == DRIVE);
+    return descriptions.front().edges[1];
+}
+
+float WaveSet::get_drive_return() const {
+    assert(type == DRIVE);
+    return descriptions.front().edges[2];
+}
+
+float WaveSet::get_drive_off() const {
+    assert(type == DRIVE);
+    return descriptions.front().edges[3];
+}
+
+string WaveSet::get_compare_mode() const {
+    return get_format();
+}
+
+float WaveSet::get_compare_open() const {
+    assert(type == COMPARE);
+    return descriptions.front().edges[0];
+}
+
 void WaveSet::reduce() {
     assert(type == UNDEFINED || descriptions.size() > 0);
     if(type != UNDEFINED) {

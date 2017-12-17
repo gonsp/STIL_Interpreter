@@ -11,6 +11,14 @@
 
 using namespace std;
 
+
+// This class represents the waveform that needs to be generated for a specific 
+// pin as the STIL file defines it in the active waveform table. 
+// WaveSet will create as many "translations" of this waveform as possible following 
+// all the different "translation rules" defined in the config file that specify
+// how this kind of waveform can be translated into WaveDescriptions.
+
+class, which)
 class WaveForm : public Identifiable {
 
 public:

@@ -42,21 +42,44 @@ bool TimeSet::merge(const TimeSet& timeset) {
     return true;
 }
 
-string TimeSet::to_string() const {
+string TimeSet::to_string(vector<string> signal_names) const {
     string s;
     s += period;
     s += ", {";
     for(int i = 0; i < wavesets.size(); ++i) {
-        if(i != 0) {
-            s += ", ";
-        }
-        s += "[";
-        s += wavesets[i].first.to_string();
-        s += " | ";
-        s += wavesets[i].second.to_string();
-        s += "]";
+
+        WaveSet& waveset_drive = wavesets[i].first;
+        WaveSet& waveset_compare = wavesets[i].second;
+
+        s += "t" + id;                          // TimeSet
+        s += "            ";
+        s += period;                            // Period
+        s += "            ";
+        s += 1                                  // CPP
+        s += "            ";
+        s += signal_names[i];                   // Pin Name
+        s += "            ";
+        s += "i/0"                              // Setup
+        s += "            ";
+        s += "PAT"                              // Data Source
+        s += "            ";
+        s += waveset_drive.get_format();        // Data Format
+        s += "            ";
+        s += waveset_drive.get_drive_on();      // Drive On
+        s += "            ";
+        s += waveset_drive.get_drive_data();    // Drive Data
+        s += "            ";
+        s += waveset_drive.get_drive_return();  // Drive Return
+        s += "            ";
+        s += waveset_drive.get_drive_off();     // Drive Off
+        s += "            ";
+        s += waveset_compare.get_compare_mode();// Compare Mode
+        s += "            ";
+        s += waveset_compare.get_compare_open();// Compare Open
+        s += "            ";
+        s += "Disable";                         // Compare Close
+        s += endl;
     }
-    s += "}";
     return s;
 }
 

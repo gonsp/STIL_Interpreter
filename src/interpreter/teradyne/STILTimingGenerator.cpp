@@ -8,10 +8,10 @@ STILTimingGenerator::STILTimingGenerator(string timing_file) {
     output.open(timing_file);
 }
 
-void STILTimingGenerator::finish() {
+void STILTimingGenerator::finish(vector<string> signal_names) {
     for(int id = 0; id < timesets.size(); ++id) {
         timesets[id].reduce();
-        output << id << "       " << timesets[id].to_string() << endl;
+        output << timesets[id].to_string(signal_names) << endl;
     }
     output.close();
 }
@@ -29,6 +29,7 @@ int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
     }
     int id = timesets.size();
     cout << "Creating timeset: " << id << endl;
+    timeset.id = id;
     timesets.push_back(timeset);
     cache[timeset] = id;
     return id;

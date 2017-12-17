@@ -18,6 +18,7 @@ class TimeSet {
 
 public:
 
+	int id;
     float period;
     vector<pair<WaveSet, WaveSet>> wavesets;
 
@@ -31,7 +32,7 @@ public:
 
     void reduce();
 
-    string to_string() const;
+    string to_string(vector<string> signal_names) const;
 
     bool operator==(const TimeSet& other) const;
 };

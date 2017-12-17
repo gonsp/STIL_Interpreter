@@ -13,6 +13,7 @@ STILPatternGenerator::STILPatternGenerator(string pattern_file, STILProgram* pro
 void STILPatternGenerator::print_headers() {
     output << "opcode_mode=extended;" << endl;
     output << "import tset ";
+    // TODO Replace this by the actual names of the generated timesets
     for(auto it = program->waveFormTables.begin(); it != program->waveFormTables.end(); ++it) {
         if(it != program->waveFormTables.begin()) {
             output << ",";
@@ -21,11 +22,9 @@ void STILPatternGenerator::print_headers() {
     }
     output << ";" << endl;
     output << "vector($tset";
-    for(auto it = program->signals.begin(); it != program->signals.end(); ++it) {
-        string formatted_id = it->second.format(program->config);
-        if(formatted_id != "") {
-            output << "," << formatted_id;
-        }
+    vector<string signal_names = program->signals.formatted_names();
+    for(int i = 0; i < signal_names.size(); ++i) {
+        output << "," << signal_names[i];
     }
     output << ")" << endl;
     output << "{" << endl;
@@ -36,7 +35,7 @@ void STILPatternGenerator::clock_cycle(const STILState& state, STILTimingGenerat
     output << "> " << "t";
     long int offset = output.tellp();
     output << "                ";
-//    output << "> " << "t" << state.active_table.format(program->config) << "   ";
+//    output << "> " << "t" << state.active_table.format(program->config) << "   "; // This line was from before implementing the timing generation
 
     WaveFormTable& table = program->waveFormTables[state.active_table];
     TimeSet timeset(table.period);
