@@ -41,7 +41,7 @@ WaveTranslation::WaveTranslation(string rule) {
         } else {
             if(s[0] == 'E') {   // It's a reference for the original waveform's edge
                 int index = atoi(s.substr(1).c_str());
-                edge_rules.push_back(EdgeRule(true, index));
+                edge_rules.push_back(EdgeRule(false, index));
             } else {
                 float relative_time = atof(s.c_str());
                 edge_rules.push_back(EdgeRule(true, relative_time));
