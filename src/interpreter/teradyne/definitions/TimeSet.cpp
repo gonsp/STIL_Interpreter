@@ -24,6 +24,7 @@ bool TimeSet::merge(const TimeSet& timeset) {
     }
     TimeSet merged_timeset(period);
     for(int i = 0; i < timeset.wavesets.size(); ++i) {
+        merged_timeset.id = this->id;
         WaveSet merged_waveset;
         if(timeset.wavesets[i].first.type != WaveSet::WaveSetType::UNDEFINED) {
             assert(timeset.wavesets[i].first.type == WaveSet::WaveSetType::DRIVE);
@@ -42,45 +43,49 @@ bool TimeSet::merge(const TimeSet& timeset) {
     return true;
 }
 
+#define MARGIN 15
+#define FORMAT(level) s += string(level*MARGIN - s.size(), ' ');
+
 string TimeSet::to_string(vector<string> signal_names) const {
-    string s;
-    s += period;
-    s += ", {";
+    string output;
     for(int i = 0; i < wavesets.size(); ++i) {
 
         const WaveSet& waveset_drive = wavesets[i].first;
         const WaveSet& waveset_compare = wavesets[i].second;
 
+        string s;
         s += "t" + std::to_string(id);          // TimeSet
-        s += "            ";
+        FORMAT(1)
         s += std::to_string(period);            // Period
-        s += "            ";
+        FORMAT(2)
         s += "1";                               // CPP
-        s += "            ";
+        FORMAT(3)
         s += signal_names[i];                   // Pin Name
-        s += "            ";
+        FORMAT(4)
         s += "i/0";                             // Setup
-        s += "            ";
+        FORMAT(5)
         s += "PAT";                             // Data Source
-        s += "            ";
+        FORMAT(6)
         s += waveset_drive.get_format();        // Data Format
-        s += "            ";
+        FORMAT(7)
         s += waveset_drive.get_drive_on();      // Drive On
-        s += "            ";
+        FORMAT(8)
         s += waveset_drive.get_drive_data();    // Drive Data
-        s += "            ";
+        FORMAT(9)
         s += waveset_drive.get_drive_return();  // Drive Return
-        s += "            ";
+        FORMAT(10)
         s += waveset_drive.get_drive_off();     // Drive Off
-        s += "            ";
+        FORMAT(11)
         s += waveset_compare.get_compare_mode();// Compare Mode
-        s += "            ";
+        FORMAT(12)
         s += waveset_compare.get_compare_open();// Compare Open
-        s += "            ";
+        FORMAT(13)
         s += "Disable";                         // Compare Close
         s += "\n";
+
+        output += s;
     }
-    return s;
+    return output;
 }
 
 void TimeSet::reduce() {

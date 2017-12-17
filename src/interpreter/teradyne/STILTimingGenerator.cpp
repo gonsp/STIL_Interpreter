@@ -9,6 +9,10 @@ STILTimingGenerator::STILTimingGenerator(string timing_file) {
 }
 
 void STILTimingGenerator::finish(vector<string> signal_names) {
+    output << "DFF 1.1    Time Sets (Basic)" << endl;
+    output << "Timing Mode:    Extended        Strobe Timing:  =1*us       Convert Timing: =1*us" << endl;
+    output << "               Cycle                         Pin/Group                     Data                          Drive                                                       Compare" << endl;                
+    output << "Time Set       Period         CPP            Name           Setup          Src            Fmt            On             Data           Return         Off            Mode           Open           Close    " << endl;
     for(int id = 0; id < timesets.size(); ++id) {
         timesets[id].reduce();
         output << timesets[id].to_string(signal_names) << endl;
