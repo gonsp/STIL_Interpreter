@@ -67,35 +67,19 @@ string WaveSet::get_format() const {
 }
 
 string WaveSet::get_drive_on() const {
-    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
-        return "_";
-    }
-    assert(type == DRIVE);
-    return std::to_string(descriptions.front().edges[0]);
+    return get_edge(0);
 }
 
 string WaveSet::get_drive_data() const {
-    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
-        return "_";
-    }
-    assert(type == DRIVE);
-    return std::to_string(descriptions.front().edges[1]);
+    return get_edge(1);
 }
 
 string WaveSet::get_drive_return() const {
-    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
-        return "_";
-    }
-    assert(type == DRIVE);
-    return std::to_string(descriptions.front().edges[2]);
+    return get_edge(2);
 }
 
 string WaveSet::get_drive_off() const {
-    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
-        return "_";
-    }
-    assert(type == DRIVE);
-    return std::to_string(descriptions.front().edges[3]);
+    return get_edge(3);
 }
 
 string WaveSet::get_compare_mode() const {
@@ -103,11 +87,19 @@ string WaveSet::get_compare_mode() const {
 }
 
 string WaveSet::get_compare_open() const {
-    if(type == UNDEFINED) { // This pin in this timeset doesn't have this type (data or compare) of waveform
+    return get_edge(0);
+}
+
+string WaveSet::get_edge(int i) const {
+    if(type == UNDEFINED){
         return "_";
     }
-    assert(type == COMPARE);
-    return std::to_string(descriptions.front().edges[0]);
+    float time = descriptions.front().edges[i];
+    if(time == -1) {
+        return "Disable";
+    } else {
+        return std::to_string(time);
+    }
 }
 
 void WaveSet::reduce() {

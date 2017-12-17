@@ -16,6 +16,10 @@
 
 class WaveSet {
 
+private:
+    
+    string get_edge(int i) const;
+
 public:
 
     enum WaveSetType {
