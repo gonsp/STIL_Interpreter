@@ -16,7 +16,7 @@ void STILTimingGenerator::finish(vector<string> signal_names) {
     output.close();
 }
 
-int STILTimingGenerator::add_timeset(const TimeSet& timeset) {
+int STILTimingGenerator::add_timeset(TimeSet& timeset) {
     auto it = cache.find(timeset);
     if(it != cache.end()) {
         return it->second;

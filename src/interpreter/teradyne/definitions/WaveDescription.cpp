@@ -67,7 +67,7 @@ string WaveDescription::to_string() const {
     return s;
 }
 
-string WaveSet::get_format() const {
+string WaveDescription::get_format() const {
     if(format == NR) {
         return "NR";
     } else if(format == RH) {

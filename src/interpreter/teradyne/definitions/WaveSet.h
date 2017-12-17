@@ -39,17 +39,17 @@ public:
 
     string get_format() const;
 
-    float get_drive_on() const;
+    string get_drive_on() const;
 
-    float get_drive_data() const;
+    string get_drive_data() const;
 
-    float get_drive_return() const;
+    string get_drive_return() const;
 
-    float get_drive_off() const;
+    string get_drive_off() const;
 
     string get_compare_mode() const;
 
-    float get_compare_open() const;
+    string get_compare_open() const;
 
     bool operator==(const WaveSet& waveset) const;
 };

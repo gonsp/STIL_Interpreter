@@ -48,20 +48,20 @@ string TimeSet::to_string(vector<string> signal_names) const {
     s += ", {";
     for(int i = 0; i < wavesets.size(); ++i) {
 
-        WaveSet& waveset_drive = wavesets[i].first;
-        WaveSet& waveset_compare = wavesets[i].second;
+        const WaveSet& waveset_drive = wavesets[i].first;
+        const WaveSet& waveset_compare = wavesets[i].second;
 
-        s += "t" + id;                          // TimeSet
+        s += "t" + std::to_string(id);          // TimeSet
         s += "            ";
-        s += period;                            // Period
+        s += std::to_string(period);            // Period
         s += "            ";
-        s += 1                                  // CPP
+        s += "1";                               // CPP
         s += "            ";
         s += signal_names[i];                   // Pin Name
         s += "            ";
-        s += "i/0"                              // Setup
+        s += "i/0";                             // Setup
         s += "            ";
-        s += "PAT"                              // Data Source
+        s += "PAT";                             // Data Source
         s += "            ";
         s += waveset_drive.get_format();        // Data Format
         s += "            ";
@@ -78,7 +78,7 @@ string TimeSet::to_string(vector<string> signal_names) const {
         s += waveset_compare.get_compare_open();// Compare Open
         s += "            ";
         s += "Disable";                         // Compare Close
-        s += endl;
+        s += "\n";
     }
     return s;
 }

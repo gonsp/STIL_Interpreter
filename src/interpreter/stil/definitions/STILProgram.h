@@ -44,6 +44,17 @@ public:
     STILConfig config;
 
     STILProgram(STILConfig config) : config(config) {}
+
+    vector<string> get_formatted_signal_names() {
+        vector<string> signal_names;
+        for(auto it = signals.begin(); it != signals.end(); ++it) {
+            string formatted_id = it->second.format(config);
+            if(formatted_id != "") {
+                signal_names.push_back(formatted_id);
+            }
+        }
+        return signal_names;
+    }
 };
 
 

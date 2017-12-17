@@ -55,7 +55,7 @@ void STILInterpreter::run(string pattern_exec) {
     visit(program.patternExecs[pattern_exec]);
 
     patternGenerator.finish();
-    timingGenerator.finish(program.signals.formatted_names());
+    timingGenerator.finish(program.get_formatted_signal_names());
 
     string aux = stil_file + ".tmp";
     remove(aux.c_str()); // Removing the temporal preprocessed file

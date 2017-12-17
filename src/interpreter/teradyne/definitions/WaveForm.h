@@ -18,7 +18,6 @@ using namespace std;
 // all the different "translation rules" defined in the config file that specify
 // how this kind of waveform can be translated into WaveDescriptions.
 
-class, which)
 class WaveForm : public Identifiable {
 
 public:

@@ -63,33 +63,33 @@ string WaveSet::get_format() const {
     return descriptions.front().get_format();
 }
 
-float WaveSet::get_drive_on() const {
+string WaveSet::get_drive_on() const {
     assert(type == DRIVE);
-    return descriptions.front().edges[0];
+    return std::to_string(descriptions.front().edges[0]);
 }
 
-float WaveSet::get_drive_data() const {
+string WaveSet::get_drive_data() const {
     assert(type == DRIVE);
-    return descriptions.front().edges[1];
+    return std::to_string(descriptions.front().edges[1]);
 }
 
-float WaveSet::get_drive_return() const {
+string WaveSet::get_drive_return() const {
     assert(type == DRIVE);
-    return descriptions.front().edges[2];
+    return std::to_string(descriptions.front().edges[2]);
 }
 
-float WaveSet::get_drive_off() const {
+string WaveSet::get_drive_off() const {
     assert(type == DRIVE);
-    return descriptions.front().edges[3];
+    return std::to_string(descriptions.front().edges[3]);
 }
 
 string WaveSet::get_compare_mode() const {
     return get_format();
 }
 
-float WaveSet::get_compare_open() const {
+string WaveSet::get_compare_open() const {
     assert(type == COMPARE);
-    return descriptions.front().edges[0];
+    return std::to_string(descriptions.front().edges[0]);
 }
 
 void WaveSet::reduce() {

@@ -22,7 +22,7 @@ void STILPatternGenerator::print_headers() {
     }
     output << ";" << endl;
     output << "vector($tset";
-    vector<string signal_names = program->signals.formatted_names();
+    vector<string> signal_names = program->get_formatted_signal_names();
     for(int i = 0; i < signal_names.size(); ++i) {
         output << "," << signal_names[i];
     }

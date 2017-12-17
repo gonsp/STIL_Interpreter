@@ -25,7 +25,7 @@ public:
 
     STILTimingGenerator(string timing_file);
 
-    int add_timeset(const TimeSet& timeset);
+    int add_timeset(TimeSet& timeset);
 
     void finish(vector<string> signal_names);
 };
